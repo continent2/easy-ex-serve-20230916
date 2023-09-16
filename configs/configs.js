@@ -1,0 +1,29 @@
+
+const DECIMALS_FOR_PRICES=4
+const MAP_TX_TYPES = { 
+		'RECEIVE-ETH' : 0
+	, 'SEND-ETH' : 1
+	, 'RECEIVE-TOKEN' : 2
+	, 'SEND-TOKEN' : 3
+	, 'INCREMENT-TOKEN' : 4
+	, 'DECREMENT-TOKEN' : 5
+	, 'INCREMENT-ETH' : 6
+	, 'DECREMENT-ETH' : 7
+	, 'INCREMENT' : 8
+	, 'DECREMENT' : 9
+}
+
+const MAP_USER_ACTIONS={
+	JOIN : 0
+	, LOGIN : 1
+	, LOGOUT : 2
+	, CHANGE_PW: 3
+	, CHANGE_NICKNAME: 4
+	, 
+}
+module.exports={
+	MAP_TX_TYPES 
+	, MAP_USER_ACTIONS
+	, JWT_SECRET : '7tfvscUzuv'
+	, DECIMALS_FOR_PRICES
+}

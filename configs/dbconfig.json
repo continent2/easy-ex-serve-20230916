@@ -1,0 +1,10 @@
+{
+  "development": {
+    "host": "localhost",
+    "username": "easyex",
+    "password": "9Lhe9WsuecHJnkytP7Vv"
+    , "database":"easyex"
+    , "dialect": "mariadb"
+  }
+}
+

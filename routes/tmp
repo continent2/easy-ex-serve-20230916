@@ -1,0 +1,8 @@
+s$ grep exists * -l
+admin.js
+queries-auth.js
+queries.js
+queries02.js
+ubuntu@ip-172-31-15-149:~/wallet-serve-20230705/routes$
+
+

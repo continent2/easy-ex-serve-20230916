@@ -1,0 +1,6 @@
+const TOLERANCE_UNDERPAID = 0.03
+
+module.exports={	TOLERANCE_UNDERPAID
+
+
+}
