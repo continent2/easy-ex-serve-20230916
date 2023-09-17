@@ -75,6 +75,11 @@ module.exports = function(sequelize, DataTypes) {
     totalsupply: {
       type: DataTypes.STRING(60),
       allowNull: true
+    },
+    typestr: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      comment: '1:token , 2:coin,3:fiat'
     }
   }, {
     sequelize,

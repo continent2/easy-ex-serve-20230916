@@ -21,30 +21,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(80),
       allowNull: true
     },
-    price: {
-      type: DataTypes.STRING(40),
-      allowNull: true
-    },
-    priceunit: {
-      type: DataTypes.STRING(20),
-      allowNull: true
-    },
-    item: {
-      type: DataTypes.STRING(80),
-      allowNull: true
-    },
-    itemuuid: {
-      type: DataTypes.STRING(80),
-      allowNull: true
-    },
-    priceraw: {
-      type: DataTypes.STRING(80),
-      allowNull: true
-    },
-    pricedisp: {
-      type: DataTypes.STRING(40),
-      allowNull: true
-    },
     active: {
       type: DataTypes.INTEGER(4),
       allowNull: true
@@ -99,14 +75,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(80),
       allowNull: true
     },
-    reqprefix: {
-      type: DataTypes.STRING(40),
-      allowNull: true
-    },
-    reqsuffix: {
-      type: DataTypes.STRING(40),
-      allowNull: true
-    },
     nettype: {
       type: DataTypes.STRING(40),
       allowNull: true
@@ -115,16 +83,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(30),
       allowNull: true
     },
-    reqpatternlen: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
-    },
     timestampunix: {
       type: DataTypes.BIGINT,
-      allowNull: true
-    },
-    minermacaddress: {
-      type: DataTypes.STRING(80),
       allowNull: true
     },
     timestamppaid: {
@@ -137,10 +97,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     issettled: {
       type: DataTypes.INTEGER(4),
-      allowNull: true
-    },
-    timeinsec: {
-      type: DataTypes.BIGINT,
       allowNull: true
     },
     txhashpayout: {
@@ -156,8 +112,36 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(80),
       allowNull: true
     },
-    timetoforcepurge: {
+    quote: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    base: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    expirydur: {
       type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    fromamount: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    toamount: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    bank: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    bankaccount: {
+      type: DataTypes.STRING(40),
+      allowNull: true
+    },
+    banknation: {
+      type: DataTypes.STRING(20),
       allowNull: true
     }
   }, {

@@ -57,6 +57,7 @@ const jwt = require('jsonwebtoken');
 const { auth}=require('../utils/authMiddleware')
 let { Op } = db.Sequelize;
 const { createLogger , transports , format } = require('winston')
+const { querybalance } = require('../utils/erc20' ) 
 /** const loggerwin = createLogger ( {
 	format: format.combine(
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
@@ -76,7 +77,31 @@ const { createLogger , transports , format } = require('winston')
 const secureobj = obj=>{ delete obj?.pw ; delete obj?.privatekey } 
 module.exports = router;
 const MAP_FLIP_TYPES={ CF: 'FC', FC:'CF' }
+const send_deposit_noti=async _=>{
 
+}
+const trackpays=async _=>{
+	let list = await findall ( 'orders' , { active : 1 , status : 0 , typestr: 'CF' 
+	} )
+	let N = list?.length
+	for ( let idx = 0 ; idx< N ; idx ++ ){
+		let order = list [ idx ]
+		let resptoken = await findone ( 'tokens' , { symbol :order?.base ,  active : 1 } )
+		if ( resptoken ) {}
+		else { continue }
+		let resp = await querybalance ( { nettype : order?.nettype , contractaddress : resptoken?.address , useraddress : order?.receiveaddress })
+		let amountin 
+		if ( resp && ( amountin = Web3.utils.fromWei ( ''+ resp ) ) ) {
+			if ( +amountin >= +order?.fromamount ) {
+				send_deposit_noti()				
+			}
+		}
+		else { LOGGER('invalid amount' ); }
+	}
+}
+setInterval( async ()=>{
+	trackpays()
+} , 60 * 1000 )
 const getrowforpair=async({ quote,base})=>{
 	let resp = await findone ( 'tickers', { quote , base, active:1} )
 	if ( resp ) { return resp}
@@ -120,59 +145,106 @@ router.get ( '/quote' , async ( req,res)=>{
 		quotesignature ,	
 		 feeinfo : respfee } } )
 })
-
+const ORDER_EXPIRES_IN_SEC_DEF = 3600
 router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	let { uuid : useruuid } = req?.decoded
-	let { quote , base , fromamount , toamount , feeamount , quotesignature } = req.body
-	if (quote && base && fromamount && toamount && feeamount && quotesignature  )	{}
-	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
-	let uuid = create_a_uuid ( )
-	let resp = await createrow	( { 
-		uuid , 
-			
+	let { nettype } = req?.query
 
+	let { quote , base , fromamount , toamount , feeamount , quotesignature, typestr } = req.body
+	if (quote && base && fromamount && toamount && feeamount && quotesignature && typestr )	{}
+	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
+	if ( MAP_FLIP_TYPES[ typestr] ) {}
+	else { resperr ( res, messages.MSG_ARGINVALID ) ; retur }
+	let uuid = create_a_uuid ( )
+	let receiveacct = {}
+
+	let expirydur = ORDER_EXPIRES_IN_SEC_DEF
+	let respexp = await findone ( 'settings', { active : 1 , key_:'ORDER-EXPIRES-IN-SEC' } )
+	if ( respexp && ISFINITE( +respexp?.value_)){ expirydur = +respexp?.value_ } 
+	else {}  
+	let expiry = moment().unix() + expirydur 
+	let		 expirystr = moment.unix ( expiry ).format('YYYY-MM-DDTHH:mm:ss')
+	switch ( typestr ){
+		case 'CF' :
+			receiveacct = createaccount()
+			receiveacct.receiveaddress = receiveacct?.address
+			receiveacct.privatekey = receiveacct?.privateKey 
+		break
+		case 'FC' : 
+		break
+	}
+	let resp = await createrow	( 'orders',{ 
+//		feerate ,
+	uuid     
+,		 active : 1 
+,		 feeamount
+// ,		 feerate  
+// ,		 feerateun
+// ,		 typecode 
+,		 typestr  
+// ,		 auxdata  
+// ,		 txhash   
+// ,		 status   
+,		 expiry
+,		expirydur 
+,		 useruuid 
+,		 nettype : nettype || req?.decoded?.nettype  
+,		 expirystr // : moment.unix ( expiry ).format('YYYY-MM-DDTHH:mm:ss')
+,		 timestamp : moment().unix()
+// ,		 timestamp
+//,		 timestamp
+,		 issettled : 0
+//	,		 timeinsec
+//	,		 txhashpay
+,		 statusint : -1
+//	,		 refundadd
+,		 quote    
+,		 base    
+//	,		 receiveaddress
+//	,		 privatekey
+,	... receiveacct
+	, fromamount
+	, toamount
 	})
-	respok ( res , null,null , {} )
+	respok ( res , null,null , { respdata: {
+		expiry ,
+		expirystr ,
+		expirydur ,
+		uuid ,
+		address : receiveacct?.address
+	}} )
 })
 /** 
-uuid                     | varchar(80)   
-| price                    | varchar(40) 
-| priceunit                | varchar(20) 
-| item                     | varchar(80) 
-| itemuuid                 | varchar(80) 
-| priceraw                 | varchar(80) 
-| pricedisp                | varchar(40) 
-| active                   | tinyint(4)  
-| feeamount                | varchar(20) 
-| feerate                  | varchar(20) 
-| feerateunit              | varchar(20) 
-| receiveaddress           | varchar(80) 
-| typecode                 | int(10) unsi
-| typestr                  | varchar(40) 
-| auxdata                  | text        
-| txhash                   | varchar(80) 
-| status                   | tinyint(4)  
-| expiry                   | bigint(20)  
-| privatekey               | varchar(80) 
-| useruuid                 | varchar(80) 
-| reqprefix                | varchar(40) 
-| reqsuffix                | varchar(40) 
-| nettype                  | varchar(40) 
-| expirystr                | varchar(30) 
-| reqpatternlen            | int(11)     
-| timestampunix            | bigint(20)  
-| minermacaddress          | varchar(80) 
-| timestamppaid            | bigint(20)  
-| timestampdeliverpromised | bigint(20)  
-| issettled                | tinyint(4)  
-| timeinsec                | bigint(20)  
-| txhashpayout             | varchar(80) 
-| statusint                | int(11)     
-| refundaddress            | varchar(80) 
-| timetoforcepurge  */
-
-
-
+	uuid                     | varchar(80)      | YES  | MUL | NULL                |                               |
+,		 active                   | tinyint(4)       | YES  |     | NULL                |                               |
+,		 feeamount                | varchar(20)      | YES  |     | NULL                |                               |
+,		 feerate                  | varchar(20)      | YES  |     | NULL                |                               |
+,		 feerateunit              | varchar(20)      | YES  |     | NULL                |                               |
+,		 receiveaddress           | varchar(80)      | YES  |     | NULL                |                               |
+,		 typecode                 | int(10) unsigned | YES  |     | NULL                |                               |
+,		 typestr                  | varchar(40)      | YES  |     | NULL                |                               |
+,		 auxdata                  | text             | YES  |     | NULL                |                               |
+,		 txhash                   | varchar(80)      | YES  |     | NULL                |                               |
+,		 status                   | tinyint(4)       | YES  |     | NULL                |                               |
+,		 expiry                   | bigint(20)       | YES  |     | NULL                |                               |
+,		 privatekey               | varchar(80)      | YES  |     | NULL                |                               |
+,		 useruuid                 | varchar(80)      | YES  |     | NULL                |                               |
+,		 nettype                  | varchar(40)      | YES  |     | NULL                |                               |
+,		 expirystr                | varchar(30)      | YES  |     | NULL                |                               |
+,		 reqpatternlen            | int(11)          | YES  |     | NULL                |                               |
+,		 timestampunix            | bigint(20)       | YES  |     | NULL                |                               |
+,		 minermacaddress          | varchar(80)      | YES  |     | NULL                |                               |
+,		 timestamppaid            | bigint(20)       | YES  |     | NULL                |                               |
+,		 timestampdeliverpromised | bigint(20)       | YES  |     | NULL                |                               |
+,		 issettled                | tinyint(4)       | YES  |     | NULL                |                               |
+,		 timeinsec                | bigint(20)       | YES  |     | NULL                |                               |
+,		 txhashpayout             | varchar(80)      | YES  |     | NULL                |                               |
+,		 statusint                | int(11)          | YES  |     | -1                  |                               |
+,		 refundaddress            | varchar(80)      | YES  |     | NULL                |                               |
+,		 timetoforcepurge         | bigint(20)       | YES  |     | NULL                |                               |
+,		 quote                    | varchar(20)      | YES  |     | NULL                |                               |
+,		 base    
+  */
 router.get ( '/rate' , async ( req,res)=>{
 	let { quote , base }	 = req.query
 	if ( quote && base ) {}
