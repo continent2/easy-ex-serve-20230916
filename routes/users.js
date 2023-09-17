@@ -292,6 +292,10 @@ router.post("/join", (req, res) => {
 			nettype ,
 			address : acct?.address		
     }		); //    db.operations.findOne({raw:true,where:{key_:'CURRENCIES'}}).then(respcurr=>{      const currencies=JSON.parse(respcurr['value_'])
+
+	LOGGER( {
+		respuser : respuser?.dataValues
+	})
 		secureobj ( respuser?.dataValues ) 
     console.log("currentBlockNumber:");
     console.log(currentBlockNumber);

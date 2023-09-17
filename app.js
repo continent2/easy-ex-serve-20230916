@@ -14,6 +14,7 @@ const queriesrouter=require('./routes/queries')
 const queries02router = require('./routes/queries02')
 const queries03router = require('./routes/queries03')
 const usersrouter = require('./routes/users');
+const exchangesrouter= require('./routes/exchanges')
 
 const cors=require('cors')
 var app = express();
@@ -62,7 +63,7 @@ app.use('/files', filesrouter )
 app.use('/queries02', queries02router ) 
 app.use('/queries03', queries03router ) 
 app.use('/admin', adminrouter)
-
+app.use('/exchanges', exchangesrouter)
 /** 
 app.use('/tickers', tickersrouter);
 app.use('/balances', balancesrouter);
