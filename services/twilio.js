@@ -5,17 +5,19 @@ const authToken = '74df7ddc5e67f9d4c1015047865b940d' // process.env.TWILIO_AUTH_
 const twilio = require("twilio");
 const client = new twilio(accountSid, authToken);
 
-const sendMessage = (phone, CODE) => {
+const sendMessage = ({ type, order , phone } ) => {
 	return new Promise ( (resolve,reject)=>{
   client.messages
     .create({
 //      body: `[BuildJob] Your verify code is [${CODE}]
   //    Please complete the account verification process in 10 minutes.`,
-
 			body : 
-`[Klay Magic] 인증번호 입니다:
- [${CODE}] 
-인증을 10분 이내에 완료하세요`,
+`[출금요망]:
+	bank: ${order?.bankname}
+	account: ${order?.bankaccount}
+	owner: ${order?.bankaccountholder}
+	amount: ${order?.toamount} ${order?.quote }
+`,
       // messagingServiceSid: 'MG0b420f495dc8f54f1e9bdccce50bbd8b',
 //      from: "+17692468530",
 			from : '+12544143144' ,

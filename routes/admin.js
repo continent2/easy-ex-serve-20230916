@@ -35,6 +35,20 @@ const jwt = require('jsonwebtoken');
 const LEVEL_ADMIN = 50 ; const ADMIN_LEVEL = 50
 const { iszeroaddress , isaddressvalid } =require('../utils/erc20' )
 const { auth } =require('../utils/authMiddleware')
+const STRINGER = JSON.stringify
+
+router.post ( '/exchanges/withdraw', async ( req,res)=>{
+	let { uuid , banksender }  = req?.body
+	if ( uuid ) {}
+	else { resperr ( res, messages.MSG_ARGMISSING )  ; return }
+	let resp  = await findone ( 'orders' , { uuid , } ) 
+	if ( resp ) {}
+	else { resperr ( res, messages.MSG_DATANOTFOUND ) ; return }
+	if ( banksender && KEYS( banksender).length ) { banksender = STRINGER( banksender ) }
+	else {}
+	await updaterow ( 'orders' , { uuid } , { active : 0 , status : 5, banksender : banksender || null  } )
+	respok ( res , 'UPDATED' ) 
+})
 
 router.get ('/settings', async ( req,res)=>{
 	let list = await findall ( 'settings' , { active : 1 } )

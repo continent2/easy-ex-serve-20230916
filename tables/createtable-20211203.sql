@@ -1,4 +1,45 @@
 
+ CREATE TABLE `admins` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `createdat` datetime DEFAULT current_timestamp(),
+  `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `address` varchar(80) DEFAULT NULL,
+  `ip` varchar(40) DEFAULT NULL,
+  `pw` varchar(20) DEFAULT NULL,
+  `pwhash` varchar(512) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `username` varchar(80) DEFAULT NULL,
+  `active` tinyint(4) DEFAULT 1,
+  `email` varchar(80) DEFAULT NULL,
+  `nickname` varchar(60) DEFAULT NULL,
+  `receiveemailnews` tinyint(4) DEFAULT 0,
+  `referercode` varchar(50) DEFAULT NULL,
+  `myreferercode` varchar(20) DEFAULT NULL,
+  `icanwithdraw` tinyint(4) DEFAULT 0,
+  `useragent` varchar(500) DEFAULT NULL,
+  `icanlogin` tinyint(4) DEFAULT 1,
+  `lastactive` varchar(30) DEFAULT NULL,
+  `countincrements` int(10) unsigned DEFAULT 0,
+  `countdecrements` int(10) unsigned DEFAULT 0,
+  `dob` varchar(30) DEFAULT NULL,
+  `dobunix` bigint(20) unsigned DEFAULT NULL,
+  `phonenumber` varchar(30) DEFAULT NULL,
+  `realname` varchar(40) DEFAULT NULL,
+  `uuid` varchar(80) DEFAULT NULL,
+  `nettype` varchar(50) DEFAULT NULL,
+  `usernamehash` varchar(512) DEFAULT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `preferrednetwork` varchar(40) DEFAULT NULL,
+  `useruuid` varchar(80) DEFAULT NULL,
+  `urlimage` varchar(400) DEFAULT NULL,
+  `phonecountrycode2letter` varchar(20) DEFAULT NULL,
+  `phonenationalnumber` varchar(20) DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `isskipcreatetutorial` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uuid` (`uuid`)
+) ;
+
 
 insert into tickers (quote,base,value,fromamount,toamount,typestr) values ( 'KRW','USDT','1329.93','1','1329.93','CF') ;
 insert into tickers (base,quote,value,fromamount,toamount,typestr) values ( 'ETH', 'KRW', '2177704.33', '1','2177704.33','CF' );

@@ -132,8 +132,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: true
     },
-    bank: {
-      type: DataTypes.STRING(20),
+    bankname: {
+      type: DataTypes.STRING(40),
       allowNull: true
     },
     bankaccount: {
@@ -142,6 +142,14 @@ module.exports = function(sequelize, DataTypes) {
     },
     banknation: {
       type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    bankaccountholder: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    banksender: {
+      type: DataTypes.TEXT,
       allowNull: true
     }
   }, {

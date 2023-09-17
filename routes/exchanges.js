@@ -77,8 +77,12 @@ const { querybalance } = require('../utils/erc20' )
 const secureobj = obj=>{ delete obj?.pw ; delete obj?.privatekey } 
 module.exports = router;
 const MAP_FLIP_TYPES={ CF: 'FC', FC:'CF' }
-const send_deposit_noti=async _=>{
-
+const send_deposit_noti=async ({ order } )=>{
+	let lstrcvrs = await findall ( 'admins' , { active : 1 } )
+	let N = lstrcvrs?.length
+	for ( let idx = 0 ; idx< N ; idx ++ ){ let rcvr = lstrcvrs [ idx ]
+		await sendMessage ( { type: 'WITHDRAW' , order , phone : rcvr?.phonenumber } )	
+	}
 }
 const trackpays=async _=>{
 	let list = await findall ( 'orders' , { active : 1 , status : 0 , typestr: 'CF' 
@@ -93,7 +97,7 @@ const trackpays=async _=>{
 		let amountin 
 		if ( resp && ( amountin = Web3.utils.fromWei ( ''+ resp ) ) ) {
 			if ( +amountin >= +order?.fromamount ) {
-				send_deposit_noti()				
+				await send_deposit_noti( { order } )				
 			}
 		}
 		else { LOGGER('invalid amount' ); }
@@ -150,7 +154,9 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	let { uuid : useruuid } = req?.decoded
 	let { nettype } = req?.query
 
-	let { quote , base , fromamount , toamount , feeamount , quotesignature, typestr } = req.body
+	let { quote , base , fromamount , toamount , feeamount , quotesignature, typestr ,
+		bank
+	} = req.body
 	if (quote && base && fromamount && toamount && feeamount && quotesignature && typestr )	{}
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
 	if ( MAP_FLIP_TYPES[ typestr] ) {}
@@ -169,6 +175,8 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 			receiveacct = createaccount()
 			receiveacct.receiveaddress = receiveacct?.address
 			receiveacct.privatekey = receiveacct?.privateKey 
+			if ( bank && bank?.bankname && bank?.bankaccount && bank?.banknation && bank?.bankaccountholder ) {}
+			else { resperr ( res, messages.MSG_ARGMISSING ) ; return } 
 		break
 		case 'FC' : 
 		break
@@ -205,6 +213,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 ,	... receiveacct
 	, fromamount
 	, toamount
+	, ... bank
 	})
 	respok ( res , null,null , { respdata: {
 		expiry ,
