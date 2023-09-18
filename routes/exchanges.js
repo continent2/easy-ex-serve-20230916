@@ -58,22 +58,6 @@ const { auth}=require('../utils/authMiddleware')
 let { Op } = db.Sequelize;
 const { createLogger , transports , format } = require('winston')
 const { querybalance } = require('../utils/erc20' ) 
-/** const loggerwin = createLogger ( {
-	format: format.combine(
-    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-    format.printf( info => `${info.timestamp} ${info.level}: ${info.message}`)
-  ),
-  transports: [
-    new transports.File({
-      filename: '/var/www/html/magic3.co/logs/logs.log',
-      json: true , // false,
-      maxsize: 5242880,
-      maxFiles: 5,
-    }),
-    new transports.Console(),
-  ]
-});
-*/
 const secureobj = obj=>{ delete obj?.pw ; delete obj?.privatekey } 
 module.exports = router;
 const MAP_FLIP_TYPES={ CF: 'FC', FC:'CF' }
@@ -84,7 +68,11 @@ const send_deposit_noti=async ({ order } )=>{
 		await sendMessage ( { type: 'WITHDRAW' , order , phone : rcvr?.phonenumber } )	
 	}
 }
-const trackpays=async _=>{
+const send_crypto_per_order=async _=>{
+
+
+}
+const track_balance_crypto=async _=>{
 	let list = await findall ( 'orders' , { active : 1 , status : 0 , typestr: 'CF' 
 	} )
 	let N = list?.length
@@ -104,7 +92,12 @@ const trackpays=async _=>{
 	}
 }
 setInterval( async ()=>{
-	trackpays()
+	track_balance_crypto()
+	
+	setTimeout ( async ()=>{
+		send_crypto_per_order()
+	}, 30 * 1000 )
+
 } , 60 * 1000 )
 const getrowforpair=async({ quote,base})=>{
 	let resp = await findone ( 'tickers', { quote , base, active:1} )
@@ -150,6 +143,7 @@ router.get ( '/quote' , async ( req,res)=>{
 		 feeinfo : respfee } } )
 })
 const ORDER_EXPIRES_IN_SEC_DEF = 3600
+const PARSER = JSON.parse
 router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	let { uuid : useruuid } = req?.decoded
 	let { nettype } = req?.query
@@ -162,8 +156,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	if ( MAP_FLIP_TYPES[ typestr] ) {}
 	else { resperr ( res, messages.MSG_ARGINVALID ) ; retur }
 	let uuid = create_a_uuid ( )
-	let receiveacct = {}
-
+	let receiveacct = {}, receivebank = {}
 	let expirydur = ORDER_EXPIRES_IN_SEC_DEF
 	let respexp = await findone ( 'settings', { active : 1 , key_:'ORDER-EXPIRES-IN-SEC' } )
 	if ( respexp && ISFINITE( +respexp?.value_)){ expirydur = +respexp?.value_ } 
@@ -179,6 +172,12 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 			else { resperr ( res, messages.MSG_ARGMISSING ) ; return } 
 		break
 		case 'FC' : 
+			if ( bank && bank?.bankname && bank?.bankaccount && bank?.banknation && bank?.bankaccountholder ) {}
+			else { resperr ( res, messages.MSG_ARGMISSING ) ; return } 
+			let respbank = await findone ( 'settings', { key_:'RECEIVE-BANK-ACCOUNT',active:1} )
+			if ( respbank && respbank?.value_ ){
+				receivebank = respbank?.value_
+			} else {resperr( res,messages.MSG_INTERNALERR ) ; return }
 		break
 	}
 	let resp = await createrow	( 'orders',{ 
@@ -211,6 +210,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 //	,		 receiveaddress
 //	,		 privatekey
 ,	... receiveacct
+, ... receivebank
 	, fromamount
 	, toamount
 	, ... bank
@@ -220,7 +220,8 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 		expirystr ,
 		expirydur ,
 		uuid ,
-		address : receiveacct?.address
+		address : receiveacct?.address ,
+		receivebank : PARSER ( receivebank  ) 
 	}} )
 })
 /** 
@@ -272,3 +273,21 @@ fromamount: 1
     source: NULL
     active: 1
 */
+/** const loggerwin = createLogger ( {
+	format: format.combine(
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
+    format.printf( info => `${info.timestamp} ${info.level}: ${info.message}`)
+  ),
+  transports: [
+    new transports.File({
+      filename: '/var/www/html/magic3.co/logs/logs.log',
+      json: true , // false,
+      maxsize: 5242880,
+      maxFiles: 5,
+    }),
+    new transports.Console(),
+  ]
+});
+*/
+
+

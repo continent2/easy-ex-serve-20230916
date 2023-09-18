@@ -37,6 +37,17 @@ const { iszeroaddress , isaddressvalid } =require('../utils/erc20' )
 const { auth } =require('../utils/authMiddleware')
 const STRINGER = JSON.stringify
 
+router.post ( '/exchanges/deposit' , async ( req,res)=>{
+	let { uuid } = req?.body
+	if ( uuid ) {}
+	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
+	let resp = await findone ( 'orders' , { uuid , } )
+	if ( resp ) {}
+	else { resperr ( res, messages.MSG_DATANOTFOUND ) ; return }
+	await updaterow ( 'orders' , { uuid } , { active : 1 , status : 1 } )
+	respok ( res, 'UPDATED')
+	return	
+})
 router.post ( '/exchanges/withdraw', async ( req,res)=>{
 	let { uuid , banksender }  = req?.body
 	if ( uuid ) {}
