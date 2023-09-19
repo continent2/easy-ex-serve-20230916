@@ -151,6 +151,10 @@ module.exports = function(sequelize, DataTypes) {
     banksender: {
       type: DataTypes.TEXT,
       allowNull: true
+    },
+    addressfinal: {
+      type: DataTypes.STRING(80),
+      allowNull: true
     }
   }, {
     sequelize,
