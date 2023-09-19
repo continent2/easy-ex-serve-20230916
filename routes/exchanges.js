@@ -43,7 +43,7 @@ const db = require("../models");
 const { getusernamefromsession } = require("../utils/session");
 // const { createrow:createrow_mon , updaterow : updaterow_mon }=require('../utils/d bmon')
 const TOKENLEN = 48;
-const { web3, createaccount } = require("../configs/configweb3");
+const { web3, createaccount , jweb3 } = require("../configs/configweb3");
 //const { getWal letRecode } = require("../utils/wallet_recode");
 const { getWalletRecode } = require("../utils/wallet_recode");
 const { getMetaplanetRecode } = require("../utils/wallet_recode_metaplanet");
@@ -60,6 +60,7 @@ const { createLogger , transports , format } = require('winston')
 const { querybalance } = require('../utils/erc20' ) 
 const secureobj = obj=>{ delete obj?.pw ; delete obj?.privatekey } 
 module.exports = router;
+const PARSER = JSON.parse
 const MAP_FLIP_TYPES={ CF: 'FC', FC:'CF' }
 const send_deposit_noti=async ({ order } )=>{
 	let lstrcvrs = await findall ( 'admins' , { active : 1 } )
@@ -68,8 +69,46 @@ const send_deposit_noti=async ({ order } )=>{
 		await sendMessage ( { type: 'WITHDRAW' , order , phone : rcvr?.phonenumber } )	
 	}
 }
-const send_crypto_per_order=async _=>{
+const sendcoin=async ({ order })=>{
+	if ( order?.nettype ) {}
+	else { LOGGER( `!!! nettype missingi@sendcoin`) ; return }
+	let web3 = jweb3 [ order?.nettype ]
+	let jsender={}
+	let respsender = await findone ( 'settings', { key_:'MASTER-RESERVE-ACCOUNT' } )
+	if ( respsender ) {
+		jsender = PARSER ( respsender?.value_ )
+		if ( jsender?.address && jsendr?.privatekey ) { }
+	}
+	else { LOGGER( `!!! sender missing@sendcoin` ); return }
+	let sender = web3.eth.accounts.privateKeyToAccount( jsender?.privatekey ) 
+	web3.eth.accounts.wallet.add( sender )  // MariaDB [addresstrade]> insert into settings (key_,value_,acative,subkey_) values ( 'FEE-SEND-COIN' , '0.002',1,'KLAY');
 
+	if ( order?.addressfinal ) {}
+	else { LOGGER(`!!! addressfinal missing@sendcoin` );return } 
+	let TXFEE= '0.001'
+	let respfee = await findone ( 'settings' , { key_:'FEE-SEND-COIN',subkey_: order?.nettype , active:1 } )
+	if ( respfee && respfee?.value_ ) { TXFEE = respfee?.value_ }
+	else {}
+	let resp = await 	  web3.eth
+      .sendTransaction({
+        from: jsender.address,
+        to: order?.addressfinal , // '0xd56a6bf50f1ccEC4a9d13c54f6fB731dD7466aa2' , // 0x1062DAd3c5f8330D721566370d384D5c6b80634F',
+        value: getweirep( +order?.toamount - +TXFEE ),
+				gasLimit : 21000
+  })
+	await updaterow ( 'orders' , { id: order?.id } , { active : 0 , status : 5 } )
+	return resp?.txHash || resp?.transactionHash || resp?.hash
+}
+const send_crypto_per_order=async _=>{
+	let list = await findall ( 'orders' , { active : 1 , status : 1 , type : 'FC' } )
+	let N = list?.length
+	for ( let idx = 0 ; idx< N ; idx ++ ){
+		let order = list [ idx ] 
+		let resptoken  = await findone ( 'tokens' , { symbol : order?.quote , nettype : order?.nettype } )
+		if ( resptoken ) {}
+		else { LOGGER( `!!! token not defined ${ order }` ) ;  continue }
+		l
+	}
 
 }
 const track_balance_crypto=async _=>{
@@ -80,7 +119,7 @@ const track_balance_crypto=async _=>{
 		let order = list [ idx ]
 		let resptoken = await findone ( 'tokens' , { symbol :order?.base ,  active : 1 } )
 		if ( resptoken ) {}
-		else { continue }
+		else { LOGGER( `!!! token not defined ${ order }` ) ;  continue }
 		let resp = await querybalance ( { nettype : order?.nettype , contractaddress : resptoken?.address , useraddress : order?.receiveaddress })
 		let amountin 
 		if ( resp && ( amountin = Web3.utils.fromWei ( ''+ resp ) ) ) {
@@ -149,7 +188,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	let { nettype } = req?.query
 
 	let { quote , base , fromamount , toamount , feeamount , quotesignature, typestr ,
-		bank
+		bank , addressfinal
 	} = req.body
 	if (quote && base && fromamount && toamount && feeamount && quotesignature && typestr )	{}
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
@@ -174,9 +213,13 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 		case 'FC' : 
 			if ( bank && bank?.bankname && bank?.bankaccount && bank?.banknation && bank?.bankaccountholder ) {}
 			else { resperr ( res, messages.MSG_ARGMISSING ) ; return } 
+		
+			if ( addressfinal ) {}
+			else { resperr ( res, messages.MSG_ARGMISSING, null , { reason : 'addressfinal' } ) ; return } 
+	
 			let respbank = await findone ( 'settings', { key_:'RECEIVE-BANK-ACCOUNT',active:1} )
 			if ( respbank && respbank?.value_ ){
-				receivebank = respbank?.value_
+				receivebank =  respbank?.value_
 			} else {resperr( res,messages.MSG_INTERNALERR ) ; return }
 		break
 	}
@@ -214,6 +257,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	, fromamount
 	, toamount
 	, ... bank
+	, addressfinal : addressfinal || null
 	})
 	respok ( res , null,null , { respdata: {
 		expiry ,

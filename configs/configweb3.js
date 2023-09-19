@@ -22,7 +22,8 @@ jweb3 [ 'KLAYTN_MAINNET'] = require ( './configweb3-klaytnmainnet').web3
 let web3 = jweb3 [ 'KLAYTN_TESTNET' ] // PLUS_MAINNET'] 
 const createaccount=()=>{return web3.eth.accounts.create()}
 const	PRICEUNIT = 'KLAY'
-module.exports={ jweb3, // web3wss, netkind,nettype,
+module.exports={ 
+	jweb3, // web3wss, netkind,nettype,
 	web3 ,
 	createaccount ,
 	PRICEUNIT 
