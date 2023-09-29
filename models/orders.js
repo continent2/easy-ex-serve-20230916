@@ -155,6 +155,14 @@ module.exports = function(sequelize, DataTypes) {
     addressfinal: {
       type: DataTypes.STRING(80),
       allowNull: true
+    },
+    type: {
+      type: DataTypes.STRING(40),
+      allowNull: true
+    },
+    requestdepositconfirm: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
     }
   }, {
     sequelize,

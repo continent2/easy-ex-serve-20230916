@@ -247,16 +247,19 @@ router.post("/join", (req, res) => {
 //	if ( nettype ){} else { resperr( res, 'NETTYPE-NOT-S PECIFIED' ) ; return } 
 	if ( nettype ){} else { resperr( res, messages.MSG_NETTYPE_NOT_SPECIFIED   ) ; return } 
 	let NETTYPE = nettype
-  if (username && pw) {
+//  if (us ername && pw) {
+	if ( pw) {
   } else {
     resperr(res, messages.MSG_ARGMISSING, 40761);
     return false;
   }
-	if ( validateusername ( username ) ){ }
-	else { resperr ( res, messages.MSG_USERNAME_DOES_NOT_MEET_RULE ) ; return } 
+	if (username ) {
+		if ( validateusername ( username ) ){ }
+		else { resperr ( res, messages.MSG_USERNAME_DOES_NOT_MEET_RULE ) ; return } 
+	}
 	if ( validatepw ( pw ) ){ }
 	else { resperr ( res, messages.MSG_PW_DOES_NOT_MEET_RULE ) ; return } 
-	if ( username == pw ) {resperr ( res, messages.MSG_PLEASE_SET_PW_DIFFERENT_FROM_USERNAME ) ; return } 
+	if ( username && username == pw ) {resperr ( res, messages.MSG_PLEASE_SET_PW_DIFFERENT_FROM_USERNAME ) ; return } 
 	else {}
 	
 	if (phonecountrycode2letter && phonenationalnumber )	{
@@ -265,18 +268,18 @@ router.post("/join", (req, res) => {
 	}
 	if ( phonenumber ) {}
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
-  findone("users", { username , nettype }).then( async (respuser) => {
+  findone("users", { phonenumber , nettype }).then( async (respuser) => {
     // email
     if (respuser) {
-      resperr(res, messages.MSG_ID_DUP, 82532);
+      resperr(res, messages.MSG_PHONENUMBER_ALREADY_IN_USE , 82532);
       return false;
     }
 //    createrow("users",
 	let uuidv4 = uuid.v4() 
     let acct = createaccount();
 		respuser = await db['users'].create ( 
-	{	username,
-			usernamehash : sha256 ( username ) ,
+	{	username : ( username ? username : null ) ,
+			// usernamehash : sha256 ( username ) ,
       nickname: nickname ? nickname : generateSlug(2, { format: "camel" }),
       pw,
 			pwhash: sha256 (pw) ,
@@ -285,12 +288,13 @@ router.post("/join", (req, res) => {
       active: 1,
       level: USER_LEVEL_DEF, //		, 
       dob : ( dob? dob:null ) ,
-      phonenumber : ( phonenumber ? phonenumber : null ),
+      phonenumber : ( phonenumber ? phonenumber : null ),phonecountrycode2letter , phonenationalnumber ,
       realname : ( realname ? realname : null ),
 			uuid : uuidv4 ,
 			useruuid : uuidv4 ,
 			nettype ,
-			address : acct?.address		
+			address : acct?.address	,
+			myreferercode : generaterandomstr(10)
     }		); //    db.operations.findOne({raw:true,where:{key_:'CURRENCIES'}}).then(respcurr=>{      const currencies=JSON.parse(respcurr['value_'])
 
 	LOGGER( {
@@ -793,7 +797,7 @@ router.get ( '/phoneverifycode' , async ( req,res ) => {
 		else {}
 	}
 	let code = generaterandomnumber ( 100000,999999 ) 
-	let respsend =	await sendMessage ( phonenumber , code )
+	let respsend =	await sendMessage ( { type : 'PHONE-VERIFY' ,  phonenumber , code }  )
 	if ( respsend ) {}
 	else { resperr ( res, 'SMS-SEND-ERR' ) ; return }
 	respok ( res, 'CODE-SENT-TO-DEVICE' ,null ) // , { code } )	

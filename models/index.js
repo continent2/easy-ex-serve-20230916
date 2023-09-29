@@ -40,3 +40,8 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
+
+db['orders'].belongsTo	( db[ 'users' ] , { foreignKey: 'useruuid' })
+db['users'].hasMany			( db[ 'orders' ] , { foreignKey: 'uuid' })
+// Payments.belongsTo(Users, { foreignKey: "id" });
+

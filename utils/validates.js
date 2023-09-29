@@ -15,7 +15,7 @@ const validatepw=str=>{
 //	else { return false } 
 }
 // }
-const validateusername=str=>{	return str && str?.length>0 && str?.length<=10 
+const validateusername=str=>{	return str && str?.length>0 // && str?.length<=10 
 }
 /** const validateusername=str=>{
 //	if ( str && str.length >= 7 && str.match (/\d+/) && str.match( /[a-z]/ && str.match( /[A-Z]/ )) ){ return true }

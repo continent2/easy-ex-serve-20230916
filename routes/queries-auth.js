@@ -487,13 +487,9 @@ router.get( '/rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:ord
 		let uid = id
 //		if ( await tableexists ( tablename ) ) {}
 	//	else { resperr ( res, 'TABLE-DOES-NOT-EXIST' ) ; return }
-    console.log('req.query', req.query);
-    //  const username = getusernamefromsession(req);
-		//    fieldexists(tablename, fieldname).then(async (resp) => {
+    console.log('req.query', req.query);	//  const username = getusernamefromsession(req);//    fieldexists(tablename, fieldname).then(async (resp) => {
 //      if (resp) {
-  //    } else {
-    //    resperr(res, messages.MSG_DATANOTFOUND);
-      //  return;
+  //    } else {//    resperr(res, messages.MSG_DATANOTFOUND);//  return;
 //      }
       offset = +offset;
       limit = +limit;
@@ -513,10 +509,7 @@ router.get( '/rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:ord
       }
 /*      let respfield_orderkey = await fieldexists(tablename, orderkey);
       if (respfield_orderkey) {
-      } else {
-        resperr(res, messages.MSG_ARGINVALID, null, {
-          payload: { reason: 'orderkey-invalid' },
-        });
+      } else {resperr(res, messages.MSG_ARGINVALID, null, {          payload: { reason: 'orderkey-invalid' },        });
         return;
       } */
       let jfilter = {};
@@ -524,11 +517,7 @@ router.get( '/rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:ord
 			else {       jfilter[fieldname] = fieldval }
       if (filterkey && filterval) {
 //        let respfieldexists = await fieldexists(tablename, filterkey);
-  //      if (respfieldexists) {
-    //    } else {
-      //    resperr(res, messages.MSG_DATANOTFOUND);
-        //  return;
-//        }
+  //      if (respfieldexists) {//    } else {//    resperr(res, messages.MSG_DATANOTFOUND);//  return;//        }
 							jfilter[filterkey] = filterval;
 			} else {
       }
@@ -865,9 +854,7 @@ router.put ( '/:tablename/:key/:value' , auth , async ( req,res)=>{	LOGGER(req.b
 			else {resperr (res,messages.MSG_ARGMISSING , null,{reason:'feerateinpercent'} ) ; return } 
 			if ( req?.body?.quotesignature && req?.body?.feerateinpercent ) {}
 			else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
-
 			let {price , feerateinpercent }=req?.body
-
 			if ( Number.isFinite( +price )){}
 			else { resperr ( res, messages.MSG_ARGINVALID , null, { reason :'price is not a valid number'}); return }
 			if ( +price >=0.1){}
@@ -889,7 +876,7 @@ router.put ( '/:tablename/:key/:value' , auth , async ( req,res)=>{	LOGGER(req.b
 			try { 			await writenoti ( { typecode : 203 , useruuid , auxdata : { item: resp?.address , price  , priceunit  } } ) 	}
 			catch(err){ LOGGER( err ) }
 		}
-  }
+  } // end if sales
 	await updaterow ( tablename , { id: resp?.id } , jupdates )
 	respok ( res , 'UPDATED' )
 })

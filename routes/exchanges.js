@@ -182,13 +182,19 @@ router.get ( '/quote' , async ( req,res)=>{
 		 feeinfo : respfee } } )
 })
 const ORDER_EXPIRES_IN_SEC_DEF = 3600
-const PARSER = JSON.parse
+// const PARSER = JSON.parse
 router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	let { uuid : useruuid } = req?.decoded
 	let { nettype } = req?.query
-
-	let { quote , base , fromamount , toamount , feeamount , quotesignature, typestr ,
-		bank , addressfinal
+	let { quote , 
+		base , 
+		fromamount , 
+		toamount , 
+		feeamount , 
+		quotesignature, 
+		typestr ,
+		bank , 
+		addressfinal
 	} = req.body
 	if (quote && base && fromamount && toamount && feeamount && quotesignature && typestr )	{}
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
@@ -208,11 +214,11 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 			receiveacct.receiveaddress = receiveacct?.address
 			receiveacct.privatekey = receiveacct?.privateKey 
 			if ( bank && bank?.bankname && bank?.bankaccount && bank?.banknation && bank?.bankaccountholder ) {}
-			else { resperr ( res, messages.MSG_ARGMISSING ) ; return } 
+			else { resperr ( res, messages.MSG_ARGMISSING , null, { MISSING: 'RECEIVING-BANK-ACCOUNT' } ) ; return } 
 		break
 		case 'FC' : 
 			if ( bank && bank?.bankname && bank?.bankaccount && bank?.banknation && bank?.bankaccountholder ) {}
-			else { resperr ( res, messages.MSG_ARGMISSING ) ; return } 
+			else { resperr ( res, messages.MSG_ARGMISSING, null, { MISSING: '' }  ) ; return } 
 		
 			if ( addressfinal ) {}
 			else { resperr ( res, messages.MSG_ARGMISSING, null , { reason : 'addressfinal' } ) ; return } 
@@ -265,7 +271,8 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 		expirydur ,
 		uuid ,
 		address : receiveacct?.address ,
-		receivebank : PARSER ( receivebank  ) 
+		receivebank : receivebank || null //  
+//		receivebank : ( receivebank? PARSER ( receivebank  ) : null ) 
 	}} )
 })
 /** 
