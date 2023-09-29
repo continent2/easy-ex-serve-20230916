@@ -277,10 +277,11 @@ router.post("/join", (req, res) => {
 //    createrow("users",
 	let uuidv4 = uuid.v4() 
     let acct = createaccount();
+		let tmpname =generateSlug(2, { format: "camel" }) 	
 		respuser = await db['users'].create ( 
-	{	username : ( username ? username : null ) ,
+	{		username : ( username ? username : tmpname ) ,
 			// usernamehash : sha256 ( username ) ,
-      nickname: nickname ? nickname : generateSlug(2, { format: "camel" }),
+      nickname: ( nickname ? nickname : tmpname ) ,
       pw,
 			pwhash: sha256 (pw) ,
       ip: getipaddress(req),

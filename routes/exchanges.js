@@ -109,8 +109,12 @@ const send_crypto_per_order=async _=>{
 		else { LOGGER( `!!! token not defined ${ order }` ) ;  continue }
 		l
 	}
-
 }
+const invalidate_order = async ({ order }) =>{
+	await updaterow ( 'orders' , { id : order?.id } , { active: 0 , status : 4 
+		, statusstr  :'EXPIRED'
+	} ) 
+} 
 const track_balance_crypto=async _=>{
 	let list = await findall ( 'orders' , { active : 1 , status : 0 , typestr: 'CF' 
 	} )
@@ -122,9 +126,21 @@ const track_balance_crypto=async _=>{
 		else { LOGGER( `!!! token not defined ${ order }` ) ;  continue }
 		let resp = await querybalance ( { nettype : order?.nettype , contractaddress : resptoken?.address , useraddress : order?.receiveaddress })
 		let amountin 
+		let timenow = gettime().unix()
 		if ( resp && ( amountin = Web3.utils.fromWei ( ''+ resp ) ) ) {
 			if ( +amountin >= +order?.fromamount ) {
-				await send_deposit_noti( { order } )				
+				await updaterow ( 'orders', { id : order?.id } , { status : 1
+					, timestampdeposit : timenow 
+					, statusstr   : 'RECEIVED' 
+					, depositamount : ''+amountin 
+				 })
+				await send_deposit_noti( { order } )	
+			}
+			else {	
+				if ( timenow > order?.expiry ) { 
+					await invalidate_order ({ order } ) 
+				} 
+				else {}
 			}
 		}
 		else { LOGGER('invalid amount' ); }
@@ -181,8 +197,54 @@ router.get ( '/quote' , async ( req,res)=>{
 		quotesignature ,	
 		 feeinfo : respfee } } )
 })
-const ORDER_EXPIRES_IN_SEC_DEF = 3600
-// const PARSER = JSON.parse
+const ORDER_EXPIRES_IN_SEC_DEF = 3600 // const PARSER = JSON.parse
+const map_typestr = { FC : 1 , CF : 1 }
+/** uuid                   | varchar(80)  
+| active                   | tinyint(4)   
+| feeamount                | varchar(20)  
+| feerate                  | varchar(20)  
+| feerateunit              | varchar(20)  
+| receiveaddress           | varchar(80)  
+| typecode                 | int(10) unsig
+| typestr                  | varchar(40)  
+| auxdata                  | text         
+| txhash                   | varchar(80)  
+| status                   | tinyint(4)   
+| expiry                   | bigint(20)   
+| privatekey               | varchar(80)  
+| useruuid                 | varchar(80)  
+| nettype                  | varchar(40)  
+| expirystr                | varchar(30)  
+| timestampunix            | bigint(20)   
+| timestamppaid            | bigint(20)   
+| timestampdeliverpromised | bigint(20)   
+| issettled                | tinyint(4)   
+| txhashpayout             | varchar(80)  
+| statusint                | int(11)      
+| refundaddress            | varchar(80)  
+| quote                    | varchar(20)  
+| base                     | varchar(20)  
+| expirydur                | bigint(20)   
+| fromamount               | varchar(20)  
+| toamount                 | varchar(20)  
+| bankname                 | varchar(40)  
+| bankaccount              | varchar(40)  
+| banknation               | varchar(20)  
+| bankaccountholder        | varchar(100) 
+| banksender               | text         
+| addressfinal             | varchar(80)  
+| type                     | varchar(40)  
+| requestdepositconfirm    | int(11)      
+| feeamountunit            | varchar(20)  
+| depositamount            | varchar(20)  
+| timestampdeposit         | bigint(20)   
+| exchangerate             | varchar(30)  
+| withdrawaccount          | varchar(200) 
+| wthdrawamount            | varchar(20)  
+| writername               | varchar(40)  
+| writeruuid               | varchar(80)  
+| writerid                 | int(11)      
+| withdrawtypestr          | varchar(60) */
 router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	let { uuid : useruuid } = req?.decoded
 	let { nettype } = req?.query
@@ -191,23 +253,27 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 		fromamount , 
 		toamount , 
 		feeamount , 
+		feeamountunit , 
 		quotesignature, 
 		typestr ,
 		bank , 
-		addressfinal
+		addressfinal , 
+		exchangerate
 	} = req.body
-	if (quote && base && fromamount && toamount && feeamount && quotesignature && typestr )	{}
+	if (quote && base && fromamount && toamount && feeamount && feeamountunit && quotesignature && typestr && exchangerate  )	{}
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
 	if ( MAP_FLIP_TYPES[ typestr] ) {}
 	else { resperr ( res, messages.MSG_ARGINVALID ) ; retur }
 	let uuid = create_a_uuid ( )
 	let receiveacct = {}, receivebank = {}
+
 	let expirydur = ORDER_EXPIRES_IN_SEC_DEF
-	let respexp = await findone ( 'settings', { active : 1 , key_:'ORDER-EXPIRES-IN-SEC' } )
+	let respexp = await findone ( 'settings', { active : 1 , key_:'ORDER-EXPIRES-IN-SEC' , subkey_ : typestr } )
 	if ( respexp && ISFINITE( +respexp?.value_)){ expirydur = +respexp?.value_ } 
 	else {}  
 	let expiry = moment().unix() + expirydur 
-	let		 expirystr = moment.unix ( expiry ).format('YYYY-MM-DDTHH:mm:ss')
+	let	expirystr = moment.unix ( expiry ).format('YYYY-MM-DDTHH:mm:ss')
+
 	switch ( typestr ){
 		case 'CF' :
 			receiveacct = createaccount()
@@ -241,11 +307,11 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 // ,		 auxdata  
 // ,		 txhash   
 // ,		 status   
-,		 expiry
+,		expiry
 ,		expirydur 
+,		expirystr // : moment.unix ( expiry ).format('YYYY-MM-DDTHH:mm:ss')
 ,		 useruuid 
 ,		 nettype : nettype || req?.decoded?.nettype  
-,		 expirystr // : moment.unix ( expiry ).format('YYYY-MM-DDTHH:mm:ss')
 ,		 timestamp : moment().unix()
 // ,		 timestamp
 //,		 timestamp
@@ -264,6 +330,9 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	, toamount
 	, ... bank
 	, addressfinal : addressfinal || null
+	, statusstr : 'WAITING'
+	, exchangerate
+	, feeamountunit 
 	})
 	respok ( res , null,null , { respdata: {
 		expiry ,

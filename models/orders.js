@@ -163,6 +163,51 @@ module.exports = function(sequelize, DataTypes) {
     requestdepositconfirm: {
       type: DataTypes.INTEGER(11),
       allowNull: true
+    },
+    feeamountunit: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    depositamount: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    timestampdeposit: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    exchangerate: {
+      type: DataTypes.STRING(30),
+      allowNull: true,
+      comment: 'base 1:quote_s equivalent amt'
+    },
+    withdrawaccount: {
+      type: DataTypes.STRING(200),
+      allowNull: true
+    },
+    wthdrawamount: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    writername: {
+      type: DataTypes.STRING(40),
+      allowNull: true
+    },
+    writeruuid: {
+      type: DataTypes.STRING(80),
+      allowNull: true
+    },
+    writerid: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
+    withdrawtypestr: {
+      type: DataTypes.STRING(60),
+      allowNull: true
+    },
+    statusstr: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,
