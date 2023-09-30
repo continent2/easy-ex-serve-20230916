@@ -129,10 +129,20 @@ const track_balance_crypto=async _=>{
 		let timenow = gettime().unix()
 		if ( resp && ( amountin = Web3.utils.fromWei ( ''+ resp ) ) ) {
 			if ( +amountin >= +order?.fromamount ) {
-				await updaterow ( 'orders', { id : order?.id } , { status : 1
+		
+			let timedeliverdue
+			let timedurdeliver = 3600
+			let respsetting   = await findone ( 'settings' , { active : 1 , key_: 'DELIVERY-PROMISED-IN-SEC', subkey_ : 'CF' } )
+			if ( respsetting && respsetting?.value_ ) { 
+				timedurdeliver = +respsetting.value_
+			} else {}
+			timedeliverdue = timenow + timedurdeliver 
+			await updaterow ( 'orders', { id : order?.id } , { status : 1
 					, timestampdeposit : timenow 
 					, statusstr   : 'RECEIVED' 
 					, depositamount : ''+amountin 
+					, timedeliverdue
+					, durationdeliver : timedurdeliver  
 				 })
 				await send_deposit_noti( { order } )	
 			}
@@ -185,7 +195,7 @@ router.get ( '/quote' , async ( req,res)=>{
 	if ( resprate ) {}
 	else { resperr ( res, messages.MSG_DATANOTFOUND ) ; return }
 	let toamount = amount * resprate?.value 
-
+	LOGGER( {resprate })
 	let respfee = await findone ( 'settings' , { key_:'FEE-RATE', active : 1 } )
 	if ( respfee && respfee?.value_ ) {}
 	else { resperr ( res, messages.MSG_DATANOTFOUND ); return }
@@ -193,8 +203,12 @@ router.get ( '/quote' , async ( req,res)=>{
 	let feeamount =  toamount * +respfee?.value_ / 100 
 	toamount -= feeamount
 	let quotesignature = generaterandomhex( 100 ) 
-	respok ( res, null,null, { respdata: { ... resprate , toamount , feeamount ,
+	respok ( res, null,null, { respdata: { ... resprate , 
+		toamount , feeamount ,
+		exchangerate : resprate?.value ,
 		quotesignature ,	
+		feeamountunit : base ,
+
 		 feeinfo : respfee } } )
 })
 const ORDER_EXPIRES_IN_SEC_DEF = 3600 // const PARSER = JSON.parse
@@ -217,7 +231,7 @@ const map_typestr = { FC : 1 , CF : 1 }
 | expirystr                | varchar(30)  
 | timestampunix            | bigint(20)   
 | timestamppaid            | bigint(20)   
-| timestampdeliverpromised | bigint(20)   
+| timedeliverdue | bigint(20)   
 | issettled                | tinyint(4)   
 | txhashpayout             | varchar(80)  
 | statusint                | int(11)      
@@ -365,7 +379,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 ,		 timestampunix            | bigint(20)       | YES  |     | NULL                |                               |
 ,		 minermacaddress          | varchar(80)      | YES  |     | NULL                |                               |
 ,		 timestamppaid            | bigint(20)       | YES  |     | NULL                |                               |
-,		 timestampdeliverpromised | bigint(20)       | YES  |     | NULL                |                               |
+,		 timedeliverdue | bigint(20)       | YES  |     | NULL                |                               |
 ,		 issettled                | tinyint(4)       | YES  |     | NULL                |                               |
 ,		 timeinsec                | bigint(20)       | YES  |     | NULL                |                               |
 ,		 txhashpayout             | varchar(80)      | YES  |     | NULL                |                               |
@@ -384,6 +398,7 @@ router.get ( '/rate' , async ( req,res)=>{
 	else { resperr ( res, messagse.MSG_DATANOTFOUND ) ; return }
 	respok ( res, null,null, { respdata: resprate } )
 })
+
 /**	quote: KRW
       base: USDT
      value: 1329.93

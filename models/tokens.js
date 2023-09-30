@@ -80,6 +80,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: true,
       comment: '1:token , 2:coin,3:fiat'
+    },
+    nation: {
+      type: DataTypes.STRING(10),
+      allowNull: true
+    },
+    typecf: {
+      type: DataTypes.STRING(10),
+      allowNull: true
     }
   }, {
     sequelize,

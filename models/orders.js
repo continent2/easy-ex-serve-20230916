@@ -91,7 +91,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BIGINT,
       allowNull: true
     },
-    timestampdeliverpromised: {
+    timedeliverdue: {
       type: DataTypes.BIGINT,
       allowNull: true
     },
@@ -207,6 +207,14 @@ module.exports = function(sequelize, DataTypes) {
     },
     statusstr: {
       type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    durationdeliver: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
+    isdeleted: {
+      type: DataTypes.INTEGER(4),
       allowNull: true
     }
   }, {

@@ -341,7 +341,8 @@ router.delete ( '/:tablename/:softorhard/:idtype/:id', auth , async (req,res)=>{
 	if ( resp ) {}
 	else { resperr ( res , 'DATA-NOT-FOUND' ) ; return } 
 	switch ( softorhard ) {
-		case 'soft' : await updaterow (tablename , {... jfilter} , {active: 0 }) // db[tablename].destroy ({ where : { id } } )
+//		case 'soft' : await updaterow (tablename , {... jfilter} , {active: 0 }) 
+		case 'soft' : await updaterow (tablename , {... jfilter} , {isdeleted : 1 }) 
 		break
 		case 'hard' : await db[tablename].destroy ({ where : { ...jfilter } } )
 		break
@@ -442,7 +443,7 @@ const tell_if_refundable=async (  { uuid , mine , order , time_overtime_from_due
 	else { return false }
 	let { timestart } = mine 
 	let timenow = gettime() //
-	let deltatimefromdue = timenow?.unix - order?.timestampdeliverpromised
+	let deltatimefromdue = timenow?.unix - order?.timedeliverdue // timestampdeliverpromised
 	if (deltatimefromdue >= time_overtime_from_due ) {}
 	else { return false } // if not  
 	price = + price 

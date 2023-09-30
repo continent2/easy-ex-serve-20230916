@@ -154,6 +154,18 @@ module.exports = function(sequelize, DataTypes) {
     isskipcreatetutorial: {
       type: DataTypes.INTEGER(4),
       allowNull: true
+    },
+    socialid: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    socialprovider: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    issocial: {
+      type: DataTypes.INTEGER(4),
+      allowNull: true
     }
   }, {
     sequelize,

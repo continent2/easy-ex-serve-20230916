@@ -1,4 +1,29 @@
 
+CREATE TABLE `pairs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `createdat` datetime DEFAULT current_timestamp(),
+  `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `quote` varchar(20) DEFAULT NULL,
+  `base` varchar(20) DEFAULT NULL,
+  `fromamount` varchar(20) DEFAULT NULL,
+  `toamount` varchar(20) DEFAULT NULL,
+	exchangerate varchar(20 ) ,
+	fixedrate 	 varchar(20 ) ,
+	isusedfixedrate tinyint ,
+  `active` tinyint(4) DEFAULT NULL,
+  `typestr` varchar(20) DEFAULT NULL COMMENT 'FC:1 , CF:2',
+  PRIMARY KEY (`id`)
+);
+
+
+
+
+  `value` varchar(20) DEFAULT NULL,
+  `fromamount` varchar(20) DEFAULT NULL,
+  `toamount` varchar(20) DEFAULT NULL,
+  `typestr` varchar(20) DEFAULT NULL COMMENT 'FC:1 , CF:2',
+  `source` varchar(20) DEFAULT NULL,
+
  CREATE TABLE `admins` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `createdat` datetime DEFAULT current_timestamp(),

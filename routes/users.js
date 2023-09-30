@@ -232,6 +232,84 @@ const generate_token_and_store = (username, req) => {
   });
 };
 const USER_LEVEL_DEF = 3;
+/***************/
+const MAP_SOCIAL_VENDORS={FACEBOOK:1, GOOGLE:1,KAKAO:1,NAVER:1}
+router.post ('/social/login' , async (req,res)=>{ 	LOGGER( req.body )  //  let { nettype } = req.query;
+	let { socialid, socialprovider , referer } = req.body
+	let { nettype  } = req?.query	
+	if ( nettype ){} else { resperr( res, messages.MSG_NETTYPE_NOT_SPECIFIED ) ; return }
+	if ( socialprovider && socialid ) {}
+	else { resperr ( res,messages.MSG_ARGMISSING ) ; return }
+	if ( MAP_SOCIAL_VENDORS[socialprovider ] ){}
+	else { resperr(res, 'NOT-SUPPORTED-SOCIAL-VENDOR' ) ; return }
+	let token 
+	let isjoinprocesscomplete = 0
+	let respuser = await db['users'].findOne ( {raw:true, where : { socialid, socialprovider} } )
+	if ( respuser ) { 		
+		if (respuser.phonenumber ) { isjoinprocesscomplete = 1 } // password
+    let respacct = await findone("accounts", { uuid : respuser?.uuid } ) // : phonenumbwe })
+		token = await createJWT ( {... respuser , ... isjoinprocesscomplete } ) //		respok(res, null, null, { respdata: { ...token ,	isjoinprocesscomplete , 		myinfo : respuser , isnewsocialuser :0 		} })
+		respok(res, null, null, { 
+			respdata: token ,
+			payload : { token , 
+				account : { nettype
+					, ... respacct
+				} 
+			}  //			isjoinprocesscomplete , 		myinfo : respuser , isnewsocialuser :0 		} 
+		})
+		return
+	} // al
+	else {
+		const uuidv4 = uuid.v4()
+//  	const myr eferercode = await generateRefCode();
+		const myreferercode = generaterandomstr(10)
+		const	username =generateSlug(2, { format: "camel" }) // generateSlug( 2 ) 
+
+		let jreferer ={}
+		if ( referer ) {
+			let respref = await findone ( 'users' , { myreferercode : referer } )
+			if ( respref ) {		jreferer= { referercode : referer }
+			}
+			else {  }
+		} else {}
+
+		let respuser = await db['users'].create ( {
+//	   phonenumber,
+  //  phone : phonenumber,
+//		password,
+	    myreferercode,
+			username , // 
+			active: 1,
+			uuid : uuidv4 , 
+			useruuid : uuidv4 ,
+			active :1 ,
+			socialid , 
+			socialprovideri , 
+			... jreferer
+		} )
+		token = await createJWT ( {... respuser?.dataValues , ... isjoinprocesscomplete } )
+//		respok(res, null, null, { respdata: { ...token ,isjoinprocesscomplete ,			myinfo : respuser, isnewsocialuser :1 		} })
+    let acct = createaccount();
+	   let respacct = await createrow( "accounts", {
+      username: username,
+      ... acct,
+      privatekey: acct.privateKey,
+      nettype  , //      currentBlockNumber: currentBlockNumber,  //    firstUsedBlockNumber: currentBlockNumber,
+			useruuid : uuidv4
+    })
+
+	respok ( res, null,null, { 
+			respdata : token ,
+			payload : { token ,
+				account : { nettype 
+					, ... acct
+				}
+			}
+		} )
+		return
+	}
+})
+
 router.post("/join", (req, res) => {
   let {    username,
     nickname,
@@ -241,6 +319,7 @@ router.post("/join", (req, res) => {
     phonenumber,phonecountrycode2letter , phonenationalnumber ,
     realname,
     currentBlockNumber,
+		referer
   } = req.body;
   LOGGER("", req.body); // log gerwin.info ( req.body )
 	let { nettype } =req.query
@@ -277,9 +356,16 @@ router.post("/join", (req, res) => {
 //    createrow("users",
 	let uuidv4 = uuid.v4() 
     let acct = createaccount();
-		let tmpname =generateSlug(2, { format: "camel" }) 	
-		respuser = await db['users'].create ( 
-	{		username : ( username ? username : tmpname ) ,
+		let tmpname =generateSlug(2, { format: "camel" }) 
+
+		let jreferer ={}
+		if ( referer ) {
+			let respref = await findone ( 'users' , { myreferercode : referer } )
+			if ( respref ) {		jreferer= { referercode : referer }
+			}
+			else {  }
+		} else {}
+		respuser = await db['users'].create ( 	{		username : ( username ? username : tmpname ) ,
 			// usernamehash : sha256 ( username ) ,
       nickname: ( nickname ? nickname : tmpname ) ,
       pw,
@@ -295,7 +381,8 @@ router.post("/join", (req, res) => {
 			useruuid : uuidv4 ,
 			nettype ,
 			address : acct?.address	,
-			myreferercode : generaterandomstr(10)
+			myreferercode : generaterandomstr(10) ,
+			... jreferer 
     }		); //    db.operations.findOne({raw:true,where:{key_:'CURRENCIES'}}).then(respcurr=>{      const currencies=JSON.parse(respcurr['value_'])
 
 	LOGGER( {
