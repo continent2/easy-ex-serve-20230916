@@ -268,7 +268,7 @@ router.post ('/social/login' , async (req,res)=>{ 	LOGGER( req.body )  //  let {
 		let jreferer ={}
 		if ( referer ) {
 			let respref = await findone ( 'users' , { myreferercode : referer } )
-			if ( respref ) {		jreferer= { referercode : referer }
+			if ( respref ) {		jreferer= { referercode : referer, parentid : respref?.id , parentuuid : respref?.uuid }
 			}
 			else {  }
 		} else {}
@@ -360,8 +360,8 @@ router.post("/join", (req, res) => {
 
 		let jreferer ={}
 		if ( referer ) {
-			let respref = await findone ( 'users' , { myreferercode : referer } )
-			if ( respref ) {		jreferer= { referercode : referer }
+			let respref = await findone ( 'users' , { myreferercode : referer } )	 //			if ( resp ref ) {		jreferer= { referercode : referer }
+			if ( respref ) {		jreferer= { referercode : referer, parentid : respref?.id , parentuuid : respref?.uuid }
 			}
 			else {  }
 		} else {}

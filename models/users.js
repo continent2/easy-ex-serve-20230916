@@ -166,6 +166,14 @@ module.exports = function(sequelize, DataTypes) {
     issocial: {
       type: DataTypes.INTEGER(4),
       allowNull: true
+    },
+    parentid: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
+    parentuuid: {
+      type: DataTypes.STRING(80),
+      allowNull: true
     }
   }, {
     sequelize,
