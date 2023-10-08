@@ -177,9 +177,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     exchangerate: {
-      type: DataTypes.STRING(30),
-      allowNull: true,
-      comment: 'base 1:quote_s equivalent amt'
+      type: DataTypes.STRING(50),
+      allowNull: true
     },
     withdrawaccount: {
       type: DataTypes.STRING(200),

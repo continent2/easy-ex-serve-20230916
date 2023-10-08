@@ -174,6 +174,10 @@ module.exports = function(sequelize, DataTypes) {
     parentuuid: {
       type: DataTypes.STRING(80),
       allowNull: true
+    },
+    uselevel: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -181,12 +181,92 @@ const getrowforpair=async({ quote,base})=>{
 	return resp
 }
 const ISFINITE = Number.isFinite
-router.get ( '/quote' , async ( req,res)=>{
+const get_logos=async _=>{
+	let list = await findall ( 'tokens' , { active : 1 } )
+	let jsymbol_logo = {}
+	let N = list?.length
+	for ( let idx = 0 ; idx < N ; idx ++ ){
+		let { symbol , urllogo } = list[idx]
+		jsymbol_logo[ symbol ] = urllogo	
+	}
+	return jsymbol_logo
+}
+router.get ( '/pairs/:typestr' , async ( req, res )=>{
+	let { typestr } = req.params
+	let jtype ={}
+	switch ( typestr ) {
+		case 'CF' :
+		case 'FC' : jtype = { typestr }
+		break
+		case '_' : 
+		break  
+		default : resperr ( res, messages.MSG_ARGINVALID ) ; return 
+		break
+	}
+	let list = await findall ( 'pairs' , { active : 1 , ... jtype } )
+	let abq = [] , jbq={}
+	let N = list?.length
+	let jlogos = await get_logos ()
+
+	for ( let idx = 0 ; idx<N ; idx ++ ){
+		let row = list [ idx ]
+		let { base , quote , tickersymbol } = row
+		row [ 'urllogobase' ] = jlogos[ base ]
+		row [ 'urllogoquote'] = jlogos[ quote]
+	}
+	for ( let idx =  0; idx < N ; idx ++ ){
+		let row = list [ idx ]
+		let { base , quote , tickersymbol } = row
+		if ( jbq[ base] ) {
+		} else { jbq[ base ] = {} 
+		}
+		jbq[ base ] [ quote ] = row	
+	}
+/** 	for ( let idx =0 ; idx < N ; idx ++ ) {
+		let row = list [ idx ]
+		let { base , quote , tickersymbol } = row
+		list [ idx].urllogobase = jlogos[ base ] 
+		list [ idx].urllogoquote= jlogos[ quote] 
+		jbq[ base ] [quote ].
+	} */
+	respok ( res, null,null, { 
+		list , 
+		jbase_quote : jbq , 
+		payload : { count : N }  } )
+})
+/**      quote: KRW
+           base: USDT
+     fromamount: 1
+       toamount: 1329.93
+   exchangerate: 1329.93
+      fixedrate: 1329.93
+isusedfixedrate: NULL
+         active: 1
+        typestr: CF
+           uuid: 0c2df1f0-51ee-5ee1-baed-c8a1e0c3fcc9
+*/
+const AES = require("crypto-js/aes");
+const STRINGER = JSON.stringify
+const ENCKEY_QUOTESIG  = 'BfM58d'
+
+router.post ( '/test/decrypt' , async ( req,res)=>{
+	let { quotesignature } = req.body
+	if ( quotesignature ) {}
+	else { resperr ( res, messages.MSG_ARGMISSING ) ; return } 
+	try {	let strdecrypted = AES.decrypt ( quotesignature , ENCKEY_QUOTESIG ).toString ( cryptojs.enc.Utf8 )
+		let jdecrypted = PARSER (strdecrypted ) ; LOGGER( { jdecrypted } )
+		respok ( res, null,null , { ... jdecrypted } ) 
+		return 
+	} catch ( err ) {
+		resperr ( res, messages.MSG_ARGINVALID ) ; return }
+	})
+router.get ( '/quote' , async ( req,res)=>{LOGGER(req?.query )
 	let { quote , base, amount } = req.query
 	if ( quote && base ) {}
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
 	if ( amount ){}
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
+	let fromamount_input = '' + amount 
 	amount = +amount
 	if ( ISFINITE( amount)){}
 	else { resperr ( res, messages.MSG_ARGINVALID ) ; return }
@@ -194,72 +274,50 @@ router.get ( '/quote' , async ( req,res)=>{
 	let resprate = await getrowforpair ( { quote , base } )
 	if ( resprate ) {}
 	else { resperr ( res, messages.MSG_DATANOTFOUND ) ; return }
-	let toamount = amount * resprate?.value 
+	let toamount = amount * +resprate?.value 
 	LOGGER( {resprate })
 	let respfee = await findone ( 'settings' , { key_:'FEE-RATE', active : 1 } )
 	if ( respfee && respfee?.value_ ) {}
 	else { resperr ( res, messages.MSG_DATANOTFOUND ); return }
 
-	let feeamount =  toamount * +respfee?.value_ / 100 
-	toamount -= feeamount
-	let quotesignature = generaterandomhex( 100 ) 
+	let feeamount_to =  toamount * +respfee?.value_ / 100 
+	let feeamount_from =  amount * +respfee?.value_ / 100 
+	let fromamount = amount
+
+	fromamount -= feeamount_from
+	toamount -=  feeamount_to
+	let feeamount = feeamount_from
+	fromamount = ''+fromamount 
+	toamount = ''+toamount
+	feeamount = ''+feeamount
+//	let quotesignature = generaterandomhex( 100 ) 
+	let quotesignature = AES.encrypt( STRINGER( { 
+//		timeinsec , 
+	//	price:''+price , 
+		// priceunit:'KLAY' 
+		fromamount : fromamount_input  ,
+		toamount ,
+		feeamount ,
+		base , 
+		quote ,
+	} ), ENCKEY_QUOTESIG ).toString()
+
 	respok ( res, null,null, { respdata: { ... resprate , 
-		toamount , feeamount ,
-		exchangerate : resprate?.value ,
+		base ,
+		quote ,
+		fromamount : fromamount_input ,
+		toamount , 
+		feeamount ,
+		exchangerate : '' + resprate?.value ,
 		quotesignature ,	
 		feeamountunit : base ,
-
 		 feeinfo : respfee } } )
 })
 const ORDER_EXPIRES_IN_SEC_DEF = 3600 // const PARSER = JSON.parse
 const map_typestr = { FC : 1 , CF : 1 }
-/** uuid                   | varchar(80)  
-| active                   | tinyint(4)   
-| feeamount                | varchar(20)  
-| feerate                  | varchar(20)  
-| feerateunit              | varchar(20)  
-| receiveaddress           | varchar(80)  
-| typecode                 | int(10) unsig
-| typestr                  | varchar(40)  
-| auxdata                  | text         
-| txhash                   | varchar(80)  
-| status                   | tinyint(4)   
-| expiry                   | bigint(20)   
-| privatekey               | varchar(80)  
-| useruuid                 | varchar(80)  
-| nettype                  | varchar(40)  
-| expirystr                | varchar(30)  
-| timestampunix            | bigint(20)   
-| timestamppaid            | bigint(20)   
-| timedeliverdue | bigint(20)   
-| issettled                | tinyint(4)   
-| txhashpayout             | varchar(80)  
-| statusint                | int(11)      
-| refundaddress            | varchar(80)  
-| quote                    | varchar(20)  
-| base                     | varchar(20)  
-| expirydur                | bigint(20)   
-| fromamount               | varchar(20)  
-| toamount                 | varchar(20)  
-| bankname                 | varchar(40)  
-| bankaccount              | varchar(40)  
-| banknation               | varchar(20)  
-| bankaccountholder        | varchar(100) 
-| banksender               | text         
-| addressfinal             | varchar(80)  
-| type                     | varchar(40)  
-| requestdepositconfirm    | int(11)      
-| feeamountunit            | varchar(20)  
-| depositamount            | varchar(20)  
-| timestampdeposit         | bigint(20)   
-| exchangerate             | varchar(30)  
-| withdrawaccount          | varchar(200) 
-| wthdrawamount            | varchar(20)  
-| writername               | varchar(40)  
-| writeruuid               | varchar(80)  
-| writerid                 | int(11)      
-| withdrawtypestr          | varchar(60) */
-router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
+const cryptojs = require("crypto-js");
+
+router.post ( '/request-tracknumber' , auth , async ( req,res)=>{ LOGGER(req.body )
 	let { uuid : useruuid } = req?.decoded
 	let { nettype } = req?.query
 	let { quote , 
@@ -278,6 +336,21 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 	else { resperr ( res, messages.MSG_ARGMISSING ) ; return }
 	if ( MAP_FLIP_TYPES[ typestr] ) {}
 	else { resperr ( res, messages.MSG_ARGINVALID ) ; retur }
+
+	let strdecrypted 
+	try {	strdecrypted = AES.decrypt ( quotesignature , ENCKEY_QUOTESIG ).toString ( cryptojs.enc.Utf8 )
+	} catch ( err){
+		resperr ( res, messages.MSG_ARGINVALID , null , { reason : 'quotesignature,signature invalid'}) ; return 
+	}
+	let jdecrypted = PARSER (strdecrypted ) ; LOGGER( { jdecrypted } )
+	if ( 
+		jdecrypted?.fromamount == ''+fromamount &&
+		jdecrypted?.toamount == ''+toamount &&
+		jdecrypted?.feeamount == ''+feeamount &&
+		jdecrypted?.base == ''+base &&
+		jdecrypted?.quote == ''+quote 
+	) {}
+	else { resperr (res , messages.MSG_ARGINVALID , null, { reason : 'quotesignature,decrypted field mismatches' } ) ; return }
 	let uuid = create_a_uuid ( )
 	let receiveacct = {}, receivebank = {}
 
@@ -326,7 +399,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 ,		expirystr // : moment.unix ( expiry ).format('YYYY-MM-DDTHH:mm:ss')
 ,		 useruuid 
 ,		 nettype : nettype || req?.decoded?.nettype  
-,		 timestamp : moment().unix()
+,		 timestampunix : moment().unix()
 // ,		 timestamp
 //,		 timestamp
 ,		 issettled : 0
@@ -353,11 +426,12 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{
 		expirystr ,
 		expirydur ,
 		uuid ,
-		address : receiveacct?.address ,
+		address : receiveacct?.address || null ,
+		receiveaddress : receiveacct?.address || null ,
 		receivebank : receivebank || null //  
 //		receivebank : ( receivebank? PARSER ( receivebank  ) : null ) 
 	}} )
-})
+}) // request-tracknumber
 /** 
 	uuid                     | varchar(80)      | YES  | MUL | NULL                |                               |
 ,		 active                   | tinyint(4)       | YES  |     | NULL                |                               |
@@ -425,4 +499,50 @@ fromamount: 1
 });
 */
 
+/** uuid                   | varchar(80)  
+| active                   | tinyint(4)   
+| feeamount                | varchar(20)  
+| feerate                  | varchar(20)  
+| feerateunit              | varchar(20)  
+| receiveaddress           | varchar(80)  
+| typecode                 | int(10) unsig
+| typestr                  | varchar(40)  
+| auxdata                  | text         
+| txhash                   | varchar(80)  
+| status                   | tinyint(4)   
+| expiry                   | bigint(20)   
+| privatekey               | varchar(80)  
+| useruuid                 | varchar(80)  
+| nettype                  | varchar(40)  
+| expirystr                | varchar(30)  
+| timestampunix            | bigint(20)   
+| timestamppaid            | bigint(20)   
+| timedeliverdue | bigint(20)   
+| issettled                | tinyint(4)   
+| txhashpayout             | varchar(80)  
+| statusint                | int(11)      
+| refundaddress            | varchar(80)  
+| quote                    | varchar(20)  
+| base                     | varchar(20)  
+| expirydur                | bigint(20)   
+| fromamount               | varchar(20)  
+| toamount                 | varchar(20)  
+| bankname                 | varchar(40)  
+| bankaccount              | varchar(40)  
+| banknation               | varchar(20)  
+| bankaccountholder        | varchar(100) 
+| banksender               | text         
+| addressfinal             | varchar(80)  
+| type                     | varchar(40)  
+| requestdepositconfirm    | int(11)      
+| feeamountunit            | varchar(20)  
+| depositamount            | varchar(20)  
+| timestampdeposit         | bigint(20)   
+| exchangerate             | varchar(30)  
+| withdrawaccount          | varchar(200) 
+| wthdrawamount            | varchar(20)  
+| writername               | varchar(40)  
+| writeruuid               | varchar(80)  
+| writerid                 | int(11)      
+| withdrawtypestr          | varchar(60) */
 

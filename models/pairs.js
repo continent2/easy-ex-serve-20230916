@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     exchangerate: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(50),
       allowNull: true
     },
     fixedrate: {
@@ -56,6 +56,18 @@ module.exports = function(sequelize, DataTypes) {
     },
     uuid: {
       type: DataTypes.STRING(80),
+      allowNull: true
+    },
+    tickersymbol: {
+      type: DataTypes.STRING(40),
+      allowNull: true
+    },
+    urllogobase: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    urllogoquote: {
+      type: DataTypes.STRING(100),
       allowNull: true
     }
   }, {

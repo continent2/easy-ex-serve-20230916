@@ -567,6 +567,8 @@ let list_00 = await      db[tablename]
           order: [[orderkey, orderval]],
         })
 		let count = await countrows_scalar(tablename, jfilter);
+		respok ( res, null,null, { list : list_00 , payload : { count  } } )
+	return  
 		if ( tablename == 'sales' ) {
 			let aproms=[]
 			for ( let idx = 0 ; idx < list_00.length ; idx ++ ) { let sale = list_00[ idx ]
@@ -579,11 +581,11 @@ let list_00 = await      db[tablename]
 		}
 
 		if ( tablename == 'orders' ) {	let N = list_00?.length
-			let aproms=[]
-			for ( let idx = 0 ; idx< N ; idx ++ ){let order= list_00[ idx ]
-				aproms [ aproms.length ] = findone ( 'mines' , { uuid : order?.uuid } )
-			}
-			let amines = await Promise.all ( aproms )
+//			let aproms=[]
+	//		for ( let idx = 0 ; idx< N ; idx ++ ){let order= list_00[ idx ]
+		//		aproms [ aproms.length ] = findone ( 'mines' , { uuid : order?.uuid } )
+//			}
+	//		let amines = await Promise.all ( aproms )
 			let aprog=[]
 			let {  unix : timenow } = gettime() 
 
