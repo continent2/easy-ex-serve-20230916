@@ -214,6 +214,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     isdeleted: {
       type: DataTypes.INTEGER(4),
+      allowNull: true,
+      defaultValue: 0
+    },
+    timestampdeliver: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    timestrdeliver: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    },
+    receivebank: {
+      type: DataTypes.STRING(300),
       allowNull: true
     }
   }, {

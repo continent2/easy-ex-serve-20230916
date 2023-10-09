@@ -69,6 +69,18 @@ module.exports = function(sequelize, DataTypes) {
     urllogoquote: {
       type: DataTypes.STRING(100),
       allowNull: true
+    },
+    minfromamount: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    },
+    fromamountprecision: {
+      type: DataTypes.INTEGER(4),
+      allowNull: true
+    },
+    toamountprecision: {
+      type: DataTypes.INTEGER(4),
+      allowNull: true
     }
   }, {
     sequelize,

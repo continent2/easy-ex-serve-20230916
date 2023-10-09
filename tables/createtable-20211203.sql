@@ -1,4 +1,38 @@
 
+insert into tokens (name, symbol,decimals,address ,active,nettype,istoken,urllogo,uuid,typestr,typecf )
+ values ( 'USDT', 'USDT', 18 , '0xf96585E17750CeF1ed959846bfEE9983ef96A324',1,'ETH-TESTNET', 1,  
+'https://easychange1.co/assets/USDT.png',uuid(), 1,'C' ) ;
+
+
+insert into tokens (name, symbol,decimals,address ,active,nettype,istoken,urllogo,uuid,typestr,typecf )
+ values ( 'ETH', 'ETH', 18 , '0x0000000000000000000000000000000000000000',1,'ETH-TESTNET', 0, 
+'https://easychange1.co/assets/ETH.png',uuid(), 2,'C' ) ;
+
+
+tokens where id =1 \G
+*************************** 1. row ***************************
+          id: 1
+   createdat: 2023-09-17 08:10:08
+   updatedat: 2023-10-01 13:57:16
+        name: USDT
+      symbol: USDT
+    decimals: 6
+     address: 0xdAC17F958D2ee523a2206206994597C13D831ec7
+      writer: NULL
+      active: 1
+     nettype: ETH-MAINNET
+     istoken: 1
+     urllogo: https://easychange1.co/assets/USDT.png
+   isdefault: NULL
+        uuid: 9dab32d7-5531-11ee-9c8b-02995df8be60
+    deployer: NULL
+isadminadded: NULL
+ totalsupply: NULL
+     typestr: 1
+      nation: NULL
+      typecf: C
+
+
 CREATE TABLE `pairs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `createdat` datetime DEFAULT current_timestamp(),

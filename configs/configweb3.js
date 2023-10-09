@@ -1,6 +1,9 @@
 
 const Web3=require('web3')
 let jweb3 = {}
+
+jweb3 [ 'TESTNET' ] = require('./configweb3-sepolia').web3
+jweb3 [ 'ETH-TESTNET' ] = require('./configweb3-sepolia').web3
 jweb3 [ 'SEPOLIA-TESTNET'] = require('./configweb3-sepolia').web3
 jweb3 [ 'SEPOLIA_TESTNET'] = require('./configweb3-sepolia').web3
 // let web3 = jweb3 [ 'SEPOLIA_TESTNET'] 

@@ -114,7 +114,8 @@ const invalidate_order = async ({ order }) =>{
 	await updaterow ( 'orders' , { id : order?.id } , { active: 0 , status : 4 
 		, statusstr  :'EXPIRED'
 	} ) 
-} 
+}
+const Web3= require('web3') 
 const track_balance_crypto=async _=>{
 	let list = await findall ( 'orders' , { active : 1 , status : 0 , typestr: 'CF' 
 	} )
@@ -126,7 +127,7 @@ const track_balance_crypto=async _=>{
 		else { LOGGER( `!!! token not defined ${ order }` ) ;  continue }
 		let resp = await querybalance ( { nettype : order?.nettype , contractaddress : resptoken?.address , useraddress : order?.receiveaddress })
 		let amountin 
-		let timenow = gettime().unix()
+		let timenow = gettime().unix
 		if ( resp && ( amountin = Web3.utils.fromWei ( ''+ resp ) ) ) {
 			if ( +amountin >= +order?.fromamount ) {
 		
@@ -274,6 +275,12 @@ router.get ( '/quote' , async ( req,res)=>{LOGGER(req?.query )
 	let resprate = await getrowforpair ( { quote , base } )
 	if ( resprate ) {}
 	else { resperr ( res, messages.MSG_DATANOTFOUND ) ; return }
+
+	let resppair = await findone ( 'pairs', { base,quote ,active: 1 } )
+	if  ( resppair ) {}
+	else { resperr( res, messages.MSG_DATANOTFOUND, null ,{ reason: 'pair not defined' } ) ; return }
+
+	let { toamountprecision } = resppair 
 	let toamount = amount * +resprate?.value 
 	LOGGER( {resprate })
 	let respfee = await findone ( 'settings' , { key_:'FEE-RATE', active : 1 } )
@@ -288,7 +295,7 @@ router.get ( '/quote' , async ( req,res)=>{LOGGER(req?.query )
 	toamount -=  feeamount_to
 	let feeamount = feeamount_from
 	fromamount = ''+fromamount 
-	toamount = ''+toamount
+	toamount = ''+ toamount.toFixed( toamountprecision ) 
 	feeamount = ''+feeamount
 //	let quotesignature = generaterandomhex( 100 ) 
 	let quotesignature = AES.encrypt( STRINGER( { 
@@ -352,7 +359,8 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{ LOGGER(req.bod
 	) {}
 	else { resperr (res , messages.MSG_ARGINVALID , null, { reason : 'quotesignature,decrypted field mismatches' } ) ; return }
 	let uuid = create_a_uuid ( )
-	let receiveacct = {}, receivebank = {}
+	let receiveacct = {}
+	let  receivebank = null // = {}
 
 	let expirydur = ORDER_EXPIRES_IN_SEC_DEF
 	let respexp = await findone ( 'settings', { active : 1 , key_:'ORDER-EXPIRES-IN-SEC' , subkey_ : typestr } )
@@ -385,7 +393,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{ LOGGER(req.bod
 	let resp = await createrow	( 'orders',{ 
 //		feerate ,
 	uuid     
-,		 active : 1 
+,		 active : 1 , status : 0  
 ,		 feeamount
 // ,		 feerate  
 // ,		 feerateun
@@ -412,7 +420,7 @@ router.post ( '/request-tracknumber' , auth , async ( req,res)=>{ LOGGER(req.bod
 //	,		 receiveaddress
 //	,		 privatekey
 ,	... receiveacct
-, ... receivebank
+, receivebank
 	, fromamount
 	, toamount
 	, ... bank
