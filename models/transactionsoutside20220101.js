@@ -1,8 +1,8 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('notifies', {
-    id: {
+  return sequelize.define('transactionsoutside20220101', {
+    no: {
       autoIncrement: true,
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
@@ -17,48 +17,48 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
-    writer: {
-      type: DataTypes.STRING(80),
+    removed: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    title: {
-      type: DataTypes.STRING(100),
+    logIndex: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    contentbody: {
-      type: DataTypes.STRING(1000),
+    transactionIndex: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    uuid: {
-      type: DataTypes.STRING(60),
+    transactionHash: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    type: {
-      type: DataTypes.STRING(40),
+    blockHash: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    typestr: {
-      type: DataTypes.STRING(40),
+    blockNumber: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    iscommon: {
-      type: DataTypes.INTEGER(4),
+    address: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    timestamp: {
-      type: DataTypes.BIGINT,
+    data: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    useruuid: {
-      type: DataTypes.STRING(80),
+    topics: {
+      type: DataTypes.STRING(300),
       allowNull: true
     },
-    active: {
-      type: DataTypes.INTEGER(4),
+    id: {
+      type: DataTypes.STRING(300),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'notifies'
+    tableName: 'transactionsoutside20220101'
   });
 };

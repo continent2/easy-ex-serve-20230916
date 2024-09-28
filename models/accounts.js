@@ -46,11 +46,6 @@ module.exports = function(sequelize, DataTypes) {
     useruuid: {
       type: DataTypes.STRING(80),
       allowNull: true
-    },
-    active: {
-      type: DataTypes.INTEGER(4),
-      allowNull: true,
-      defaultValue: 1
     }
   }, {
     sequelize,

@@ -228,6 +228,10 @@ module.exports = function(sequelize, DataTypes) {
     receivebank: {
       type: DataTypes.STRING(300),
       allowNull: true
+    },
+    basenet: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -99,13 +99,9 @@ router.get("/history/eth/:address/:pageNum/:pageSize", (req, res) => {
 router.get("/history/metaplanet/:address/:pageNum/:pageSize", (req, res) => {
   const { address, pageNum, pageSize } = req.params;
   getMetaplanetRecode(address, pageNum, pageSize).then((resp) => {
-    respok(res, null, null, {
-      payload: {
-        getData: resp,
-      },
-    });
+    respok(res, '__HELLO__');
   });
-});
+})
 /**** router.get('/polygon',(req,res)=>{
 //	const { date1, date2 } = req.params;
 	getPolygon().then(resp=>{

@@ -5,7 +5,8 @@
     "password": "9Lhe9WsuecHJnkytP7Vv"
     , "database":"easyex"
     , "dialect": "mariadb"
-		, "port" : "34823"
+		, "port" : "3306"
+    ,   "logging" : false
   }
 }
 

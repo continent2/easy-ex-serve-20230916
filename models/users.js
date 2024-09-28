@@ -126,58 +126,6 @@ module.exports = function(sequelize, DataTypes) {
     note: {
       type: DataTypes.STRING(1000),
       allowNull: true
-    },
-    preferrednetwork: {
-      type: DataTypes.STRING(40),
-      allowNull: true
-    },
-    useruuid: {
-      type: DataTypes.STRING(80),
-      allowNull: true
-    },
-    urlimage: {
-      type: DataTypes.STRING(400),
-      allowNull: true
-    },
-    phonecountrycode2letter: {
-      type: DataTypes.STRING(20),
-      allowNull: true
-    },
-    phonenationalnumber: {
-      type: DataTypes.STRING(20),
-      allowNull: true
-    },
-    language: {
-      type: DataTypes.STRING(10),
-      allowNull: true
-    },
-    isskipcreatetutorial: {
-      type: DataTypes.INTEGER(4),
-      allowNull: true
-    },
-    socialid: {
-      type: DataTypes.STRING(20),
-      allowNull: true
-    },
-    socialprovider: {
-      type: DataTypes.STRING(20),
-      allowNull: true
-    },
-    issocial: {
-      type: DataTypes.INTEGER(4),
-      allowNull: true
-    },
-    parentid: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
-    },
-    parentuuid: {
-      type: DataTypes.STRING(80),
-      allowNull: true
-    },
-    uselevel: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
     }
   }, {
     sequelize,

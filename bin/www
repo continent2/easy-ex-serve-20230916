@@ -59,9 +59,12 @@ function normalizePort(val) {
 const server_https = https
   .createServer(
     {
-     key: fs.readFileSync('/etc/nginx/ssl/easychange1.co/easychange1.co.key').toString()
-,    cert:fs.readFileSync('/etc/nginx/ssl/easychange1.co/easychange1.co.crt').toString()
-    },
+//      key: fs.readFileSync('/etc/nginx/ssl/easychange1.co/easychange1.co.key').toString()
+// ,    cert:fs.readFileSync('/etc/nginx/ssl/easychange1.co/easychange1.co.crt').toString()
+ key: fs.readFileSync('/home/cheny/works/easy-ex-serve-20230916/bin/easychange1.co.key').toString()
+,cert:fs.readFileSync('/home/cheny/works/easy-ex-serve-20230916/bin/easychange1.co.crt').toString()
+
+},
     app
   )
   .listen( PORT + 10 );

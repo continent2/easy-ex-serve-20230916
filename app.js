@@ -15,7 +15,7 @@ const queries02router = require('./routes/queries02')
 const queries03router = require('./routes/queries03')
 const usersrouter = require('./routes/users');
 const exchangesrouter= require('./routes/exchanges')
-
+const hellorouter = require ( './routes/hello')
 const cors=require('cors')
 var app = express();
 const wrap = asyncFn => {
@@ -64,6 +64,7 @@ app.use('/queries02', queries02router )
 app.use('/queries03', queries03router ) 
 app.use('/admin', adminrouter)
 app.use('/exchanges', exchangesrouter)
+app.use('/hello', hellorouter )
 /** 
 app.use('/tickers', tickersrouter);
 app.use('/balances', balancesrouter);

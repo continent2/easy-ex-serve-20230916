@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('settings', {
+  return sequelize.define('emailverifycode', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER(10).UNSIGNED,
@@ -17,28 +17,20 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
-    key_: {
+    emailaddress: {
       type: DataTypes.STRING(100),
       allowNull: true
     },
-    value_: {
-      type: DataTypes.STRING(2000),
+    lastupdate: {
+      type: DataTypes.STRING(30),
       allowNull: true
     },
-    subkey_: {
-      type: DataTypes.STRING(100),
-      allowNull: true
-    },
-    data: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    active: {
-      type: DataTypes.INTEGER(4),
+    code: {
+      type: DataTypes.STRING(10),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'settings'
+    tableName: 'emailverifycode'
   });
 };

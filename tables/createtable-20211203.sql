@@ -49,7 +49,66 @@ CREATE TABLE `pairs` (
   PRIMARY KEY (`id`)
 );
 
-
+CREATE TABLE `orders` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `createdat` datetime DEFAULT current_timestamp(),
+  `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `uuid` varchar(80) DEFAULT NULL,
+  `active` tinyint(4) DEFAULT NULL,
+  `feeamount` varchar(20) DEFAULT NULL,
+  `feerate` varchar(20) DEFAULT NULL,
+  `feerateunit` varchar(20) DEFAULT NULL,
+  `receiveaddress` varchar(80) DEFAULT NULL,
+  `typecode` int(10) unsigned DEFAULT NULL COMMENT '100 : create, 200 : trade/buy',
+  `typestr` varchar(40) DEFAULT NULL,
+  `auxdata` text DEFAULT NULL,
+  `txhash` varchar(80) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL COMMENT '0:waiting,1:ok,2:fail,3:expired',
+  `expiry` bigint(20) DEFAULT NULL,
+  `privatekey` varchar(80) DEFAULT NULL,
+  `useruuid` varchar(80) DEFAULT NULL,
+  `nettype` varchar(40) DEFAULT NULL,
+  `expirystr` varchar(30) DEFAULT NULL,
+  `timestampunix` bigint(20) DEFAULT NULL,
+  `timestamppaid` bigint(20) DEFAULT NULL,
+  `timedeliverdue` bigint(20) DEFAULT NULL,
+  `issettled` tinyint(4) DEFAULT NULL,
+  `txhashpayout` varchar(80) DEFAULT NULL,
+  `statusint` int(11) DEFAULT -1,
+  `refundaddress` varchar(80) DEFAULT NULL,
+  `quote` varchar(20) DEFAULT NULL,
+  `base` varchar(20) DEFAULT NULL,
+  `expirydur` bigint(20) DEFAULT NULL,
+  `fromamount` varchar(20) DEFAULT NULL,
+  `toamount` varchar(20) DEFAULT NULL,
+  `bankname` varchar(40) DEFAULT NULL,
+  `bankaccount` varchar(40) DEFAULT NULL,
+  `banknation` varchar(20) DEFAULT NULL,
+  `bankaccountholder` varchar(100) DEFAULT NULL,
+  `banksender` text DEFAULT NULL,
+  `addressfinal` varchar(80) DEFAULT NULL,
+  `type` varchar(40) DEFAULT NULL,
+  `requestdepositconfirm` int(11) DEFAULT NULL,
+  `feeamountunit` varchar(20) DEFAULT NULL,
+  `depositamount` varchar(20) DEFAULT NULL,
+  `timestampdeposit` bigint(20) DEFAULT NULL,
+  `exchangerate` varchar(50) DEFAULT NULL,
+  `withdrawaccount` varchar(200) DEFAULT NULL,
+  `wthdrawamount` varchar(20) DEFAULT NULL,
+  `writername` varchar(40) DEFAULT NULL,
+  `writeruuid` varchar(80) DEFAULT NULL,
+  `writerid` int(11) DEFAULT NULL,
+  `withdrawtypestr` varchar(60) DEFAULT NULL,
+  `statusstr` varchar(20) DEFAULT NULL,
+  `durationdeliver` int(11) DEFAULT NULL,
+  `isdeleted` tinyint(4) DEFAULT 0,
+  `timestampdeliver` bigint(20) DEFAULT NULL,
+  `timestrdeliver` varchar(30) DEFAULT NULL,
+  `receivebank` varchar(300) DEFAULT NULL,
+  `basenet` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uuid` (`uuid`)
+);
 
 
   `value` varchar(20) DEFAULT NULL,
@@ -57,6 +116,12 @@ CREATE TABLE `pairs` (
   `toamount` varchar(20) DEFAULT NULL,
   `typestr` varchar(20) DEFAULT NULL COMMENT 'FC:1 , CF:2',
   `source` varchar(20) DEFAULT NULL,
+
+ CREATE TABLE `orders` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `createdat` datetime DEFAULT current_timestamp(),
+  `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  issettled 
 
  CREATE TABLE `admins` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
