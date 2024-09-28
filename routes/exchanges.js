@@ -157,7 +157,7 @@ const track_balance_crypto=async _=>{
 		else { LOGGER('invalid amount' ); }
 	}
 }
-setInterval( async ()=>{
+false && setInterval( async ()=>{
 	track_balance_crypto()
 	
 	setTimeout ( async ()=>{

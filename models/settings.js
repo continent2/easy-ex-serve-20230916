@@ -36,6 +36,22 @@ module.exports = function(sequelize, DataTypes) {
     active: {
       type: DataTypes.INTEGER(4),
       allowNull: true
+    },
+    units: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    min: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    max: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    group_: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,

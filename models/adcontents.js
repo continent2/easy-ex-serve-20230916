@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('sessionkeys', {
+  return sequelize.define('adcontents', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER(10).UNSIGNED,
@@ -17,37 +17,33 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
-    username: {
+    title: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    textbody: {
       type: DataTypes.STRING(200),
       allowNull: true
     },
-    token: {
-      type: DataTypes.TEXT,
+    urlimage: {
+      type: DataTypes.STRING(500),
       allowNull: true
     },
-    ipaddress: {
-      type: DataTypes.STRING(64),
+    writer: {
+      type: DataTypes.STRING(50),
       allowNull: true
     },
-    useragent: {
-      type: DataTypes.STRING(1000),
-      allowNull: true
-    },
-    active: {
-      type: DataTypes.INTEGER(4),
-      allowNull: true,
-      defaultValue: 1
-    },
-    lastactive: {
-      type: DataTypes.STRING(30),
-      allowNull: true
-    },
-    useruuid: {
+    uuid: {
       type: DataTypes.STRING(80),
       allowNull: true
+    },
+    typestr: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      comment: '1:fat,2:tall'
     }
   }, {
     sequelize,
-    tableName: 'sessionkeys'
+    tableName: 'adcontents'
   });
 };

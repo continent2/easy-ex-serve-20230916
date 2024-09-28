@@ -81,6 +81,14 @@ module.exports = function(sequelize, DataTypes) {
     toamountprecision: {
       type: DataTypes.INTEGER(4),
       allowNull: true
+    },
+    frombasenet: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    tobasenet: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,

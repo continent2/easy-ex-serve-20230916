@@ -307,7 +307,8 @@ router.post ('/social/login' , async (req,res)=>{ 	LOGGER( req.body )  //  let {
 })
 
 router.post("/join", (req, res) => {
-  let {    username,
+  let {    
+    username,
     nickname,
     pw,
     // email,
@@ -401,7 +402,7 @@ router.post("/join", (req, res) => {
     let respsession = await createrow("sessionkeys", {
       username,
       token : token?.token ,
-      useragent: getuseragent(req).substr(0, 900),
+//      useragent: getuseragent(req).substr(0, 900),
       ipaddress : getipaddress(req),
 			useruuid : respuser?.dataValues?.uuid
     }) 
@@ -705,7 +706,7 @@ router.get("/email/verifycode/:emailaddress", (req, res) => {
 router.post("/login", async (req, res) => { 
 //  const { useri name, pw } = req.body;
   let { phonenumber,		phonecountrycode2letter , phonenationalnumber ,pw, code } = req.body;
-  LOGGER("m9m9hptxoA", req.body); // log gerwin.info ( req.body )//  respok(res);return //  if (us ername && pw) {  } 
+  LOGGER("m9m9hptxoA", req.body ); // log gerwin.info ( req.body )//  respok(res);return //  if (us ername && pw) {  } 
 
 	phonenumber = get_normal_phonenumber ( req?.body ) 
 	if ( phonenumber ) {}
