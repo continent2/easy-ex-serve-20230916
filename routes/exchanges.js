@@ -248,7 +248,7 @@ isusedfixedrate: NULL
 */
 const AES = require("crypto-js/aes");
 const STRINGER = JSON.stringify
-const ENCKEY_QUOTESIG  = 'BfM58d'
+const { ENCKEY_QUOTESIG }   =  require( '../configs/keys' ) // 'BfM58d'
 
 router.post ( '/test/decrypt' , async ( req,res)=>{
 	let { quotesignature } = req.body
@@ -261,6 +261,7 @@ router.post ( '/test/decrypt' , async ( req,res)=>{
 	} catch ( err ) {
 		resperr ( res, messages.MSG_ARGINVALID ) ; return }
 	})
+
 router.get ( '/quote' , async ( req,res)=>{LOGGER(req?.query )
 	let { quote , base, amount } = req.query
 	if ( quote && base ) {}
@@ -297,6 +298,12 @@ router.get ( '/quote' , async ( req,res)=>{LOGGER(req?.query )
 	fromamount = ''+fromamount 
 	toamount = ''+ toamount.toFixed( toamountprecision ) 
 	feeamount = ''+feeamount
+	let quoteexpiresinsec = 60*60
+	let respquoteexpire = await findone ( 'settings' , { key_ : 'QUOTE-EXPIRES-IN-SEC' , active : 1 } )
+	if ( respquoteexpire && ISFINITE ( +respquoteexpire?.value_ ) ){ quoteexpiresinsec = +respquoteexpire?.value_ }
+	else { }
+	let timestamp = moment().unix()
+	let expiry = timestamp + quoteexpiresinsec
 //	let quotesignature = generaterandomhex( 100 ) 
 	let quotesignature = AES.encrypt( STRINGER( { 
 //		timeinsec , 
@@ -307,6 +314,7 @@ router.get ( '/quote' , async ( req,res)=>{LOGGER(req?.query )
 		feeamount ,
 		base , 
 		quote ,
+		expiry
 	} ), ENCKEY_QUOTESIG ).toString()
 
 	respok ( res, null,null, { respdata: { ... resprate , 
@@ -318,7 +326,9 @@ router.get ( '/quote' , async ( req,res)=>{LOGGER(req?.query )
 		exchangerate : '' + resprate?.value ,
 		quotesignature ,	
 		feeamountunit : base ,
-		 feeinfo : respfee } } )
+		feeinfo : respfee ,
+		expiry
+	} } )
 })
 const ORDER_EXPIRES_IN_SEC_DEF = 3600 // const PARSER = JSON.parse
 const map_typestr = { FC : 1 , CF : 1 }

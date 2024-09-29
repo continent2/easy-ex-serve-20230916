@@ -112,11 +112,15 @@ router.put('/row/:tablename/:fieldname/:fieldval', (req,res)=>{
 })
 router.get('/rows/:tablename/:fieldname/:fieldval' , (req,res)=>{
 	let { tablename , fieldname , fieldval }=req.params
+	let jquery = req?.query
 	fieldexists (tablename, fieldname).then(resp=>{
 		if(resp){}
 		else {resperr( res, messages.MSG_FIELDNOTFOUND); return }
 		let jfilter ={}
 		jfilter [ fieldname ]= fieldval
+		if ( jquery && Object.keys (jquery ).length ){
+			jfilter = { ... jfilter , ... jquery }
+		}
 		findall( tablename , { ... jfilter} ).then(list =>{
 			if (resp){} 
 			else {} // resperr( res, messages.MSG_DATANOTFOUND); return }

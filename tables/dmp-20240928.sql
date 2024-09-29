@@ -19,6 +19,13 @@ CREATE TABLE `useraccounts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `createdat` datetime DEFAULT current_timestamp(),
   `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+
+) ;
+
+CREATE TABLE `useraccounts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `createdat` datetime DEFAULT current_timestamp(),
+  `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp(),
   `username` varchar(80) DEFAULT NULL,
   `address` varchar(80) DEFAULT NULL,
   `privatekey` varchar(100) DEFAULT NULL,

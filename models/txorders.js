@@ -232,6 +232,20 @@ module.exports = function(sequelize, DataTypes) {
     basenet: {
       type: DataTypes.STRING(20),
       allowNull: true
+    },
+    fromdata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: 'sender data'
+    },
+    todata: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: 'receiver data'
+    },
+    quotesignature: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     sequelize,

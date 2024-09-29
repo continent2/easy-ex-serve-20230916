@@ -60,6 +60,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: true,
       comment: 'FIAT,CRYPTO'
+    },
+    symbol: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    balancefloat: {
+      type: DataTypes.DOUBLE,
+      allowNull: true
+    },
+    balancestr: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,

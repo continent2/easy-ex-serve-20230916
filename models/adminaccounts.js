@@ -58,6 +58,24 @@ module.exports = function(sequelize, DataTypes) {
     urllogo: {
       type: DataTypes.STRING(100),
       allowNull: true
+    },
+    address: {
+      type: DataTypes.STRING(60),
+      allowNull: true
+    },
+    cryptosymbol: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    nettype: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      comment: 'mainnet,testnet'
+    },
+    typecf: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      comment: 'C:crypto, F:fiat'
     }
   }, {
     sequelize,
