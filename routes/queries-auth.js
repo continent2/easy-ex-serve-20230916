@@ -558,7 +558,7 @@ router.get( '/rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:ord
 					{ iscommon : 1 } 
 				] }
 			}
-let list_00 = await      db[tablename]
+let list_00 = await      db[tablename ]
         .findAll({
           raw: true,
           where: { ...jfilter },

@@ -17,7 +17,12 @@ const { ispositivefloat } =require('../utils/validates')
 const { abierc20 } = require( '../contracts/abi/erc20' )  // const Tx= require('ethereumjs-tx' ).Transaction // const Tx= require('ethereumjs-common' ).Transaction// const Tx= require('ethereumjs-common' )
 const STRINGER = JSON.stringify
 const LOGGER=console.log
-
+const MAP_ORDER_STATUS = {
+  WAITING : 0 ,
+  OK : 1, 
+  FAIL : 2 ,
+  EXPIRED : 3
+}
 const MAP_TYPECF = { c: 1 , C:1 , f:1, F:1 }
 const validate_crypto_withdraw_order = ( { orderpart } )=>{  
 }
@@ -69,7 +74,8 @@ router.post ( '/withdraw', auth , async (req,res)=> {
     fromdata : JSON.stringify ( req?.from ) ,
     todata : JSON.stringify ( req?.to ) , 
     uuid ,
-    expiry : jdecrypted?.expiry
+    expiry : jdecrypted?.expiry , 
+    status : MAP_ORDER_STATUS [ 'WAITING' ] ,
   })
   respok ( res , 'ORDER PLACED' , null , { expiry , uuid , } )
 } )
@@ -125,7 +131,8 @@ router.post ( '/deposit' , auth , async (req,res)=>{
       tobankcode : to?.bankcode  ,
       tobankaccount : to?.account , */
       uuid , 
-      expiry
+      expiry ,
+      status : MAP_ORDER_STATUS [ 'WAITING' ] , // 0
     })
     break
     default : 
