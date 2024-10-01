@@ -121,11 +121,15 @@ router.get('/rows/:tablename/:fieldname/:fieldval' , (req,res)=>{
 		if ( jquery && Object.keys (jquery ).length ){
 			jfilter = { ... jfilter , ... jquery }
 		}
-		findall( tablename , { ... jfilter} ).then(list =>{
-			if (resp){} 
-			else {} // resperr( res, messages.MSG_DATANOTFOUND); return }
-			respok ( res, null, null ,{list } )
-		})
+		try { 
+			findall( tablename , { ... jfilter} ).then(list =>{
+				if (resp){} 
+				else {} // resperr( res, messages.MSG_DATANOTFOUND); return }
+				respok ( res, null, null ,{list } )
+			})
+	  } catch (err){
+			resperr( res, messages?.MSG_ARGINVALID ); return 
+		}
 	})
 })
 router.get('/:tablename/:fieldname/:fieldval' , (req,res)=>{
