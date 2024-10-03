@@ -15,6 +15,7 @@ const { jweb3 } = require('../configs/configweb3' )
 const { iszeroaddress , isaddressvalid } =require('../utils/erc20' )
 const { ispositivefloat } =require('../utils/validates')
 const { abierc20 } = require( '../contracts/abi/erc20' )  // const Tx= require('ethereumjs-tx' ).Transaction // const Tx= require('ethereumjs-common' ).Transaction// const Tx= require('ethereumjs-common' )
+const db=require( '../models' )
 const STRINGER = JSON.stringify
 const LOGGER=console.log
 const MAP_ORDER_STATUS = {
@@ -23,7 +24,7 @@ const MAP_ORDER_STATUS = {
   FAIL : 2 ,
   EXPIRED : 3
 }
-const MAP_TYPECF = { c: 1 , C:1 , f:1, F:1 }
+const MAP_TYPECF = { c: 'C' , C:'C' , f:'F', F:'F' }
 const validate_crypto_withdraw_order = ( { orderpart } )=>{  
 }
 const validate_fiat_withdraw_order = ( { orderpart })=>{
@@ -71,8 +72,8 @@ router.post ( '/withdraw', auth , async (req,res)=> {
   let uuid = create_a_uuid()
   await db[ 'txorders' ].create ( { 
     useruuid ,
-    fromdata : JSON.stringify ( req?.from ) ,
-    todata : JSON.stringify ( req?.to ) , 
+    fromdata : JSON.stringify ( req?.body?.from ) ,
+    todata : JSON.stringify ( req?.body?.to ) , 
     uuid ,
     expiry : jdecrypted?.expiry , 
     status : MAP_ORDER_STATUS [ 'WAITING' ] ,
@@ -81,23 +82,22 @@ router.post ( '/withdraw', auth , async (req,res)=> {
 } )
 let EXPIRY_ORDER_DEPOSIT_IN_SEC = 1 * 3600 // an hour
 
-const validate_fiat_deposit_order = async ( { from  , to })=>{
+const validate_fiat_deposit_order = async ( { from  , to })=>{ LOGGER( {from,to})
   if ( from && from?.bankname && from?.bankcode && from?.account && from?.amount ){ }
-  else { return false }
+  else { return {ok:false , code: '10001' }  }
   if ( to && to?.bankname && to?.bankcode && to?.account ){}
-  else { return false }
+  else { return {ok:false , code: '10002' } }
   if ( ISFINITE (+from?.amount ) && +from?.amount > 0 ){ }
-  else { return false }
-  
-  return true 
+  else { return {ok:false , code: '10003' } }  
+  return {ok:true  , code: null }
 }
-const validate_crypto_deposit_order = ( { from , to }) =>{
-  if ( from && from?.address && from?.cryptosymbol && from?.amount  ){}
-  else { return false }
-  if ( to?.address ){}
-  else { return false }
+const validate_crypto_deposit_order = async ( { from , to }) =>{
+  if ( from && from?.symbol && from?.address && from?.amount  ){}
+  else { return {ok: false , code: '10004'}  }
+  if ( to?.symbol && to?.address ){}
+  else { return {ok: false , code: '10005'} }
 
-  return true
+  return { ok : true , code : null} 
 }
 router.post ( '/deposit' , auth , async (req,res)=>{
   let { id : userid , uuid : useruuid } = req.decoded
@@ -106,10 +106,16 @@ router.post ( '/deposit' , auth , async (req,res)=>{
   else { resperr( res, messages.MSG_ARGMISSING ); return }
   switch ( MAP_TYPECF[ typecf ] ){
     case 'F' :
-    case 'f' : if ( validate_fiat_deposit_order ( { from: req?.from , to : req?.to } ) ){} else { resperr(res, messages.MSG_ARGINVALID ) ; return }
+    case 'f' : {
+      let { ok , code } =await validate_fiat_deposit_order ( { from: req?.body?.from , to : req?.body?.to } )
+      if ( ok ){} else { resperr(res, messages.MSG_ARGINVALID , code ) ; return }
+    } 
     break
     case 'C' :
-    case 'c' : if ( validate_crypto_deposit_order ( { from : req?.from , to : req?.to }) ){} else { resperr( res,messages.MSG_ARGINVALID ) ; return }
+    case 'c' : {
+      let { ok , code } = await validate_crypto_deposit_order ( { from : req?.body?.from , to : req?.body?.to })
+      if ( ok ){} else { resperr( res,messages.MSG_ARGINVALID , code ) ; return }
+    } 
     break
     default : resperr ( res , messages?.MSG_ARGINVALID ); return 
     break
@@ -123,8 +129,8 @@ router.post ( '/deposit' , auth , async (req,res)=>{
     case 'C' :
     await db[ 'txorders'].create ( {
       useruuid ,
-      fromdata : JSON.stringify ( req?.from )  ,
-      todata : JSON.stringify ( req?.to ) ,
+      fromdata : JSON.stringify ( req?.body?.from )  ,
+      todata : JSON.stringify ( req?.body?.to ) ,
 /*      frombankname : from?.bankname ,
       frombankcode : from?.bankcode ,
       frombankaccount : from?.account ,
@@ -174,3 +180,4 @@ router.post ( '/deposit/FIAT-ONLY' , auth , async (req,res)=>{
 router.get ( '/deposit/info' , auth , async (req,res ) =>{
   let { id : userid , uuid : useruuid } = req.decoded
 })
+module.exports = router
