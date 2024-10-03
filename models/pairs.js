@@ -89,6 +89,14 @@ module.exports = function(sequelize, DataTypes) {
     tobasenet: {
       type: DataTypes.STRING(20),
       allowNull: true
+    },
+    from: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    to: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,

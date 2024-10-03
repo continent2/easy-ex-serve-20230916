@@ -81,13 +81,14 @@ router.post ( '/withdraw', auth , async (req,res)=> {
 } )
 let EXPIRY_ORDER_DEPOSIT_IN_SEC = 1 * 3600 // an hour
 
-const validate_fiat_deposit_order = ( { from  , to })=>{
+const validate_fiat_deposit_order = async ( { from  , to })=>{
   if ( from && from?.bankname && from?.bankcode && from?.account && from?.amount ){ }
   else { return false }
   if ( to && to?.bankname && to?.bankcode && to?.account ){}
   else { return false }
   if ( ISFINITE (+from?.amount ) && +from?.amount > 0 ){ }
   else { return false }
+  
   return true 
 }
 const validate_crypto_deposit_order = ( { from , to }) =>{
@@ -95,6 +96,7 @@ const validate_crypto_deposit_order = ( { from , to }) =>{
   else { return false }
   if ( to?.address ){}
   else { return false }
+
   return true
 }
 router.post ( '/deposit' , auth , async (req,res)=>{

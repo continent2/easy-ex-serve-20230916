@@ -63,7 +63,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(60),
       allowNull: true
     },
-    cryptosymbol: {
+    symbol: {
       type: DataTypes.STRING(20),
       allowNull: true
     },
@@ -76,6 +76,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: true,
       comment: 'C:crypto, F:fiat'
+    },
+    code: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,

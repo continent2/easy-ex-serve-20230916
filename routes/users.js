@@ -707,21 +707,15 @@ router.post("/login", async (req, res) => {
 //  const { useri name, pw } = req.body;
   let { phonenumber,		phonecountrycode2letter , phonenationalnumber ,pw, code } = req.body;
   LOGGER("m9m9hptxoA", req.body ); // log gerwin.info ( req.body )//  respok(res);return //  if (us ername && pw) {  } 
-
-	phonenumber = get_normal_phonenumber ( req?.body ) 
-	if ( phonenumber ) {}
-	else { resperr ( res , messages.MSG_ARGMISSING , null , { reason : 'PLEASE-SPECIFY-phonenationalnumber-AND-phonecountry2letter-OR-phonenumber' } ) ; return }
-
-  if ( pw || code ) {  } 
-	else {    resperr(res, messages.MSG_ARGMISSING, null , { reason : 'pw or code'} );
-    return;
-  }   //  let isaddressvalid = WAValidator.validate(address , cryptotype.toLowerCase() ) //  if(isaddressvalid){} else {   resperr(res , messaegs.MSG_ARGINVALID);return  //  }
-	let { nettype } =req.query
-//	if ( nettype ){} else { resperr( res, 'NETTYPE-NOT-SPECIFIED' ) ; return }
-	if ( nettype ){} else { resperr( res, messages.MSG_NETTYPE_NOT_SPECIFIED ) ; return }
-	let NETTYPE = nettype 
-//  let respuser = await findone("users", { use rname, pw , pwhash : sha256(pw) , nettype }) // .then(async (resp) => {
   let respuser
+  let { nettype } =req.query
+  //	if ( nettype ){} else { resperr( res, 'NETTYPE-NOT-SPECIFIED' ) ; return }
+  if ( nettype ){} else { resperr( res, messages.MSG_NETTYPE_NOT_SPECIFIED ) ; return }
+  let NETTYPE = nettype 
+  phonenumber = get_normal_phonenumber ( req?.body ) 
+  if ( phonenumber ) {}
+  else { resperr ( res , messages.MSG_ARGMISSING , null , { reason : 'PLEASE-SPECIFY-phonenationalnumber-AND-phonecountry2letter-OR-phonenumber' } ) ; return }  
+  
 	if ( pw ) {		respuser = 	 await findone("users", { phonenumber , pw , nettype } )
 	}
 	else if ( code ) {
@@ -730,8 +724,15 @@ router.post("/login", async (req, res) => {
 		else { resperr ( res, messages.MSG_ARGINVALID ) ; return }
 		respuser = 	 await findone("users", { phonenumber ,  nettype } )
 	}
-	else { resperr ( res,messages.MSG_ARGMISSING ) ; return 
+	else { resperr ( res,messages.MSG_ARGMISSING , '10001' ) ; return 
 	}
+
+  if ( pw || code ) {  } 
+	else {    resperr(res, messages.MSG_ARGMISSING, '10002' , { reason : 'pw or code'} );
+    return;
+  }   //  let isaddressvalid = WAValidator.validate(address , cryptotype.toLowerCase() ) //  if(isaddressvalid){} else {   resperr(res , messaegs.MSG_ARGINVALID);return  //  }
+//  let respuser = await findone("users", { use rname, pw , pwhash : sha256(pw) , nettype }) // .then(async (resp) => {
+  
 //pwhash : sha256(pw) ,
   // .then(async (resp) => {
     if (respuser ) {
@@ -762,7 +763,7 @@ router.post("/login", async (req, res) => {
     let respsession = await createrow("sessionkeys", {
       username : phonenumber ,
       token : token?.token ,
-      useragent: getuseragent(req).substr(0, 900),
+//      useragent: getuseragent(req).substr(0, 900),
       ipaddress,
 			useruuid 
     }) // .then(async (resp) => {

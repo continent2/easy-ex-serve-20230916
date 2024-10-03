@@ -88,6 +88,22 @@ module.exports = function(sequelize, DataTypes) {
     typecf: {
       type: DataTypes.STRING(10),
       allowNull: true
+    },
+    policy: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    mindeposit: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    maxdeposit: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    minwithdraw: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,
