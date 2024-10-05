@@ -327,28 +327,50 @@ router.delete ( '/:tablename' , auth , async ( req,res)=>{
 	await db[ tablename ].destroy ( {where : { ... jfilter } } )
 	respok ( res ) 
 })
+const MAP_ORDER_STATUS= {
+	WAITING : 	{ status : 0 , statusint : 0 , statusstr: 'WAITING' } , 
+	OK: 				{ status : 1 , statusint : 1 , statusstr: 'PROCESSED' } , 
+	PROCESSED : { status : 1 , statusint : 1 , statusstr: 'PROCESSED' } , 
+	FAILED :		{ status : 2 , statusint : 2 , statusstr: 'FAILED' } , 
+	EXPIRED :		{ status : 3 , statusint : 3 , statusstr: 'EXPIRED' } , 
+	CANCELED :	{ status : 4 , statusint : 4 , statusstr: 'CANCELED' } , 
+}
 router.delete ( '/:tablename/:softorhard/:idtype/:id', auth , async (req,res)=>{
 	let { tablename, softorhard, idtype , id } = req.params
 	let { id : userid , uuid : useruuid } = req.decoded
-
 	let respfieldex = await fieldexists(tablename, idtype) // .then(async (resp) => {
 	if ( respfieldex) {}
 	else{resperr(res,messages.MSG_ARGINVALID , null,{reason:'idtype'} ) ;return }
 	let jfilter = {}
 	jfilter [ idtype] = id 
-
 	let resp = await db[tablename].findOne ( {raw: true, where : { ... jfilter , useruuid } } ) 
 	if ( resp ) {}
-	else { resperr ( res , 'DATA-NOT-FOUND' ) ; return } 
-	switch ( softorhard ) {
-//		case 'soft' : await updaterow (tablename , {... jfilter} , {active: 0 }) 
-		case 'soft' : await updaterow (tablename , {... jfilter} , {isdeleted : 1 }) 
+	else { resperr ( res , 'DATA-NOT-FOUND' ) ; return }
+	let message	
+	let timenow = moment().unix() // let deltatime = 
+	let mode_cancel_delete 
+	switch ( Math.sign( timenow - +resp?.expiry ) ){
+		case -1 : mode_cancel_delete = 'CANCEL'
 		break
-		case 'hard' : await db[tablename].destroy ({ where : { ...jfilter } } )
-		break
+		case +1 : mode_cancel_delete = 'DELETE'
+		default  :		
+		break // 0
 	}
-//	await db[tablename].destroy ({ where : { id } } )
-	respok ( res ) 
+	switch ( mode_cancel_delete){
+		case 'CANCEL' : 
+			await updaterow ( tablename , { ... jfilter } , { ... MAP_ORDER_STATUS[ 'CANCELED'] });message=messages?.MSG_CANCELED
+		break		
+		case 'DELETE' :{
+			switch ( softorhard ) {				//		case 'soft' : await updaterow (tablename , {... jfilter} , {active: 0 }) 
+				case 'soft' : await updaterow (tablename , {... jfilter} , {isdeleted : 1 , }) ; message= messages?.MSG_DELETED
+				break
+				case 'hard' : await db[tablename].destroy ({ where : { ...jfilter } } ) ; message= messages?.MSG_DELETED
+				break
+			}						
+		} 
+		break
+	} //	await db[tablename].destroy ({ where : { id } } )
+	respok ( res , message ) 
 })
 router.delete ( '/:tablename/:id' , auth , async ( req,res ) => {
 	let { tablename, id } = req.params

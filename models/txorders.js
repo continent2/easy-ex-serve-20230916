@@ -104,9 +104,9 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     statusint: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.INTEGER(4),
       allowNull: true,
-      defaultValue: -1
+      defaultValue: 0
     },
     refundaddress: {
       type: DataTypes.STRING(80),
@@ -245,6 +245,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     quotesignature: {
       type: DataTypes.TEXT,
+      allowNull: true
+    },
+    symbol: {
+      type: DataTypes.STRING(20),
       allowNull: true
     }
   }, {
