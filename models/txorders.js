@@ -61,7 +61,7 @@ module.exports = function(sequelize, DataTypes) {
     status: {
       type: DataTypes.INTEGER(4),
       allowNull: true,
-      comment: '0:waiting,1:ok,2:fail,3:expired'
+      comment: '0:waiting,1:ok,2:fail,3:expired,4:canceled'
     },
     expiry: {
       type: DataTypes.BIGINT,

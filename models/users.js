@@ -178,6 +178,10 @@ module.exports = function(sequelize, DataTypes) {
     uselevel: {
       type: DataTypes.INTEGER(11),
       allowNull: true
+    },
+    prefsymbol: {
+      type: DataTypes.STRING(25),
+      allowNull: true
     }
   }, {
     sequelize,

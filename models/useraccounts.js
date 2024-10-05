@@ -72,6 +72,18 @@ module.exports = function(sequelize, DataTypes) {
     balancestr: {
       type: DataTypes.STRING(20),
       allowNull: true
+    },
+    convvalue: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    convsymbol: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    urllogo: {
+      type: DataTypes.STRING(10),
+      allowNull: true
     }
   }, {
     sequelize,

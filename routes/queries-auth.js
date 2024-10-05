@@ -589,6 +589,13 @@ let list_00 = await      db[tablename ]
           order: [[orderkey, orderval]],
         })
 		let count = await countrows_scalar(tablename, jfilter);
+		if ( tablename == 'useraccounts' ){
+			let respuser = await findone ( 'users' , { useruuid })
+			let { prefsymbol } = respuser
+			let resptickers = await findall ( 'tickers' , { quote : prefsymbol })
+			let j_symbol_convvalue = convaj ( resptickers , 'base' , 'value' ) ; LOGGER ( { j_symbol_convvalue })
+			list_00 = list_00.map ( el => { el[ 'convvalue'] = +el['balancestr'] * +j_symbol_convvalue[ el?.symbol ] ; el['convsymbol']= prefsymbol ; return el })
+		}
 		respok ( res, null,null, { list : list_00 , payload : { count  } } )
 	return  
 		if ( tablename == 'sales' ) {
