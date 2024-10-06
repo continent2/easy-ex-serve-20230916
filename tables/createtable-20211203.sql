@@ -8,7 +8,26 @@ insert into tokens (name, symbol,decimals,address ,active,nettype,istoken,urllog
  values ( 'ETH', 'ETH', 18 , '0x0000000000000000000000000000000000000000',1,'ETH-TESTNET', 0, 
 'https://easychange1.co/assets/ETH.png',uuid(), 2,'C' ) ;
 
+insert into adminsettings (key_,value_,active,group_) values ('NOTIFY_VIA_TELEGRAM',1,1,'NOTIFY') ;
+insert into adminsettings (key_,value_,active,group_) values ('NOTIFY_VIA_SMS',1,1,'NOTIFY') ;
 
+insert into adminsettings (key_,value_,active,group_) values ('SMS_RECEIVE_PHONE_NUMBER','+821023715298',1,'NOTIFY') ;
+
+CREATE TABLE `adminsettings` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `createdat` datetime DEFAULT current_timestamp(),
+  `updatedat` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `key_` varchar(100) DEFAULT NULL,
+  `value_` varchar(2000) DEFAULT NULL,
+  `subkey_` varchar(100) DEFAULT NULL,
+  `data` text DEFAULT NULL,
+  `active` tinyint(4) DEFAULT NULL,
+  `units` varchar(20) DEFAULT NULL,
+  `min` varchar(20) DEFAULT NULL,
+  `max` varchar(20) DEFAULT NULL,
+  `group_` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
 tokens where id =1 \G
 *************************** 1. row ***************************
           id: 1

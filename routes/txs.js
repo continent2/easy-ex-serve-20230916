@@ -3,9 +3,9 @@ var router = express.Router();
 const moment=require('moment')
 /* GET home page. */
 const {respok , resperr } =require('../utils/rest')
-let {create_a_uuid , gettimestr, ISFINITE }=require('../utils/common')
+let {create_a_uuid , gettimestr, ISFINITE, convaj }=require('../utils/common')
 const {getusernamefromsession}=require('../utils/session')
-const { findone,createrow}=require('../utils/db')
+const { findone,createrow, findall}=require('../utils/db')
 const { messages}=require('../configs/messages') 
 const { v5 : uuidv5 } =require('uuid')
 const { NETTYPE } =require('../configs/net' )
@@ -28,11 +28,11 @@ const MAP_TYPECF = { c: 'C' , C:'C' , f:'F', F:'F' }
 const validate_crypto_withdraw_order = ( { orderpart } )=>{  
 }
 const validate_fiat_withdraw_order = ( { orderpart })=>{
-  
 }
 const AES = require("crypto-js/aes")
-const { ENCKEY_QUOTESIG }   =  require( '../configs/keys' ) // 'BfM58d'
-
+const { ENCKEY_QUOTESIG }   =  require( '../configs/keys' ); // 'BfM58d'
+const { sendmessage : sendmessage_telegram } = require('./notify-telegram');
+const { sendMessage : sendmessage_sms } = require( '../services/twilio' )
 router.post ( '/withdraw', auth , async (req,res)=> {
   let { id : userid , uuid : useruuid } = req.decoded
   let { from , to  } = req.body
@@ -79,6 +79,25 @@ router.post ( '/withdraw', auth , async (req,res)=> {
     status : MAP_ORDER_STATUS [ 'WAITING' ] ,
   })
   respok ( res , 'ORDER PLACED' , null , { expiry , uuid , } )
+  let respadminsettings= await findall( 'adminsettings' , {active: 1} )
+  if (respadminsettings?.length ){      }
+  else { return }
+  let jsettings = convaj( respadminsettings , 'key_', 'value_' )
+  if ( +jsettings[ 'NOTIFY_VIA_TELEGRAM' ]){
+    sendmessage_telegram ( {title:'REQ-WITHDRAW', msg: 
+      STRINGER({ 
+        from:{ ... req?.body?.from },
+        to : { ... req?.body?.to } ,
+        uuid , 
+        expiry
+      })
+    })
+  }
+  else {}
+  if ( +jsettings[ 'NOTIFY_VIA_SMS' ]){
+    let phonenumber = +jsettings[ 'SMS_RECEIVE_PHONE_NUMBER' ]
+    await sendmessage_sms ( { type : 'ORDER-NOTIFY', code : null ,  order : req?.body , phonenumber } )
+  } else {}
 } )
 let EXPIRY_ORDER_DEPOSIT_IN_SEC = 1 * 3600 // an hour
 
@@ -147,6 +166,26 @@ router.post ( '/deposit' , auth , async (req,res)=>{
     break
   }
   respok ( res, 'ORDER PLACED' , null , { expiry, uuid })
+/** SEND MESSAGE */
+let respadminsettings= await findall( 'adminsettings' , {active: 1} )
+if (respadminsettings?.length ){      }
+else { return }
+let jsettings = convaj( respadminsettings , 'key_', 'value_' )
+if ( +jsettings[ 'NOTIFY_VIA_TELEGRAM' ]){
+  sendmessage_telegram ( {title:'REQ-WITHDRAW', msg: 
+    STRINGER({ 
+      from:{ ... req?.body?.from },
+      to : { ... req?.body?.to } ,
+      uuid , 
+      expiry
+    })
+  })
+}
+else {}
+if ( +jsettings[ 'NOTIFY_VIA_SMS' ]){
+  let phonenumber = +jsettings[ 'SMS_RECEIVE_PHONE_NUMBER' ]
+  await sendmessage_sms ( { type : 'ORDER-NOTIFY', code : null ,  order : req?.body , phonenumber } )
+} else {}
 })
   
 router.post ( '/deposit/FIAT-ONLY' , auth , async (req,res)=>{
