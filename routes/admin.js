@@ -19,7 +19,8 @@ const { JWT_SECRET } = require ( '../configs/configs')
 }=require('../utils/dbm on')  */
 const moment = require('moment');
 const { ISFINITE , KEYS , create_a_uuid , gettimestr , getvartype ,
-	convaj
+	convaj,
+	PARSER
  }=require('../utils/common')
 const {respok,respreqinvalid,resperr , resperrwithstatus } =require('../utils/rest')
 const {messages}=require('../configs/messages')
@@ -37,6 +38,47 @@ const { iszeroaddress , isaddressvalid } =require('../utils/erc20' )
 const { auth } =require('../utils/authMiddleware')
 const STRINGER = JSON.stringify
 
+router.post ( '/handle/txorder/deposit/:uuid' , auth , async (req,res)=>{
+	let { uuid }=req?.params
+	let resptxorder = await findone ( 'txorders' , { uuid } )
+	if ( resptxorder ){}
+	else { resperr( res , messages?.MSG_DATANOTFOUND ) ; return }
+	let jfromdata = PARSER ( resptxorder?.fromdata )
+	let jtodata = PARSER( resptxorder?.todata )
+	let { amount } = jtodata // jfromdata
+	if ( +amount > 0 ){}
+	else {resperr( res, messages?.MSG_DATA_INVALID ) ; return }
+	let respuser = await findone ( 'users' , { useruuid : resptxorder?.useruuid } )	
+	let respaccount = await findone( 'useraccounts' , { useruuid: resptxorder?.useruuid , 
+		symbol : jfromdata?.symbol } )
+	if ( respaccount ){ 
+		let balance1 = +jtodata?.amount + +respaccount?.balancestr
+		await updaterow ( 'useraccounts' , {id : respaccount?.id } , {
+			balancefloat : balance1 ,
+			balancestr : balance1 
+		} ) 
+	}
+	else {	await createrow ( 'useraccounts' , {
+//		username             | varchar(80)
+	//	| address              | varchar(80)
+//		| privatekey           | varchar(100)
+		nettype : respuser?.nettype ,
+//		| currentBlockNumber   | bigint(12)
+	//	| firstUsedBlockNumber | bigint(12)
+		useruuid : respuser?.useruuid ,
+		active : 1 , 
+		currency : jtodata?.symbol ,
+		typecf : jtodata?.typecf , 
+		symbol : jtodata?.symbol ,
+		balancefloat : jtodata?.amount ,
+		balancestr : jtodata?.amount , 
+//		| convvalue            | varchar(20)
+	//	| convsymbol           | varchar(20)
+		// | urllogo        
+	} )}
+	await updaterow( 'txorders' , { uuid } , { ... MAP_ORDER_STATUS[ 'PROCESSED' ] } )
+	respok ( res ,'DONE' )
+})
 router.post ( '/exchanges/deposit' , async ( req,res)=>{
 	let { uuid } = req?.body
 	if ( uuid ) {}
@@ -422,7 +464,8 @@ router.get('/onlyUser/:offset/:limit',(req,res)=>{
 	  })
 	})
 })
-const { TOKENNAME } =require('../configs/net')
+const { TOKENNAME } =require('../configs/net');
+const { MAP_ORDER_STATUS } = require('../configs/txorders');
 let TOKENS=[ 'ETH' , TOKENNAME ] // 'META PLANET' ]
 const reduce_inner_tx_to_balances=async username=>{
 	let list =	await findall('transactionsinside' , {username})

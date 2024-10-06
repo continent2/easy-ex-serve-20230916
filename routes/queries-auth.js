@@ -500,13 +500,13 @@ router.get( '/rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:ord
       filterkey,
       filterval,
 			jfilters,
-      nettype,
+//      nettype,
       date0,
       date1, notmyown , searchkey 
     } = req.query;
 		let jfilters_in
 		if ( jfilters && KEYS(jfilters).length > 0 )  { jfilters_in = { ... jfilters } } 
-		let { id , uuid : useruuid } = req.decoded
+		let { id , uuid : useruuid , nettype } = req.decoded
 		let uid = id
 //		if ( await tableexists ( tablename ) ) {}
 	//	else { resperr ( res, 'TABLE-DOES-NOT-EXIST' ) ; return }
@@ -595,6 +595,15 @@ let list_00 = await      db[tablename ]
 			let resptickers = await findall ( 'tickers' , { quote : prefsymbol })
 			let j_symbol_convvalue = convaj ( resptickers , 'base' , 'value' ) ; LOGGER ( { j_symbol_convvalue })
 			list_00 = list_00.map ( el => { el[ 'convvalue'] = +el['balancestr'] * +j_symbol_convvalue[ el?.symbol ] ; el['convsymbol']= prefsymbol ; return el })
+		}
+		if ( list_00?.length && list_00[0].hasOwnProperty ('urllogo' ) ){
+			let resptokens = await findall ( 'tokens' , { active:1,nettype } )
+			let jsymbol_urllogo = convaj ( resptokens , 'symbol' , 'urllogo' )
+			for ( let idx = 0 ; idx<list_00?.length ; idx++ ){
+				let { symbol } = list_00[ idx ]
+				if ( list_00[idx].urllogo ){}
+				else { list_00[idx].urllogo = jsymbol_urllogo[ symbol ] }
+			}
 		}
 		respok ( res, null,null, { list : list_00 , payload : { count  } } )
 	return  

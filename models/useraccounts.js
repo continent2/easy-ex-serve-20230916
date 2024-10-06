@@ -56,10 +56,9 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: true
     },
-    type: {
+    typecf: {
       type: DataTypes.STRING(20),
-      allowNull: true,
-      comment: 'FIAT,CRYPTO'
+      allowNull: true
     },
     symbol: {
       type: DataTypes.STRING(20),
