@@ -452,7 +452,11 @@ router.post("/join", (req, res) => {
   address: '0x37BD824BD9ca792a76B2c0376DF8f937623432d0',
   privateKey: '0xcf8f3a4e03c59f9a5e255b1e8160cdbf088c403b930c4676a35fbdd7abbc0d51',
 */
-const MAP_FIELDS_ALLOWED_TO_CHANGE = { pw: 1, nickname: 1 , preferrednetwork : 1 , username: 1, urlimage : 1
+const MAP_FIELDS_ALLOWED_TO_CHANGE = { 
+  pw: 1, nickname: 1 , 
+    preferrednetwork : 1 , 
+    preferredcurrency : 1 , 
+    username: 1, urlimage : 1
 	, phonenumber : 1
 	,	phonecountrycode2letter : 1  
 	, phonenationalnumber : 1
@@ -886,7 +890,7 @@ router.get ( '/phoneverifycode' , async ( req,res ) => {
 	let respsend =	await sendMessage ( { type : 'PHONE-VERIFY' ,  phonenumber , code }  )
 	if ( respsend ) {}
 	else { resperr ( res, 'SMS-SEND-ERR' ) ; return }
-	respok ( res, 'CODE-SENT-TO-DEVICE' ,null ) // , { code } )	
+	respok ( res, 'CODE-SENT-TO-DEVICE' ,null , { code , devmessage:'USE THIS CODE IN CASE SMS CODE NOT RECEIVED DUE TO VENDOR BALANCE INSUFFICIENT'} ) // , { code } )	
 	await updateorcreaterow ( 'verifycode' , { receiver : phonenumber , expiry : moment().add(10,'minutes').unix() } , { code } )
 })
 router.post ( '/phoneverifycode' , async ( req, res ) => { LOGGER( req.body )

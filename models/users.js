@@ -182,6 +182,10 @@ module.exports = function(sequelize, DataTypes) {
     prefsymbol: {
       type: DataTypes.STRING(25),
       allowNull: true
+    },
+    preferredcurrency: {
+      type: DataTypes.STRING(25),
+      allowNull: true
     }
   }, {
     sequelize,

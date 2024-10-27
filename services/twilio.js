@@ -1,7 +1,8 @@
 // require("dotenv").config({ path: "../.env" });
 const accountSid = 'AC5dc7dd8949584bd3a3cdffe90d0cec72' // process.env.TWILIO_ACCOUNT_SID;
 // const authToken = 'a434c9fc511866dc9919b597f0517530' // process.env.TWILIO_AUTH_TOKEN;
-const authToken = '74df7ddc5e67f9d4c1015047865b940d' // process.env.TWILIO_AUTH_TOKEN;
+// const authToken = '74df7ddc5e67f9d4c1015047865b940d' // process.env.TWILIO_AUTH_TOKEN;
+const authToken = '7367471fbafbd0bb305589c2a70cbf04'
 const twilio = require("twilio");
 const client = new twilio(accountSid, authToken);
 const { findone } =require('../utils/db')
