@@ -56,6 +56,10 @@ module.exports = function(sequelize, DataTypes) {
     code: {
       type: DataTypes.STRING(20),
       allowNull: true
+    },
+    primarycurrency: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     sequelize,

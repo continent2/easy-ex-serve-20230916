@@ -27,6 +27,7 @@ const { getWalletRecode } = require("../utils/wallet_recode");
 const { getMetaplanetRecode } = require("../utils/wallet_recode_metaplanet");
 const { getPolygon } = require("../utils/get_polygon");
 const { auth , softauth }= require('../utils/authMiddleware');
+const { Op } = require('sequelize');
 const MAP_TABLES_FORBIDDEN={ users : 1 }
 // let nettype='ETH-TESTNET'
 // router.get( "/singlerow/:tablename/:fieldname/:fieldval" , softauth , async (req, res) => {
@@ -110,10 +111,36 @@ router.put('/row/:tablename/:fieldname/:fieldval', (req,res)=>{
 		})
 	})
 })
-router.get('/rows/:tablename/:fieldname/:fieldval' , (req,res)=>{
+let jsymbol_urllogo = {}
+const conv_symbol_urllogo = async ({symbol })=>{ let urllogo
+	if ( urllogo = jsymbol_urllogo[ symbol] ){ return urllogo }
+	let resp = await findone ( 'tokens' , { symbol , active : 1 } )
+	if ( resp && ( urllogo = resp?.urllogo ) ) { 
+		jsymbol_urllogo[ symbol ] = urllogo
+		return urllogo }
+	else { return null }
+}
+setInterval ( async ()=>{
+	let list = await  db[ 'tokens' ].findAll ( {raw: true, where : {active : 1 , urllogo : { [Op.ne] : null }} ,
+		attributes : [ 'symbol' , 'urllogo' ]
+	})
+	for ( let elem of list ){
+		jsymbol_urllogo[ elem?.symbol ] = elem?.urllogo
+	}
+} , 60 * 1000 )
+const fill_urllogo_field= async ( { tablename , list } )=>{
+	if ( await fieldexists ( tablename , 'urllogo' ) && await fieldexists ( tablename , 'symbol' )){}
+	else { return list }
+	for ( let idx = 0; idx< list?.length ; idx ++ ){
+		let elem = list [ idx ]
+		list [ idx ] = { ... elem , urllogo : await conv_symbol_urllogo( { symbol : elem?.symbol } ) }
+	}
+	return list
+}
+router.get('/rows/:tablename/:fieldname/:fieldval' , async (req,res)=>{
 	let { tablename , fieldname , fieldval }=req.params
 	let jquery = req?.query
-	fieldexists (tablename, fieldname).then(resp=>{
+	fieldexists (tablename, fieldname).then( async resp=>{
 		if(resp){}
 		else {resperr( res, messages.MSG_FIELDNOTFOUND); return }
 		let jfilter ={}
@@ -122,10 +149,15 @@ router.get('/rows/:tablename/:fieldname/:fieldval' , (req,res)=>{
 			jfilter = { ... jfilter , ... jquery }
 		}
 		try { 
-			findall( tablename , { ... jfilter} ).then(list =>{
-				if (resp){} 
-				else {} // resperr( res, messages.MSG_DATANOTFOUND); return }
-				respok ( res, null, null ,{list } )
+			findall( tablename , { ... jfilter} ).then(  async list =>{
+				let count = 0
+				if ( list?.length ){	count = await countrows_scalar(tablename, jfilter); 
+					list = await fill_urllogo_field ( { tablename , list })
+				} 
+				else {} // resperr( res, messages.MSG_DATANOTFOUND); return }			
+					
+				respok ( res, null, null , { list , payload : { count  }  } )
+				return
 			})
 	  } catch (err){
 			resperr( res, messages?.MSG_ARGINVALID ); return 

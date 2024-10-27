@@ -712,7 +712,7 @@ router.post("/login", async (req, res) => {
   let { phonenumber,		phonecountrycode2letter , phonenationalnumber ,pw, code } = req.body;
   LOGGER("m9m9hptxoA", req.body ); // log gerwin.info ( req.body )//  respok(res);return //  if (us ername && pw) {  } 
   let respuser
-  let { nettype } =req.query
+  let { nettype } = req.query
   //	if ( nettype ){} else { resperr( res, 'NETTYPE-NOT-SPECIFIED' ) ; return }
   if ( nettype ){} else { resperr( res, messages.MSG_NETTYPE_NOT_SPECIFIED ) ; return }
   let NETTYPE = nettype 
@@ -850,6 +850,9 @@ async function createJWT(jfilter) {
     return false;
   }
 	LOGGER(`@userinfo` , userinfo)  ; // logg erwin.info ( STRINGER(userinfo ))
+  delete userinfo?.pw
+  delete userinfo?.pwhash
+
   let token = jwt.sign(
     {      type: 'JWT',
       ... userinfo, //      wallet: userwallet,
@@ -867,6 +870,7 @@ async function createJWT(jfilter) {
 }
 const { parsePhoneNumber}= require('libphonenumber-js')
 const get_normal_phonenumber=({phonenumber , phonecountrycode2letter : country2letter, phonenationalnumber : nationalnumber })=>{
+  LOGGER ( { country2letter , nationalnumber})
 	if ( country2letter && nationalnumber ) {
 		let phonenum = parsePhoneNumber ( nationalnumber ,country2letter ) ; LOGGER( {phonenum } ) 
 		return phonenum?.number
@@ -890,7 +894,7 @@ router.get ( '/phoneverifycode' , async ( req,res ) => {
 	let respsend =	await sendMessage ( { type : 'PHONE-VERIFY' ,  phonenumber , code }  )
 	if ( respsend ) {}
 	else { resperr ( res, 'SMS-SEND-ERR' ) ; return }
-	respok ( res, 'CODE-SENT-TO-DEVICE' ,null , { code , devmessage:'USE THIS CODE IN CASE SMS CODE NOT RECEIVED DUE TO VENDOR BALANCE INSUFFICIENT'} ) // , { code } )	
+	respok ( res, 'CODE-SENT-TO-DEVICE' ,null , { code , devmessage:'USE THIS CODE IN CASE SMS CODE NOT RECEIVED DUE TO REASONS SUCH AS VENDOR BALANCE INSUFFICIENT'} ) // , { code } )	
 	await updateorcreaterow ( 'verifycode' , { receiver : phonenumber , expiry : moment().add(10,'minutes').unix() } , { code } )
 })
 router.post ( '/phoneverifycode' , async ( req, res ) => { LOGGER( req.body )
