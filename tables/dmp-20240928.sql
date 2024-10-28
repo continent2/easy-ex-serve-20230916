@@ -38,7 +38,7 @@ CREATE TABLE `accounts` (
   `currency` varchar(20) DEFAULT NULL,
   `type` varchar(20) DEFAULT NULL COMMENT 'FIAT,CRYPTO',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +52,8 @@ INSERT INTO `accounts` VALUES
 (52,'2023-10-17 21:48:58',NULL,'incalculableMemory','0x4D00Cdad815381057212dB3afc359f85fED0ddbD','0x3b32d258c559ff3f76b00b22f1ea3d03a8a9901cf13ffce53507197fce1699e9','TESTNET',10000000,11000000,'4dd55489-9f16-4da3-adb7-be76c1509831',1,NULL,NULL),
 (53,'2023-10-17 21:49:48',NULL,'adorableOil','0xBa521efd99aE47A4A38C44a6b8dC41EAd762C81f','0xecf39aa5f9e82b8a5a251264b0f416fa73ece5a5d5341f82382b979da8e7e99d','TESTNET',10000000,11000000,'818498de-829f-4207-b078-ffddd6d3b079',1,NULL,NULL),
 (54,'2024-09-28 07:40:17',NULL,'user001','0x9AC4F4D30c5aE2Dbcad60E04D0e9110D8b7Df997','0x38a8ed3f88f8a0d01a8e688e4817c5240875760511142058c860afe0612eaf0b','testnet',10000000,11000000,'52a947b5-f503-44ff-8356-313d9b6f3527',1,NULL,NULL),
-(55,'2024-09-28 07:42:22',NULL,'user001','0x4a3335c495070e08A413171e0CbE87A7c9B684d0','0xd5b17bd3669934a86d49fd5a4e96c6f8081259b7ad2c2ba71b174e6a14f7757a','testnet',10000000,11000000,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',1,NULL,NULL);
+(55,'2024-09-28 07:42:22',NULL,'user001','0x4a3335c495070e08A413171e0CbE87A7c9B684d0','0xd5b17bd3669934a86d49fd5a4e96c6f8081259b7ad2c2ba71b174e6a14f7757a','testnet',10000000,11000000,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',1,NULL,NULL),
+(56,'2024-10-27 07:29:25',NULL,'user002','0xb4294f04A485209b9B499c63f3575997c95405c2','0xc245235105d590d19d5797dfbfbf91455e80f803b95ac20623a4bbdc090451e2','testnet',10000000,11000000,'7db73e81-9b89-4fcf-98cd-77dc576df0d3',1,NULL,NULL);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +121,7 @@ CREATE TABLE `adminaccounts` (
   `typecf` varchar(20) DEFAULT NULL COMMENT 'C:crypto, F:fiat',
   `code` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +135,12 @@ INSERT INTO `adminaccounts` VALUES
 (2,'2024-09-28 16:10:36','2024-10-03 20:30:45','FIAT','020','WOORI','123718310','Continent Inc',1,'KR',NULL,NULL,NULL,NULL,NULL,'F','020'),
 (3,'2024-09-28 16:10:36','2024-10-03 20:30:45','FIAT','005','HANA','475759755','Continent Inc',1,'KR',NULL,NULL,NULL,NULL,NULL,'F','005'),
 (4,'2024-09-28 16:10:36','2024-10-03 20:30:45','FIAT','004','KOOKMIN','203698270','Continent Inc',1,'KR',NULL,NULL,NULL,NULL,NULL,'F','004'),
-(5,'2024-09-29 11:51:38','2024-09-29 11:54:33','CRYPTO',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,'0xA6E9ae47dC78171E3ab22EA5db3C89445cF6cE21','ETH','testnet','C',NULL);
+(5,'2024-09-29 11:51:38','2024-09-29 11:54:33','CRYPTO',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,'0xA6E9ae47dC78171E3ab22EA5db3C89445cF6cE21','ETH','testnet','C',NULL),
+(6,'2024-10-27 18:09:07',NULL,'CRYPTO',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,'1Ayq0KAHjIcFJZpD3kNQ9QAio7Sg5w915e','BTC','testnet','C',NULL),
+(7,'2024-10-27 18:10:12',NULL,'CRYPTO',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,'0xA6E9ae47dC78171E3ab22EA5db3C89445cF6cE21','USDT','testnet','C',NULL),
+(8,'2024-10-27 18:14:28',NULL,'CRYPTO',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,'0xA6E9ae47dC78171E3ab22EA5db3C89445cF6cE21','USDT','mainnet','C',NULL),
+(9,'2024-10-27 18:14:42',NULL,'CRYPTO',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,'1Ayq0KAHjIcFJZpD3kNQ9QAio7Sg5w915e','BTC','mainnet','C',NULL),
+(10,'2024-10-27 18:14:54',NULL,'CRYPTO',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,'0xA6E9ae47dC78171E3ab22EA5db3C89445cF6cE21','ETH','mainnet','C',NULL);
 /*!40000 ALTER TABLE `adminaccounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,6 +262,7 @@ CREATE TABLE `banks` (
   `codebic` varchar(50) DEFAULT NULL,
   `active` tinyint(4) DEFAULT NULL,
   `code` varchar(20) DEFAULT NULL,
+  `primarycurrency` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -267,42 +274,42 @@ CREATE TABLE `banks` (
 LOCK TABLES `banks` WRITE;
 /*!40000 ALTER TABLE `banks` DISABLE KEYS */;
 INSERT INTO `banks` VALUES
-(1,'2023-10-15 09:38:08','2024-10-03 20:25:08','BANK OF KOREA','한귝은행','001',NULL,'3d7632af-9612-4f97-a6b3-2124f9e03dcc','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'001'),
-(2,'2023-10-15 09:38:08','2024-10-03 20:25:08','KDB','KDB','002',NULL,'c645f4c5-b00f-432b-a4f1-68833ce4a68c','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'002'),
-(3,'2023-10-15 09:38:08','2024-10-03 20:25:08','IBK','IBK','003',NULL,'84d2be75-f34f-46ff-a908-8476c0968566','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'003'),
-(4,'2023-10-15 09:38:08','2024-10-03 20:25:08','KOOKMIN BANK','국민은행','004',NULL,'e91010c9-c81b-4bc8-8711-a6c90a603661','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'004'),
-(5,'2023-10-15 09:38:08','2024-10-03 20:25:08','HANA BANK','하나은행','005',NULL,'45eaa2a0-7d8a-4957-b6b3-2bd59fd515b6','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'005'),
-(6,'2023-10-15 09:38:08','2024-10-03 20:25:08','SUHYUP BANK','수협','007',NULL,'dfd26b8e-a9a7-4f99-a4e2-9c5d392ef560','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'007'),
-(7,'2023-10-15 09:38:08','2024-10-03 20:25:08','EXIM BANK OF KOREA','엑심','008',NULL,'0216d672-2c3f-4483-832e-8be31cb41271','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'008'),
-(8,'2023-10-15 09:38:08','2024-10-03 20:25:08','NH BANK','농협','011',NULL,'964094b1-331c-4eee-b842-913ca6d07023','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'011'),
-(9,'2023-10-15 09:38:08','2024-10-03 20:25:08','LOCAL NONGHYEOP','단위농협','012',NULL,'a20bb095-c30f-4624-a1fc-13fde49e48a3','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'012'),
-(10,'2023-10-15 09:38:08','2024-10-03 20:25:08','WOORI BANK','우리은행','020',NULL,'fb0fa600-b059-4b0e-99e5-c2247cddc17e','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'020'),
-(11,'2023-10-15 09:38:08','2024-10-03 20:25:08','SHINHAN Bank','신한은행','021',NULL,'9b666856-e04f-42e3-b72a-bd81ba078720','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'021'),
-(12,'2023-10-15 09:38:08','2024-10-03 20:25:08','SC Bank 023','SC제일은행','023',NULL,'a6e87a40-4867-4eb8-825c-254b9cb25495','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'023'),
-(13,'2023-10-15 09:38:08','2024-10-03 20:25:08','CITI Bank','시티은행','027',NULL,'94ab5bf5-bc7c-42f1-91c3-9a7dcd698dc7','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'027'),
-(14,'2023-10-15 09:38:08','2024-10-03 20:25:08','DAEGU BANK','대구은행','031',NULL,'f537c863-d2b8-48ac-aa0c-94184edd0ef8','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'031'),
-(15,'2023-10-15 09:38:08','2024-10-03 20:25:08','BUSAN BANK','부산은행','032',NULL,'88acd90d-6fa1-48f8-8ebb-025917d76e8f','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'032'),
-(16,'2023-10-15 09:38:08','2024-10-03 20:25:08','GWANGJU BANK','광주은행','034',NULL,'827bfe67-7eee-4bd5-9e39-7f88c2f5becb','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'034'),
-(17,'2023-10-15 09:38:08','2024-10-03 20:25:08','JEJU BANK','제주은행','035',NULL,'4a8561ee-4a77-409c-be65-40072e0df607','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'035'),
-(18,'2023-10-15 09:38:08','2024-10-03 20:25:08','JENONBUK BANK','전북은행','037',NULL,'71c7198c-314c-419c-ae01-ec8503efbfc3','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'037'),
-(19,'2023-10-15 09:38:08','2024-10-03 20:25:08','GYONGNAM BANK','경남은행','039',NULL,'12d3867b-afaa-4570-9bff-53500ca3292d','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'039'),
-(20,'2023-10-15 09:38:08','2024-10-03 20:25:08','SAEMAUL','새마을금고','045',NULL,'bdffcd4a-e60e-4ffb-a90c-8ac6d44ea22b','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'045'),
-(21,'2023-10-15 09:38:08','2024-10-03 20:25:08','SHINHYEOP','신협','048',NULL,'5110b079-ce8a-4797-b1a9-5861c9fbe6fd','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'048'),
-(22,'2023-10-15 09:38:08','2024-10-03 20:25:59','SAVING BANK','저축은행','050',NULL,'bcd2e652-63a8-4217-b946-90cb0e718cee','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'050'),
-(23,'2023-10-15 09:38:08','2024-10-03 20:25:08','MORGAN STANLEY BANK','모건스탠리','052',NULL,'88aaa0e2-a4bc-4467-94fb-785bb53b7e8c','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'052'),
-(24,'2023-10-15 09:38:08','2024-10-03 20:25:08','HSBC BANK','HSBC BANK','054',NULL,'15427f61-4f95-4eef-bc27-fb776d9e2d41','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'054'),
-(25,'2023-10-15 09:38:08','2024-10-03 20:25:08','DEUTSCHE BANK','도이치','055',NULL,'a454458e-0b50-498a-b186-6f136d2ec287','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'055'),
-(26,'2023-10-15 09:38:08','2024-10-03 20:25:08','SANLIM','산림','064',NULL,'ddf9cacb-94d3-4729-96df-c7a6f93648dd','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'064'),
-(27,'2023-10-15 09:38:08','2024-10-03 20:25:08','POST','우체국','071',NULL,'3a618eca-485d-4b49-962c-ac29edcffb97','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'071'),
-(28,'2023-10-15 09:38:08','2024-10-03 20:25:08','KBANK','케이뱅크','089',NULL,'dc51d85b-d458-4db0-be26-432520789d30','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'089'),
-(29,'2023-10-15 09:38:08','2024-10-03 20:25:08','KAKAO BANK','카카오뱅크','090',NULL,'83dec212-0999-41ac-9a18-fdccf29d3fab','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'090'),
-(30,'2023-10-15 09:38:08','2024-10-03 20:25:08','TOSS BANK','토스뱅크','092',NULL,'18520c2a-3178-4b09-ada0-aafbc5e8ad4e','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'092'),
-(31,'2023-10-18 03:21:41','2024-10-03 20:25:08','JPMorgan Chase','JPMorgan Chase','628',NULL,'7f48241f-d3d3-472b-a9f3-a0d3c91b9cdf','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'628'),
-(32,'2023-10-18 03:21:41','2024-10-03 20:25:08','Bank of America','Bank of America','3510',NULL,'78c4cb17-9fd6-42b9-832c-71ddec0fdb86','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'3510'),
-(33,'2023-10-18 03:21:41','2024-10-03 20:25:08','Citibank','Citibank','7213',NULL,'918b753b-b2e8-4e91-af64-3ea0d34cf1bf','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'7213'),
-(34,'2023-10-18 03:21:41','2024-10-03 20:25:08','Wells Fargo','Wells Fargo','3511',NULL,'314e520a-dd5e-4ffe-8cee-cad295cabca1','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'3511'),
-(35,'2023-10-18 03:21:41','2024-10-03 20:25:08','Bancorp','Bancorp','35444',NULL,'cbcceb9c-ca88-4d20-8cd7-937a79d0720e','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'35444'),
-(36,'2023-10-18 03:21:41','2024-10-03 20:25:08','PNC Bank','PNC Bank','6384',NULL,'2e361d3b-dfc1-48b0-b7e5-27c28f9c462f','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'6384');
+(1,'2023-10-15 09:38:08','2024-10-27 20:50:51','BANK OF KOREA','한귝은행','001',NULL,'3d7632af-9612-4f97-a6b3-2124f9e03dcc','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'001','KRW'),
+(2,'2023-10-15 09:38:08','2024-10-27 20:50:51','KDB','KDB','002',NULL,'c645f4c5-b00f-432b-a4f1-68833ce4a68c','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'002','KRW'),
+(3,'2023-10-15 09:38:08','2024-10-27 20:50:51','IBK','IBK','003',NULL,'84d2be75-f34f-46ff-a908-8476c0968566','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'003','KRW'),
+(4,'2023-10-15 09:38:08','2024-10-27 20:50:51','KOOKMIN BANK','국민은행','004',NULL,'e91010c9-c81b-4bc8-8711-a6c90a603661','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'004','KRW'),
+(5,'2023-10-15 09:38:08','2024-10-27 20:50:51','HANA BANK','하나은행','005',NULL,'45eaa2a0-7d8a-4957-b6b3-2bd59fd515b6','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'005','KRW'),
+(6,'2023-10-15 09:38:08','2024-10-27 20:50:51','SUHYUP BANK','수협','007',NULL,'dfd26b8e-a9a7-4f99-a4e2-9c5d392ef560','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'007','KRW'),
+(7,'2023-10-15 09:38:08','2024-10-27 20:50:51','EXIM BANK OF KOREA','엑심','008',NULL,'0216d672-2c3f-4483-832e-8be31cb41271','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'008','KRW'),
+(8,'2023-10-15 09:38:08','2024-10-27 20:50:51','NH BANK','농협','011',NULL,'964094b1-331c-4eee-b842-913ca6d07023','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'011','KRW'),
+(9,'2023-10-15 09:38:08','2024-10-27 20:50:51','LOCAL NONGHYEOP','단위농협','012',NULL,'a20bb095-c30f-4624-a1fc-13fde49e48a3','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'012','KRW'),
+(10,'2023-10-15 09:38:08','2024-10-27 20:50:51','WOORI BANK','우리은행','020',NULL,'fb0fa600-b059-4b0e-99e5-c2247cddc17e','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'020','KRW'),
+(11,'2023-10-15 09:38:08','2024-10-27 20:50:51','SHINHAN Bank','신한은행','021',NULL,'9b666856-e04f-42e3-b72a-bd81ba078720','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'021','KRW'),
+(12,'2023-10-15 09:38:08','2024-10-27 20:50:51','SC Bank 023','SC제일은행','023',NULL,'a6e87a40-4867-4eb8-825c-254b9cb25495','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'023','KRW'),
+(13,'2023-10-15 09:38:08','2024-10-27 20:50:51','CITI Bank','시티은행','027',NULL,'94ab5bf5-bc7c-42f1-91c3-9a7dcd698dc7','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'027','KRW'),
+(14,'2023-10-15 09:38:08','2024-10-27 20:50:51','DAEGU BANK','대구은행','031',NULL,'f537c863-d2b8-48ac-aa0c-94184edd0ef8','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'031','KRW'),
+(15,'2023-10-15 09:38:08','2024-10-27 20:50:51','BUSAN BANK','부산은행','032',NULL,'88acd90d-6fa1-48f8-8ebb-025917d76e8f','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'032','KRW'),
+(16,'2023-10-15 09:38:08','2024-10-27 20:50:51','GWANGJU BANK','광주은행','034',NULL,'827bfe67-7eee-4bd5-9e39-7f88c2f5becb','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'034','KRW'),
+(17,'2023-10-15 09:38:08','2024-10-27 20:50:51','JEJU BANK','제주은행','035',NULL,'4a8561ee-4a77-409c-be65-40072e0df607','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'035','KRW'),
+(18,'2023-10-15 09:38:08','2024-10-27 20:50:51','JENONBUK BANK','전북은행','037',NULL,'71c7198c-314c-419c-ae01-ec8503efbfc3','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'037','KRW'),
+(19,'2023-10-15 09:38:08','2024-10-27 20:50:51','GYONGNAM BANK','경남은행','039',NULL,'12d3867b-afaa-4570-9bff-53500ca3292d','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'039','KRW'),
+(20,'2023-10-15 09:38:08','2024-10-27 20:50:51','SAEMAUL','새마을금고','045',NULL,'bdffcd4a-e60e-4ffb-a90c-8ac6d44ea22b','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'045','KRW'),
+(21,'2023-10-15 09:38:08','2024-10-27 20:50:51','SHINHYEOP','신협','048',NULL,'5110b079-ce8a-4797-b1a9-5861c9fbe6fd','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'048','KRW'),
+(22,'2023-10-15 09:38:08','2024-10-27 20:50:51','SAVING BANK','저축은행','050',NULL,'bcd2e652-63a8-4217-b946-90cb0e718cee','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'050','KRW'),
+(23,'2023-10-15 09:38:08','2024-10-27 20:50:51','MORGAN STANLEY BANK','모건스탠리','052',NULL,'88aaa0e2-a4bc-4467-94fb-785bb53b7e8c','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'052','KRW'),
+(24,'2023-10-15 09:38:08','2024-10-27 20:50:51','HSBC BANK','HSBC BANK','054',NULL,'15427f61-4f95-4eef-bc27-fb776d9e2d41','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'054','KRW'),
+(25,'2023-10-15 09:38:08','2024-10-27 20:50:51','DEUTSCHE BANK','도이치','055',NULL,'a454458e-0b50-498a-b186-6f136d2ec287','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'055','KRW'),
+(26,'2023-10-15 09:38:08','2024-10-27 20:50:51','SANLIM','산림','064',NULL,'ddf9cacb-94d3-4729-96df-c7a6f93648dd','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'064','KRW'),
+(27,'2023-10-15 09:38:08','2024-10-27 20:50:51','POST','우체국','071',NULL,'3a618eca-485d-4b49-962c-ac29edcffb97','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'071','KRW'),
+(28,'2023-10-15 09:38:08','2024-10-27 20:50:51','KBANK','케이뱅크','089',NULL,'dc51d85b-d458-4db0-be26-432520789d30','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'089','KRW'),
+(29,'2023-10-15 09:38:08','2024-10-27 20:50:51','KAKAO BANK','카카오뱅크','090',NULL,'83dec212-0999-41ac-9a18-fdccf29d3fab','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'090','KRW'),
+(30,'2023-10-15 09:38:08','2024-10-27 20:50:51','TOSS BANK','토스뱅크','092',NULL,'18520c2a-3178-4b09-ada0-aafbc5e8ad4e','KR','https://easychange1.co/assets/img-bank-shinhan.png',NULL,1,'092','KRW'),
+(31,'2023-10-18 03:21:41','2024-10-27 20:50:51','JPMorgan Chase','JPMorgan Chase','628',NULL,'7f48241f-d3d3-472b-a9f3-a0d3c91b9cdf','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'628','KRW'),
+(32,'2023-10-18 03:21:41','2024-10-27 20:50:51','Bank of America','Bank of America','3510',NULL,'78c4cb17-9fd6-42b9-832c-71ddec0fdb86','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'3510','KRW'),
+(33,'2023-10-18 03:21:41','2024-10-27 20:50:51','Citibank','Citibank','7213',NULL,'918b753b-b2e8-4e91-af64-3ea0d34cf1bf','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'7213','KRW'),
+(34,'2023-10-18 03:21:41','2024-10-27 20:50:51','Wells Fargo','Wells Fargo','3511',NULL,'314e520a-dd5e-4ffe-8cee-cad295cabca1','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'3511','KRW'),
+(35,'2023-10-18 03:21:41','2024-10-27 20:50:51','Bancorp','Bancorp','35444',NULL,'cbcceb9c-ca88-4d20-8cd7-937a79d0720e','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'35444','KRW'),
+(36,'2023-10-18 03:21:41','2024-10-27 20:50:51','PNC Bank','PNC Bank','6384',NULL,'2e361d3b-dfc1-48b0-b7e5-27c28f9c462f','US','https://easychange1.co/assets/banks/us/jpmc.png',NULL,1,'6384','KRW');
 /*!40000 ALTER TABLE `banks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +330,7 @@ CREATE TABLE `logactions` (
   `typestr` varchar(40) DEFAULT NULL COMMENT ' 0:join , 1:login, 2:logout 3:change-pw , 4:change-nickname ',
   `ipaddress` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -448,7 +455,11 @@ INSERT INTO `logactions` VALUES
 (113,'2023-10-17 21:49:28',NULL,'3098862705',1697579368,2,'LOGOUT','::ffff:218.146.56.200'),
 (114,'2024-09-28 07:42:22',NULL,'user001',1727509342,0,'JOIN','::1'),
 (115,'2024-10-03 15:07:05',NULL,'+821084978755',1727968025,1,'LOGIN','::1'),
-(116,'2024-10-03 15:13:07',NULL,'+821084978755',1727968387,1,'LOGIN','::1');
+(116,'2024-10-03 15:13:07',NULL,'+821084978755',1727968387,1,'LOGIN','::1'),
+(117,'2024-10-27 07:16:29',NULL,'+821084978755',1730013389,1,'LOGIN','::1'),
+(118,'2024-10-27 07:18:04',NULL,'+821084978755',1730013484,1,'LOGIN','::1'),
+(119,'2024-10-27 07:29:25',NULL,'user002',1730014165,0,'JOIN','::1'),
+(120,'2024-10-27 07:58:39',NULL,'+821084978755',1730015919,1,'LOGIN','::1');
 /*!40000 ALTER TABLE `logactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -692,7 +703,7 @@ CREATE TABLE `pairs` (
   `from` varchar(20) DEFAULT NULL,
   `to` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -707,7 +718,8 @@ INSERT INTO `pairs` VALUES
 (6,'2023-09-30 06:55:27','2024-10-01 22:42:53','KRW','ETH','1','2177704.33','2177704.33','2177704.33',NULL,1,'CF','c6815f47-bef1-5725-9e00-c87bf2813c54','ETH-KRW',NULL,NULL,'0.05',6,0,'ETH',NULL,'KRW','ETH'),
 (7,'2023-09-30 06:55:27','2024-10-01 22:42:53','ETH','KRW','2177704.33','1','0.000000459199','0.000000459199',NULL,1,'FC','ea137784-cfea-5844-bd3e-64b5a77b1194','KRW-ETH',NULL,NULL,'100000',0,6,NULL,'ETH','ETH','KRW'),
 (8,'2023-09-30 06:55:27','2024-10-01 22:42:53','KRW','BTC','1','35359794.36','35,359,794.36','35,359,794.36',NULL,1,'CF','2e991fbb-ca67-5340-a6ec-aee781fbb7ba','BTC-KRW',NULL,NULL,'0.003',7,0,'BTC',NULL,'KRW','BTC'),
-(9,'2023-09-30 06:55:27','2024-10-01 22:42:53','BTC','KRW','35359794.36','1','2.82807075e-8','2.82807075e-8',NULL,1,'FC','65f1ae62-bf2e-51db-a8c3-ef4cef84449d','KRW-BTC',NULL,NULL,'100000',0,7,NULL,'BTC','BTC','KRW');
+(9,'2023-09-30 06:55:27','2024-10-01 22:42:53','BTC','KRW','35359794.36','1','2.82807075e-8','2.82807075e-8',NULL,1,'FC','65f1ae62-bf2e-51db-a8c3-ef4cef84449d','KRW-BTC',NULL,NULL,'100000',0,7,NULL,'BTC','BTC','KRW'),
+(10,'2024-10-27 22:17:02',NULL,'USDT','BTC','1','68300','68300','68300',NULL,1,'CC','0e7d91d4-9464-11ef-92d5-e353f5d445dd','BTC-USDT',NULL,NULL,'0.003',NULL,7,NULL,'BTC','BTC','USDT');
 /*!40000 ALTER TABLE `pairs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -730,7 +742,7 @@ CREATE TABLE `sessionkeys` (
   `lastactive` varchar(30) DEFAULT NULL,
   `useruuid` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -885,7 +897,11 @@ INSERT INTO `sessionkeys` VALUES
 (143,'2023-10-18 12:02:15','2023-10-18 12:12:02','3098862705','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjUzLCJjcmVhdGVkYXQiOiIyMDIzLTEwLTE3VDIxOjQ4OjU4LjAwMFoiLCJ1cGRhdGVkYXQiOm51bGwsImFkZHJlc3MiOm51bGwsImlwIjpudWxsLCJwdyI6bnVsbCwicHdoYXNoIjpudWxsLCJsZXZlbCI6bnVsbCwidXNlcm5hbWUiOiJpbmNhbGN1bGFibGVNZW1vcnkiLCJhY3RpdmUiOjEsImVtYWlsIjpudWxsLCJuaWNrbmFtZSI6bnVsbCwicmVjZWl2ZWVtYWlsbmV3cyI6MCwicmVmZXJlcmNvZGUiOiJaVTBqWExOMjEwIiwibXlyZWZlcmVyY29kZSI6IjNndkRFMGd5ZkQiLCJpY2Fud2l0aGRyYXciOjAsInVzZXJhZ2VudCI6bnVsbCwiaWNhbmxvZ2luIjoxLCJsYXN0YWN0aXZlIjpudWxsLCJjb3VudGluY3JlbWVudHMiOjAsImNvdW50ZGVjcmVtZW50cyI6MCwiZG9iIjpudWxsLCJkb2J1bml4IjpudWxsLCJwaG9uZW51bWJlciI6bnVsbCwicmVhbG5hbWUiOm51bGwsInV1aWQiOiI0ZGQ1NTQ4OS05ZjE2LTRkYTMtYWRiNy1iZTc2YzE1MDk4MzEiLCJuZXR0eXBlIjpudWxsLCJ1c2VybmFtZWhhc2giOm51bGwsIm5vdGUiOm51bGwsInByZWZlcnJlZG5ldHdvcmsiOm51bGwsInVzZXJ1dWlkIjoiNGRkNTU0ODktOWYxNi00ZGEzLWFkYjctYmU3NmMxNTA5ODMxIiwidXJsaW1hZ2UiOm51bGwsInBob25lY291bnRyeWNvZGUybGV0dGVyIjpudWxsLCJwaG9uZW5hdGlvbmFsbnVtYmVyIjpudWxsLCJsYW5ndWFnZSI6bnVsbCwiaXNza2lwY3JlYXRldHV0b3JpYWwiOm51bGwsInNvY2lhbGlkIjoiMzA5ODg2MjcwNSIsInNvY2lhbHByb3ZpZGVyIjoiS0FLQU8iLCJpc3NvY2lhbCI6bnVsbCwicGFyZW50aWQiOjQ5LCJwYXJlbnR1dWlkIjoiY2I0NTFmY2EtNzgyMy00ZDJiLTg4NzUtMGExMzkxMDY0YThhIiwidXNlbGV2ZWwiOm51bGwsImlhdCI6MTY5NzYzMDUzNSwiZXhwIjoxODA1NjMwNTM1LCJpc3MiOiJFWFBSRVNTIn0.jYCAn9wGjz7_e2u5ES4Y1ZYeJiCCd2iavkz4cuI8e8A','::ffff:218.146.56.200','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',1,'2023-10-18T12:12:02','4dd55489-9f16-4da3-adb7-be76c1509831'),
 (144,'2024-09-28 07:42:22','2024-10-01 09:53:13','user001','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU2LCJjcmVhdGVkYXQiOiIyMDI0LTA5LTI4VDA3OjQyOjIyLjAwMFoiLCJ1cGRhdGVkYXQiOm51bGwsImFkZHJlc3MiOiIweDRhMzMzNWM0OTUwNzBlMDhBNDEzMTcxZTBDYkU4N0E3YzlCNjg0ZDAiLCJpcCI6Ijo6MSIsInB3IjoicWdqdGpjcHI1OSIsInB3aGFzaCI6IjNhZDkwYWZmYmFjYWNmMzI5MzMyYTNmMzA1NGFjOTcwMWU3YzBkMjI4ZjQ5NDE2ZjQ2MTgxYzE1MmFiY2YyNGIiLCJsZXZlbCI6MywidXNlcm5hbWUiOiJ1c2VyMDAxIiwiYWN0aXZlIjoxLCJlbWFpbCI6bnVsbCwibmlja25hbWUiOiJ0aW5rbGluZ0R1c2siLCJyZWNlaXZlZW1haWxuZXdzIjowLCJyZWZlcmVyY29kZSI6bnVsbCwibXlyZWZlcmVyY29kZSI6ImRVdVNYWHF0SDkiLCJpY2Fud2l0aGRyYXciOjAsInVzZXJhZ2VudCI6bnVsbCwiaWNhbmxvZ2luIjoxLCJsYXN0YWN0aXZlIjpudWxsLCJjb3VudGluY3JlbWVudHMiOjAsImNvdW50ZGVjcmVtZW50cyI6MCwiZG9iIjpudWxsLCJkb2J1bml4IjpudWxsLCJwaG9uZW51bWJlciI6Iis4MjEwODQ5Nzg3NTUiLCJyZWFsbmFtZSI6bnVsbCwidXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsIm5ldHR5cGUiOiJ0ZXN0bmV0IiwidXNlcm5hbWVoYXNoIjpudWxsLCJub3RlIjpudWxsLCJwcmVmZXJyZWRuZXR3b3JrIjpudWxsLCJ1c2VydXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsInVybGltYWdlIjpudWxsLCJwaG9uZWNvdW50cnljb2RlMmxldHRlciI6IktSIiwicGhvbmVuYXRpb25hbG51bWJlciI6IjAxMDg0OTc4NzU1IiwibGFuZ3VhZ2UiOm51bGwsImlzc2tpcGNyZWF0ZXR1dG9yaWFsIjpudWxsLCJzb2NpYWxpZCI6bnVsbCwic29jaWFscHJvdmlkZXIiOm51bGwsImlzc29jaWFsIjpudWxsLCJwYXJlbnRpZCI6bnVsbCwicGFyZW50dXVpZCI6bnVsbCwidXNlbGV2ZWwiOm51bGwsImlhdCI6MTcyNzUwOTM0MiwiZXhwIjoxODM1NTA5MzQyLCJpc3MiOiJFWFBSRVNTIn0._VqB3Mb59ZOCauN-JO6HaZ9-TrJwhXgOUfPW2Og4kYA','::1',NULL,1,'2024-10-01T18:53:13','6fe18e1e-98af-4773-b240-96a96eb1bbaa'),
 (145,'2024-10-03 15:07:05',NULL,'+821084978755','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU2LCJjcmVhdGVkYXQiOiIyMDI0LTA5LTI4VDA3OjQyOjIyLjAwMFoiLCJ1cGRhdGVkYXQiOiIyMDI0LTEwLTAxVDA5OjUzOjEzLjAwMFoiLCJhZGRyZXNzIjoiMHg0YTMzMzVjNDk1MDcwZTA4QTQxMzE3MWUwQ2JFODdBN2M5QjY4NGQwIiwiaXAiOiI6OjEiLCJwdyI6InFnanRqY3ByNTkiLCJwd2hhc2giOiIzYWQ5MGFmZmJhY2FjZjMyOTMzMmEzZjMwNTRhYzk3MDFlN2MwZDIyOGY0OTQxNmY0NjE4MWMxNTJhYmNmMjRiIiwibGV2ZWwiOjMsInVzZXJuYW1lIjoidXNlcjAwMSIsImFjdGl2ZSI6MSwiZW1haWwiOm51bGwsIm5pY2tuYW1lIjoidGlua2xpbmdEdXNrIiwicmVjZWl2ZWVtYWlsbmV3cyI6MCwicmVmZXJlcmNvZGUiOm51bGwsIm15cmVmZXJlcmNvZGUiOiJkVXVTWFhxdEg5IiwiaWNhbndpdGhkcmF3IjowLCJ1c2VyYWdlbnQiOm51bGwsImljYW5sb2dpbiI6MSwibGFzdGFjdGl2ZSI6IjIwMjQtMTAtMDFUMTg6NTM6MTMiLCJjb3VudGluY3JlbWVudHMiOjAsImNvdW50ZGVjcmVtZW50cyI6MCwiZG9iIjpudWxsLCJkb2J1bml4IjpudWxsLCJwaG9uZW51bWJlciI6Iis4MjEwODQ5Nzg3NTUiLCJyZWFsbmFtZSI6bnVsbCwidXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsIm5ldHR5cGUiOiJ0ZXN0bmV0IiwidXNlcm5hbWVoYXNoIjpudWxsLCJub3RlIjpudWxsLCJwcmVmZXJyZWRuZXR3b3JrIjpudWxsLCJ1c2VydXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsInVybGltYWdlIjpudWxsLCJwaG9uZWNvdW50cnljb2RlMmxldHRlciI6IktSIiwicGhvbmVuYXRpb25hbG51bWJlciI6IjAxMDg0OTc4NzU1IiwibGFuZ3VhZ2UiOm51bGwsImlzc2tpcGNyZWF0ZXR1dG9yaWFsIjpudWxsLCJzb2NpYWxpZCI6bnVsbCwic29jaWFscHJvdmlkZXIiOm51bGwsImlzc29jaWFsIjpudWxsLCJwYXJlbnRpZCI6bnVsbCwicGFyZW50dXVpZCI6bnVsbCwidXNlbGV2ZWwiOm51bGwsImlhdCI6MTcyNzk2ODAyNSwiZXhwIjoxODM1OTY4MDI1LCJpc3MiOiJFWFBSRVNTIn0.Oh-0UTmJASAhBn43Fuj6-ERstM6aMUQygXkR9hyMoSw','::1',NULL,1,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa'),
-(146,'2024-10-03 15:13:07','2024-10-05 13:54:15','+821084978755','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU2LCJjcmVhdGVkYXQiOiIyMDI0LTA5LTI4VDA3OjQyOjIyLjAwMFoiLCJ1cGRhdGVkYXQiOiIyMDI0LTEwLTAxVDA5OjUzOjEzLjAwMFoiLCJhZGRyZXNzIjoiMHg0YTMzMzVjNDk1MDcwZTA4QTQxMzE3MWUwQ2JFODdBN2M5QjY4NGQwIiwiaXAiOiI6OjEiLCJwdyI6InFnanRqY3ByNTkiLCJwd2hhc2giOiIzYWQ5MGFmZmJhY2FjZjMyOTMzMmEzZjMwNTRhYzk3MDFlN2MwZDIyOGY0OTQxNmY0NjE4MWMxNTJhYmNmMjRiIiwibGV2ZWwiOjMsInVzZXJuYW1lIjoidXNlcjAwMSIsImFjdGl2ZSI6MSwiZW1haWwiOm51bGwsIm5pY2tuYW1lIjoidGlua2xpbmdEdXNrIiwicmVjZWl2ZWVtYWlsbmV3cyI6MCwicmVmZXJlcmNvZGUiOm51bGwsIm15cmVmZXJlcmNvZGUiOiJkVXVTWFhxdEg5IiwiaWNhbndpdGhkcmF3IjowLCJ1c2VyYWdlbnQiOm51bGwsImljYW5sb2dpbiI6MSwibGFzdGFjdGl2ZSI6IjIwMjQtMTAtMDFUMTg6NTM6MTMiLCJjb3VudGluY3JlbWVudHMiOjAsImNvdW50ZGVjcmVtZW50cyI6MCwiZG9iIjpudWxsLCJkb2J1bml4IjpudWxsLCJwaG9uZW51bWJlciI6Iis4MjEwODQ5Nzg3NTUiLCJyZWFsbmFtZSI6bnVsbCwidXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsIm5ldHR5cGUiOiJ0ZXN0bmV0IiwidXNlcm5hbWVoYXNoIjpudWxsLCJub3RlIjpudWxsLCJwcmVmZXJyZWRuZXR3b3JrIjpudWxsLCJ1c2VydXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsInVybGltYWdlIjpudWxsLCJwaG9uZWNvdW50cnljb2RlMmxldHRlciI6IktSIiwicGhvbmVuYXRpb25hbG51bWJlciI6IjAxMDg0OTc4NzU1IiwibGFuZ3VhZ2UiOm51bGwsImlzc2tpcGNyZWF0ZXR1dG9yaWFsIjpudWxsLCJzb2NpYWxpZCI6bnVsbCwic29jaWFscHJvdmlkZXIiOm51bGwsImlzc29jaWFsIjpudWxsLCJwYXJlbnRpZCI6bnVsbCwicGFyZW50dXVpZCI6bnVsbCwidXNlbGV2ZWwiOm51bGwsImlhdCI6MTcyNzk2ODM4NywiZXhwIjoxODM1OTY4Mzg3LCJpc3MiOiJFWFBSRVNTIn0.3-QpPy2rHwlTxJM31Z0sXg2HQtaFeJ0Db9Ss6AZeBns','::1',NULL,1,'2024-10-05T22:54:15','6fe18e1e-98af-4773-b240-96a96eb1bbaa');
+(146,'2024-10-03 15:13:07','2024-10-05 13:54:15','+821084978755','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU2LCJjcmVhdGVkYXQiOiIyMDI0LTA5LTI4VDA3OjQyOjIyLjAwMFoiLCJ1cGRhdGVkYXQiOiIyMDI0LTEwLTAxVDA5OjUzOjEzLjAwMFoiLCJhZGRyZXNzIjoiMHg0YTMzMzVjNDk1MDcwZTA4QTQxMzE3MWUwQ2JFODdBN2M5QjY4NGQwIiwiaXAiOiI6OjEiLCJwdyI6InFnanRqY3ByNTkiLCJwd2hhc2giOiIzYWQ5MGFmZmJhY2FjZjMyOTMzMmEzZjMwNTRhYzk3MDFlN2MwZDIyOGY0OTQxNmY0NjE4MWMxNTJhYmNmMjRiIiwibGV2ZWwiOjMsInVzZXJuYW1lIjoidXNlcjAwMSIsImFjdGl2ZSI6MSwiZW1haWwiOm51bGwsIm5pY2tuYW1lIjoidGlua2xpbmdEdXNrIiwicmVjZWl2ZWVtYWlsbmV3cyI6MCwicmVmZXJlcmNvZGUiOm51bGwsIm15cmVmZXJlcmNvZGUiOiJkVXVTWFhxdEg5IiwiaWNhbndpdGhkcmF3IjowLCJ1c2VyYWdlbnQiOm51bGwsImljYW5sb2dpbiI6MSwibGFzdGFjdGl2ZSI6IjIwMjQtMTAtMDFUMTg6NTM6MTMiLCJjb3VudGluY3JlbWVudHMiOjAsImNvdW50ZGVjcmVtZW50cyI6MCwiZG9iIjpudWxsLCJkb2J1bml4IjpudWxsLCJwaG9uZW51bWJlciI6Iis4MjEwODQ5Nzg3NTUiLCJyZWFsbmFtZSI6bnVsbCwidXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsIm5ldHR5cGUiOiJ0ZXN0bmV0IiwidXNlcm5hbWVoYXNoIjpudWxsLCJub3RlIjpudWxsLCJwcmVmZXJyZWRuZXR3b3JrIjpudWxsLCJ1c2VydXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsInVybGltYWdlIjpudWxsLCJwaG9uZWNvdW50cnljb2RlMmxldHRlciI6IktSIiwicGhvbmVuYXRpb25hbG51bWJlciI6IjAxMDg0OTc4NzU1IiwibGFuZ3VhZ2UiOm51bGwsImlzc2tpcGNyZWF0ZXR1dG9yaWFsIjpudWxsLCJzb2NpYWxpZCI6bnVsbCwic29jaWFscHJvdmlkZXIiOm51bGwsImlzc29jaWFsIjpudWxsLCJwYXJlbnRpZCI6bnVsbCwicGFyZW50dXVpZCI6bnVsbCwidXNlbGV2ZWwiOm51bGwsImlhdCI6MTcyNzk2ODM4NywiZXhwIjoxODM1OTY4Mzg3LCJpc3MiOiJFWFBSRVNTIn0.3-QpPy2rHwlTxJM31Z0sXg2HQtaFeJ0Db9Ss6AZeBns','::1',NULL,1,'2024-10-05T22:54:15','6fe18e1e-98af-4773-b240-96a96eb1bbaa'),
+(147,'2024-10-27 07:16:29',NULL,'+821084978755','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU2LCJjcmVhdGVkYXQiOiIyMDI0LTA5LTI4VDA3OjQyOjIyLjAwMFoiLCJ1cGRhdGVkYXQiOiIyMDI0LTEwLTA1VDIyOjIyOjQ3LjAwMFoiLCJhZGRyZXNzIjoiMHg0YTMzMzVjNDk1MDcwZTA4QTQxMzE3MWUwQ2JFODdBN2M5QjY4NGQwIiwiaXAiOiI6OjEiLCJwdyI6InFnanRqY3ByNTkiLCJwd2hhc2giOiIzYWQ5MGFmZmJhY2FjZjMyOTMzMmEzZjMwNTRhYzk3MDFlN2MwZDIyOGY0OTQxNmY0NjE4MWMxNTJhYmNmMjRiIiwibGV2ZWwiOjMsInVzZXJuYW1lIjoidXNlcjAwMSIsImFjdGl2ZSI6MSwiZW1haWwiOm51bGwsIm5pY2tuYW1lIjoidGlua2xpbmdEdXNrIiwicmVjZWl2ZWVtYWlsbmV3cyI6MCwicmVmZXJlcmNvZGUiOm51bGwsIm15cmVmZXJlcmNvZGUiOiJkVXVTWFhxdEg5IiwiaWNhbndpdGhkcmF3IjowLCJ1c2VyYWdlbnQiOm51bGwsImljYW5sb2dpbiI6MSwibGFzdGFjdGl2ZSI6IjIwMjQtMTAtMDFUMTg6NTM6MTMiLCJjb3VudGluY3JlbWVudHMiOjAsImNvdW50ZGVjcmVtZW50cyI6MCwiZG9iIjpudWxsLCJkb2J1bml4IjpudWxsLCJwaG9uZW51bWJlciI6Iis4MjEwODQ5Nzg3NTUiLCJyZWFsbmFtZSI6bnVsbCwidXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsIm5ldHR5cGUiOiJ0ZXN0bmV0IiwidXNlcm5hbWVoYXNoIjpudWxsLCJub3RlIjpudWxsLCJwcmVmZXJyZWRuZXR3b3JrIjpudWxsLCJ1c2VydXVpZCI6IjZmZTE4ZTFlLTk4YWYtNDc3My1iMjQwLTk2YTk2ZWIxYmJhYSIsInVybGltYWdlIjpudWxsLCJwaG9uZWNvdW50cnljb2RlMmxldHRlciI6IktSIiwicGhvbmVuYXRpb25hbG51bWJlciI6IjAxMDg0OTc4NzU1IiwibGFuZ3VhZ2UiOm51bGwsImlzc2tpcGNyZWF0ZXR1dG9yaWFsIjpudWxsLCJzb2NpYWxpZCI6bnVsbCwic29jaWFscHJvdmlkZXIiOm51bGwsImlzc29jaWFsIjpudWxsLCJwYXJlbnRpZCI6bnVsbCwicGFyZW50dXVpZCI6bnVsbCwidXNlbGV2ZWwiOm51bGwsInByZWZzeW1ib2wiOiJLUlciLCJwcmVmZXJyZWRjdXJyZW5jeSI6bnVsbCwiaWF0IjoxNzMwMDEzMzg5LCJleHAiOjE4MzgwMTMzODksImlzcyI6IkVYUFJFU1MifQ.PGPQ5CPRmBIahOFW56fc-eX1A2dWV7615xcdKQlGYRc','::1',NULL,1,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa'),
+(148,'2024-10-27 07:18:04',NULL,'+821084978755','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU2LCJjcmVhdGVkYXQiOiIyMDI0LTA5LTI4VDA3OjQyOjIyLjAwMFoiLCJ1cGRhdGVkYXQiOiIyMDI0LTEwLTA1VDIyOjIyOjQ3LjAwMFoiLCJhZGRyZXNzIjoiMHg0YTMzMzVjNDk1MDcwZTA4QTQxMzE3MWUwQ2JFODdBN2M5QjY4NGQwIiwiaXAiOiI6OjEiLCJsZXZlbCI6MywidXNlcm5hbWUiOiJ1c2VyMDAxIiwiYWN0aXZlIjoxLCJlbWFpbCI6bnVsbCwibmlja25hbWUiOiJ0aW5rbGluZ0R1c2siLCJyZWNlaXZlZW1haWxuZXdzIjowLCJyZWZlcmVyY29kZSI6bnVsbCwibXlyZWZlcmVyY29kZSI6ImRVdVNYWHF0SDkiLCJpY2Fud2l0aGRyYXciOjAsInVzZXJhZ2VudCI6bnVsbCwiaWNhbmxvZ2luIjoxLCJsYXN0YWN0aXZlIjoiMjAyNC0xMC0wMVQxODo1MzoxMyIsImNvdW50aW5jcmVtZW50cyI6MCwiY291bnRkZWNyZW1lbnRzIjowLCJkb2IiOm51bGwsImRvYnVuaXgiOm51bGwsInBob25lbnVtYmVyIjoiKzgyMTA4NDk3ODc1NSIsInJlYWxuYW1lIjpudWxsLCJ1dWlkIjoiNmZlMThlMWUtOThhZi00NzczLWIyNDAtOTZhOTZlYjFiYmFhIiwibmV0dHlwZSI6InRlc3RuZXQiLCJ1c2VybmFtZWhhc2giOm51bGwsIm5vdGUiOm51bGwsInByZWZlcnJlZG5ldHdvcmsiOm51bGwsInVzZXJ1dWlkIjoiNmZlMThlMWUtOThhZi00NzczLWIyNDAtOTZhOTZlYjFiYmFhIiwidXJsaW1hZ2UiOm51bGwsInBob25lY291bnRyeWNvZGUybGV0dGVyIjoiS1IiLCJwaG9uZW5hdGlvbmFsbnVtYmVyIjoiMDEwODQ5Nzg3NTUiLCJsYW5ndWFnZSI6bnVsbCwiaXNza2lwY3JlYXRldHV0b3JpYWwiOm51bGwsInNvY2lhbGlkIjpudWxsLCJzb2NpYWxwcm92aWRlciI6bnVsbCwiaXNzb2NpYWwiOm51bGwsInBhcmVudGlkIjpudWxsLCJwYXJlbnR1dWlkIjpudWxsLCJ1c2VsZXZlbCI6bnVsbCwicHJlZnN5bWJvbCI6IktSVyIsInByZWZlcnJlZGN1cnJlbmN5IjpudWxsLCJpYXQiOjE3MzAwMTM0ODQsImV4cCI6MTgzODAxMzQ4NCwiaXNzIjoiRVhQUkVTUyJ9.Wjv56PQI-xfTwOLw8BDa4xpdr9SSQX-N_XiDLx1Pviw','::1',NULL,1,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa'),
+(149,'2024-10-27 07:29:25','2024-10-27 07:44:17','user002','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU3LCJjcmVhdGVkYXQiOiIyMDI0LTEwLTI3VDA3OjI5OjI1LjAwMFoiLCJ1cGRhdGVkYXQiOm51bGwsImFkZHJlc3MiOiIweGI0Mjk0ZjA0QTQ4NTIwOWI5QjQ5OWM2M2YzNTc1OTk3Yzk1NDA1YzIiLCJpcCI6Ijo6MSIsImxldmVsIjozLCJ1c2VybmFtZSI6InVzZXIwMDIiLCJhY3RpdmUiOjEsImVtYWlsIjpudWxsLCJuaWNrbmFtZSI6InNhdm9yeUdob3N0IiwicmVjZWl2ZWVtYWlsbmV3cyI6MCwicmVmZXJlcmNvZGUiOm51bGwsIm15cmVmZXJlcmNvZGUiOiJCSmNxdnlJaVl0IiwiaWNhbndpdGhkcmF3IjowLCJ1c2VyYWdlbnQiOm51bGwsImljYW5sb2dpbiI6MSwibGFzdGFjdGl2ZSI6bnVsbCwiY291bnRpbmNyZW1lbnRzIjowLCJjb3VudGRlY3JlbWVudHMiOjAsImRvYiI6bnVsbCwiZG9idW5peCI6bnVsbCwicGhvbmVudW1iZXIiOiIrODIxMDEyMzQ1Njc4IiwicmVhbG5hbWUiOm51bGwsInV1aWQiOiI3ZGI3M2U4MS05Yjg5LTRmY2YtOThjZC03N2RjNTc2ZGYwZDMiLCJuZXR0eXBlIjoidGVzdG5ldCIsInVzZXJuYW1laGFzaCI6bnVsbCwibm90ZSI6bnVsbCwicHJlZmVycmVkbmV0d29yayI6bnVsbCwidXNlcnV1aWQiOiI3ZGI3M2U4MS05Yjg5LTRmY2YtOThjZC03N2RjNTc2ZGYwZDMiLCJ1cmxpbWFnZSI6bnVsbCwicGhvbmVjb3VudHJ5Y29kZTJsZXR0ZXIiOiJLUiIsInBob25lbmF0aW9uYWxudW1iZXIiOiIwMTAxMjM0NTY3OCIsImxhbmd1YWdlIjpudWxsLCJpc3NraXBjcmVhdGV0dXRvcmlhbCI6bnVsbCwic29jaWFsaWQiOm51bGwsInNvY2lhbHByb3ZpZGVyIjpudWxsLCJpc3NvY2lhbCI6bnVsbCwicGFyZW50aWQiOm51bGwsInBhcmVudHV1aWQiOm51bGwsInVzZWxldmVsIjpudWxsLCJwcmVmc3ltYm9sIjpudWxsLCJwcmVmZXJyZWRjdXJyZW5jeSI6bnVsbCwiaWF0IjoxNzMwMDE0MTY1LCJleHAiOjE4MzgwMTQxNjUsImlzcyI6IkVYUFJFU1MifQ.io8O7Kp2AZ5wMLs0xCNNK_w5w7CQWYF4Kv0XiaK9USw','::1',NULL,1,'2024-10-27T16:44:17','7db73e81-9b89-4fcf-98cd-77dc576df0d3'),
+(150,'2024-10-27 07:58:39','2024-10-27 13:17:33','+821084978755','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiSldUIiwiaWQiOjU2LCJjcmVhdGVkYXQiOiIyMDI0LTA5LTI4VDA3OjQyOjIyLjAwMFoiLCJ1cGRhdGVkYXQiOiIyMDI0LTEwLTA1VDIyOjIyOjQ3LjAwMFoiLCJhZGRyZXNzIjoiMHg0YTMzMzVjNDk1MDcwZTA4QTQxMzE3MWUwQ2JFODdBN2M5QjY4NGQwIiwiaXAiOiI6OjEiLCJsZXZlbCI6MywidXNlcm5hbWUiOiJ1c2VyMDAxIiwiYWN0aXZlIjoxLCJlbWFpbCI6bnVsbCwibmlja25hbWUiOiJ0aW5rbGluZ0R1c2siLCJyZWNlaXZlZW1haWxuZXdzIjowLCJyZWZlcmVyY29kZSI6bnVsbCwibXlyZWZlcmVyY29kZSI6ImRVdVNYWHF0SDkiLCJpY2Fud2l0aGRyYXciOjAsInVzZXJhZ2VudCI6bnVsbCwiaWNhbmxvZ2luIjoxLCJsYXN0YWN0aXZlIjoiMjAyNC0xMC0wMVQxODo1MzoxMyIsImNvdW50aW5jcmVtZW50cyI6MCwiY291bnRkZWNyZW1lbnRzIjowLCJkb2IiOm51bGwsImRvYnVuaXgiOm51bGwsInBob25lbnVtYmVyIjoiKzgyMTA4NDk3ODc1NSIsInJlYWxuYW1lIjpudWxsLCJ1dWlkIjoiNmZlMThlMWUtOThhZi00NzczLWIyNDAtOTZhOTZlYjFiYmFhIiwibmV0dHlwZSI6InRlc3RuZXQiLCJ1c2VybmFtZWhhc2giOm51bGwsIm5vdGUiOm51bGwsInByZWZlcnJlZG5ldHdvcmsiOm51bGwsInVzZXJ1dWlkIjoiNmZlMThlMWUtOThhZi00NzczLWIyNDAtOTZhOTZlYjFiYmFhIiwidXJsaW1hZ2UiOm51bGwsInBob25lY291bnRyeWNvZGUybGV0dGVyIjoiS1IiLCJwaG9uZW5hdGlvbmFsbnVtYmVyIjoiMDEwODQ5Nzg3NTUiLCJsYW5ndWFnZSI6bnVsbCwiaXNza2lwY3JlYXRldHV0b3JpYWwiOm51bGwsInNvY2lhbGlkIjpudWxsLCJzb2NpYWxwcm92aWRlciI6bnVsbCwiaXNzb2NpYWwiOm51bGwsInBhcmVudGlkIjpudWxsLCJwYXJlbnR1dWlkIjpudWxsLCJ1c2VsZXZlbCI6bnVsbCwicHJlZnN5bWJvbCI6IktSVyIsInByZWZlcnJlZGN1cnJlbmN5IjpudWxsLCJpYXQiOjE3MzAwMTU5MTksImV4cCI6MTgzODAxNTkxOSwiaXNzIjoiRVhQUkVTUyJ9.5zdK8OKQPkk33iEkvyi7_YS5WOxkLDBQaDBvpUOUSrA','::1',NULL,1,'2024-10-27T22:17:33','6fe18e1e-98af-4773-b240-96a96eb1bbaa');
 /*!40000 ALTER TABLE `sessionkeys` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -956,7 +972,7 @@ CREATE TABLE `tickers` (
   `source` varchar(20) DEFAULT NULL,
   `active` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -968,7 +984,8 @@ LOCK TABLES `tickers` WRITE;
 INSERT INTO `tickers` VALUES
 (1,'2023-09-16 17:45:36','2023-09-16 17:45:56','KRW','USDT','1329.93','1','1329.93','CF',NULL,1),
 (2,'2023-09-16 17:45:36','2023-09-16 17:45:56','KRW','ETH','2177704.33','1','2177704.33','CF',NULL,1),
-(3,'2023-09-16 17:45:36','2023-10-09 04:53:28','KRW','BTC','35359794.36','1','35359794.36','CF',NULL,1);
+(3,'2023-09-16 17:45:36','2023-10-09 04:53:28','KRW','BTC','35359794.36','1','35359794.36','CF',NULL,1),
+(4,'2024-10-27 22:08:44',NULL,'BTC','USDT','68300','1','68300','CF',NULL,1);
 /*!40000 ALTER TABLE `tickers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1005,7 +1022,7 @@ CREATE TABLE `tokens` (
   `maxdeposit` varchar(20) DEFAULT NULL,
   `minwithdraw` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1020,7 +1037,8 @@ INSERT INTO `tokens` VALUES
 (3,'2023-09-17 08:11:57','2024-10-06 21:37:26','KRW','KRW',NULL,'0x0000000000000000000000000000000000000000',NULL,1,'testnet',0,'https://easychange1.co/assets/KRW.png',NULL,'dea769ff-5531-11ee-9c8b-02995df8be60',NULL,NULL,NULL,'3','KR','F',NULL,'100000',NULL,'100000'),
 (4,'2023-09-17 08:12:41','2024-10-06 21:36:25','BTC','BTC',8,'0x0000000000000000000000000000000000000000',NULL,1,'mainnet',0,'https://easychange1.co/assets/BTC.png',NULL,'f910c395-5531-11ee-9c8b-02995df8be60',NULL,NULL,NULL,'2',NULL,'C',NULL,'0.002',NULL,'0.002'),
 (5,'2023-10-09 11:00:08','2024-10-06 21:36:10','ETH','ETH',18,'0x0000000000000000000000000000000000000000',NULL,1,'testnet',0,'https://easychange1.co/assets/ETH.png',NULL,'02bfca02-6693-11ee-b38c-02995df8be60',NULL,NULL,NULL,'2',NULL,'C',NULL,'0.03',NULL,'0.03'),
-(6,'2023-10-09 11:09:42','2024-10-06 21:36:10','USDT','USDT',18,'0xf96585E17750CeF1ed959846bfEE9983ef96A324',NULL,1,'testnet',1,'https://easychange1.co/assets/USDT.png',NULL,'58e15538-6694-11ee-b38c-02995df8be60',NULL,NULL,NULL,'1',NULL,'C',NULL,'100',NULL,'100');
+(6,'2023-10-09 11:09:42','2024-10-06 21:36:10','USDT','USDT',18,'0xf96585E17750CeF1ed959846bfEE9983ef96A324',NULL,1,'testnet',1,'https://easychange1.co/assets/USDT.png',NULL,'58e15538-6694-11ee-b38c-02995df8be60',NULL,NULL,NULL,'1',NULL,'C',NULL,'100',NULL,'100'),
+(7,'2024-10-27 17:33:16','2024-10-27 17:34:57','BTC','BTC',8,NULL,NULL,1,'testnet',0,'https://easychange1.co/assets/BTC.png',NULL,'594d0df8-943e-11ef-92d5-e353f5d445dd',NULL,NULL,NULL,'2',NULL,'C',NULL,'0.003',NULL,'0.003');
 /*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1134,7 +1152,7 @@ CREATE TABLE `txorders` (
   `symbol` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `uuid` (`uuid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1145,7 +1163,9 @@ LOCK TABLES `txorders` WRITE;
 /*!40000 ALTER TABLE `txorders` DISABLE KEYS */;
 INSERT INTO `txorders` VALUES
 (1,'2024-10-03 15:58:58','2024-10-05 02:31:33','8bb877d9-aa05-46cb-9518-33a23305c48b',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,2727974738,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'CANCELED',NULL,1,NULL,NULL,NULL,NULL,'{\"symbol\":\"KRW\",\"bankname\":\"SHINHAN\",\"bankcode\":\"021\",\"account\":\"123456789\",\"amount\":\"1000000\"}','{\"symbol\":\"KRW\",\"bankname\":\"HANA\",\"bankcode\":\"005\",\"account\":\"5273971103\"}',NULL,NULL),
-(2,'2024-10-03 16:29:44',NULL,'c11096c3-1145-45e7-925c-b373aa73031a',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1727976584,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',NULL,NULL,NULL,NULL,NULL,NULL,NULL,-1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'{\"typecf\":\"C\",\"symbol\":\"ETH\",\"address\":\"0x32d0a082B61fB94714aBbbbA17C169d15E373182\",\"amount\":\"1.2\"}','{\"typecf\":\"C\",\"symbol\":\"ETH\",\"address\":\"0xe4239A8436f2C2524a9ea0a5bB67F4e8995B9ff4\"}',NULL,NULL);
+(2,'2024-10-03 16:29:44',NULL,'c11096c3-1145-45e7-925c-b373aa73031a',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1727976584,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',NULL,NULL,NULL,NULL,NULL,NULL,NULL,-1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'{\"typecf\":\"C\",\"symbol\":\"ETH\",\"address\":\"0x32d0a082B61fB94714aBbbbA17C169d15E373182\",\"amount\":\"1.2\"}','{\"typecf\":\"C\",\"symbol\":\"ETH\",\"address\":\"0xe4239A8436f2C2524a9ea0a5bB67F4e8995B9ff4\"}',NULL,NULL),
+(3,'2024-10-27 10:00:01',NULL,'e5e1cbfc-cddb-419d-a3c8-1989e89eaa8f',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1730026801,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'{\"typecf\":\"C\",\"symbol\":\"ETH\",\"address\":\"0x32d0a082B61fB94714aBbbbA17C169d15E373182\",\"amount\":\"1.2\"}','{\"typecf\":\"C\",\"symbol\":\"ETH\",\"address\":\"0xe4239A8436f2C2524a9ea0a5bB67F4e8995B9ff4\",\"amount\":\"1.2\"}',NULL,NULL),
+(4,'2024-10-27 12:03:34',NULL,'e108d5b6-1943-4fe0-8489-c832306a217e',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1730034214,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'{\"typecf\":\"F\",\"symbol\":\"KRW\",\"bankname\":\"SHINHAN\",\"bankcode\":\"021\",\"account\":\"123456789\",\"amount\":\"1000000\"}','{\"typecf\":\"F\",\"symbol\":\"KRW\",\"bankname\":\"HANA\",\"bankcode\":\"005\",\"account\":\"5273971103\"}',NULL,NULL);
 /*!40000 ALTER TABLE `txorders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1244,9 +1264,10 @@ CREATE TABLE `users` (
   `parentuuid` varchar(80) DEFAULT NULL,
   `uselevel` int(11) DEFAULT NULL,
   `prefsymbol` varchar(25) DEFAULT NULL,
+  `preferredcurrency` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `uuid` (`uuid`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1256,10 +1277,11 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(49,'2023-10-17 21:43:00','2024-10-05 22:22:47','0xfd43b69208b9B7C52bf5D5fd4EEa492446375027','::ffff:218.146.56.200','gildong123','044ef2ec9699b45a1f5f3e0775a808affc63e6004ab519008bfd4a5f6687c4e4',3,'gildong',1,NULL,'petiteAdult',0,'','ZU0jXLN210',0,NULL,1,'2023-10-17T21:43:30',0,0,NULL,NULL,'+821062579074',NULL,'cb451fca-7823-4d2b-8875-0a1391064a8a','TESTNET',NULL,NULL,NULL,'cb451fca-7823-4d2b-8875-0a1391064a8a',NULL,'KR','01062579074',NULL,NULL,NULL,NULL,NULL,31,'a7263e67-4462-49e1-9bfa-1cd8126f6b08',NULL,'KRW'),
-(53,'2023-10-17 21:48:58','2024-10-05 22:22:47',NULL,NULL,NULL,NULL,NULL,'incalculableMemory',1,NULL,NULL,0,'ZU0jXLN210','3gvDE0gyfD',0,NULL,1,NULL,0,0,NULL,NULL,NULL,NULL,'4dd55489-9f16-4da3-adb7-be76c1509831',NULL,NULL,NULL,NULL,'4dd55489-9f16-4da3-adb7-be76c1509831',NULL,NULL,NULL,NULL,NULL,'3098862705','KAKAO',NULL,49,'cb451fca-7823-4d2b-8875-0a1391064a8a',NULL,'KRW'),
-(54,'2023-10-17 21:49:47','2024-10-05 22:22:47',NULL,NULL,NULL,NULL,NULL,'adorableOil',1,NULL,NULL,0,'ZU0jXLN210','srbassAUQw',0,NULL,1,NULL,0,0,NULL,NULL,NULL,NULL,'818498de-829f-4207-b078-ffddd6d3b079',NULL,NULL,NULL,NULL,'818498de-829f-4207-b078-ffddd6d3b079',NULL,NULL,NULL,NULL,NULL,'115673456281905753901','GOOGLE',NULL,49,'cb451fca-7823-4d2b-8875-0a1391064a8a',NULL,'KRW'),
-(56,'2024-09-28 07:42:22','2024-10-05 22:22:47','0x4a3335c495070e08A413171e0CbE87A7c9B684d0','::1','qgjtjcpr59','3ad90affbacacf329332a3f3054ac9701e7c0d228f49416f46181c152abcf24b',3,'user001',1,NULL,'tinklingDusk',0,NULL,'dUuSXXqtH9',0,NULL,1,'2024-10-01T18:53:13',0,0,NULL,NULL,'+821084978755',NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa','testnet',NULL,NULL,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',NULL,'KR','01084978755',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'KRW');
+(49,'2023-10-17 21:43:00','2024-10-05 22:22:47','0xfd43b69208b9B7C52bf5D5fd4EEa492446375027','::ffff:218.146.56.200','gildong123','044ef2ec9699b45a1f5f3e0775a808affc63e6004ab519008bfd4a5f6687c4e4',3,'gildong',1,NULL,'petiteAdult',0,'','ZU0jXLN210',0,NULL,1,'2023-10-17T21:43:30',0,0,NULL,NULL,'+821062579074',NULL,'cb451fca-7823-4d2b-8875-0a1391064a8a','TESTNET',NULL,NULL,NULL,'cb451fca-7823-4d2b-8875-0a1391064a8a',NULL,'KR','01062579074',NULL,NULL,NULL,NULL,NULL,31,'a7263e67-4462-49e1-9bfa-1cd8126f6b08',NULL,'KRW',NULL),
+(53,'2023-10-17 21:48:58','2024-10-05 22:22:47',NULL,NULL,NULL,NULL,NULL,'incalculableMemory',1,NULL,NULL,0,'ZU0jXLN210','3gvDE0gyfD',0,NULL,1,NULL,0,0,NULL,NULL,NULL,NULL,'4dd55489-9f16-4da3-adb7-be76c1509831',NULL,NULL,NULL,NULL,'4dd55489-9f16-4da3-adb7-be76c1509831',NULL,NULL,NULL,NULL,NULL,'3098862705','KAKAO',NULL,49,'cb451fca-7823-4d2b-8875-0a1391064a8a',NULL,'KRW',NULL),
+(54,'2023-10-17 21:49:47','2024-10-05 22:22:47',NULL,NULL,NULL,NULL,NULL,'adorableOil',1,NULL,NULL,0,'ZU0jXLN210','srbassAUQw',0,NULL,1,NULL,0,0,NULL,NULL,NULL,NULL,'818498de-829f-4207-b078-ffddd6d3b079',NULL,NULL,NULL,NULL,'818498de-829f-4207-b078-ffddd6d3b079',NULL,NULL,NULL,NULL,NULL,'115673456281905753901','GOOGLE',NULL,49,'cb451fca-7823-4d2b-8875-0a1391064a8a',NULL,'KRW',NULL),
+(56,'2024-09-28 07:42:22','2024-10-05 22:22:47','0x4a3335c495070e08A413171e0CbE87A7c9B684d0','::1','qgjtjcpr59','3ad90affbacacf329332a3f3054ac9701e7c0d228f49416f46181c152abcf24b',3,'user001',1,NULL,'tinklingDusk',0,NULL,'dUuSXXqtH9',0,NULL,1,'2024-10-01T18:53:13',0,0,NULL,NULL,'+821084978755',NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa','testnet',NULL,NULL,NULL,'6fe18e1e-98af-4773-b240-96a96eb1bbaa',NULL,'KR','01084978755',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'KRW',NULL),
+(57,'2024-10-27 07:29:25','2024-10-27 07:44:17','0xb4294f04A485209b9B499c63f3575997c95405c2','::1','qgjtjcpr59','3ad90affbacacf329332a3f3054ac9701e7c0d228f49416f46181c152abcf24b',3,'user002',1,NULL,'savoryGhost',0,NULL,'BJcqvyIiYt',0,NULL,1,'2024-10-27T16:44:17',0,0,NULL,NULL,'+821098765432',NULL,'7db73e81-9b89-4fcf-98cd-77dc576df0d3','testnet',NULL,NULL,NULL,'7db73e81-9b89-4fcf-98cd-77dc576df0d3',NULL,'KR','01098765432',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'CNY');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1317,7 +1339,7 @@ CREATE TABLE `verifycode` (
   `expiry` bigint(20) DEFAULT NULL,
   `active` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1369,7 +1391,8 @@ INSERT INTO `verifycode` VALUES
 (40,'2023-10-08 07:54:31',NULL,'428374','+821062579074',NULL,1696752271,NULL),
 (41,'2023-10-08 09:32:19',NULL,'328155','+821062579074',NULL,1696758139,NULL),
 (42,'2023-10-17 21:32:54',NULL,'380922','+821062579074',NULL,1697578974,NULL),
-(43,'2023-10-17 21:42:39',NULL,'430279','+821062579074',NULL,1697579559,NULL);
+(43,'2023-10-17 21:42:39',NULL,'430279','+821062579074',NULL,1697579559,NULL),
+(44,'2024-10-27 05:01:50','2024-10-27 16:05:46','608025','+821084978755',NULL,2030005910,NULL);
 /*!40000 ALTER TABLE `verifycode` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1382,4 +1405,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-06 23:42:29
+-- Dump completed on 2024-10-28 22:11:02
