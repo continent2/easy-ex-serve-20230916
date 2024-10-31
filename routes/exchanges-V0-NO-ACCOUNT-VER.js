@@ -165,36 +165,21 @@ false && setInterval( async ()=>{
 	}, 30 * 1000 )
 
 } , 60 * 1000 )
-const getrowforpair=async({ from , to })=>{ // quote,base
-	// let resp = await findone ( 'tickers', { from , to , active:1} )
-	// if ( resp ) { return resp }
-	// else {}
-	let resp = await findone ( 'tickers' , { from , to , active : 1 } )  // quote : base , base : quote
+const getrowforpair=async({ quote,base})=>{
+	let resp = await findone ( 'tickers', { quote , base, active:1} )
+	if ( resp ) { return resp}
+	else {}
+	resp = await findone ( 'tickers' , { quote : base , base : quote , active : 1 } ) 
 	if ( resp ) { }
 	else { return null } 
 	let { value ,fromamount , toamount ,  } = resp 
-
-	let respfee = await findone ( 'settings' , { key_:'FEE-RATE', active : 1 } )
-	if ( respfee && respfee?.value_ ) {}
-	else { return null }
-	resp.toamountbeforefee = toamount
-	resp.toamountafterfee  = +toamount * ( 1 - +respfee?.value_/100 )
-	// resp.value = 1/+value
-	// resp.fromamount = toamount
-	// resp.toamount = fromamount
-	// resp.quote = base
-	// resp.base = quote
-	// resp.typestr = MAP_FLIP_TYPES [ resp?.typestr]\
-	for ( let key of Object.keys ( resp ) ){
-		resp [ key ] = ''+resp [ key ]
-	} // return resp
-	let returnval={}
-	returnval ['from'] = resp[ 'from' ]
-	returnval ['to'] = resp[ 'to' ]
-	returnval ['fromamount'] = resp[ 'fromamount' ]
-	returnval ['toamountafterfee'] = resp[ 'toamountafterfee' ]
-	returnval ['toamountbeforefee'] = resp[ 'toamountbeforefee' ]
-	return returnval
+	resp.value = 1/+value
+	resp.fromamount = toamount
+	resp.toamount = fromamount
+	resp.quote = base
+	resp.base = quote
+	resp.typestr = MAP_FLIP_TYPES [ resp?.typestr]
+	return resp
 }
 const ISFINITE = Number.isFinite
 const get_logos=async _=>{
@@ -285,24 +270,7 @@ router.get ( '/quote' , async ( req,res) =>{
 	let amountfloat=+amount
 	if (ISFINITE (amountfloat)){}
 	else { resperr( res, messages?.MSG_ARGINVALID); return }
-	const respexchangerate = await getrowforpair ( { from , to })
-	if ( respexchangerate ){}
-	else { resperr ( res, messages?.MSG_DATANOTFOUND) ; return }
-
-	let quoteexpiresinsec = 60*60
-	let respquoteexpire = await findone ( 'settings' , { key_ : 'QUOTE-EXPIRES-IN-SEC' , active : 1 } )
-	if ( respquoteexpire && ISFINITE ( +respquoteexpire?.value_ ) ){ quoteexpiresinsec = +respquoteexpire?.value_ }
-	else { }
-	respexchangerate ['expiry'] = '' + ( moment().unix() + quoteexpiresinsec ) 
-
-	respexchangerate.toamount = respexchangerate?.toamountafterfee
-	delete respexchangerate?.toamountafterfee
-	delete respexchangerate?.toamountbeforefee
-	let quotesignature = AES.encrypt ( STRINGER ( {  ... respexchangerate 		// fromamount : respexchangerate?.fromamount ,		// toamountbeforefee : respexchangerate?.toamountbeforefee ,		// toamountafterfee  : respexchangerate?.toamountafterfee ,
-	} ), ENCKEY_QUOTESIG ).toString()
-	respok ( res , null , null , { respdata : { 
-		... respexchangerate,  quotesignature
-	}})
+	
 })
 router.get ( '/quote/V0/NO-ACCOUNT-VER' , async ( req,res)=>{LOGGER(req?.query )
 	let { quote , base, amount } = req.query

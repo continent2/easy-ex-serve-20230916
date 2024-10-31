@@ -25,9 +25,9 @@ const MAP_ORDER_STATUS = {
   EXPIRED : 3
 }
 const MAP_TYPECF = { c: 'C' , C:'C' , f:'F', F:'F' }
-const validate_crypto_withdraw_order = ( { orderpart } )=>{  
+const validate_crypto_withdraw_order = ( { orderpart } )=>{  return true
 }
-const validate_fiat_withdraw_order = ( { orderpart })=>{
+const validate_fiat_withdraw_order = ( { orderpart })=>{    return true
 }
 const AES = require("crypto-js/aes")
 const { ENCKEY_QUOTESIG }   =  require( '../configs/keys' ); // 'BfM58d'
@@ -55,7 +55,7 @@ router.post ( '/withdraw', auth , async (req,res)=> {
   switch ( to?.typecf ){
     case 'c' :
     case 'C' : 
-      if ( validate_crypto_withdraw_order ( { orderpart : to } ) ) {} 
+      if ( validate_crypto_withdraw_order ( { orderpart : to } ) ) {}
       else { resperr ( res, messages.MSG_ARGINVALID ); return }
     break
     case 'f' :
@@ -67,7 +67,7 @@ router.post ( '/withdraw', auth , async (req,res)=> {
   try {	let strdecrypted = AES.decrypt ( quotesignature , ENCKEY_QUOTESIG ).toString ( cryptojs.enc.Utf8 )
 		let jdecrypted = PARSER (strdecrypted ) ; LOGGER( { jdecrypted } )
   } catch(err){
-    resperr(res , 'SERVER-ERROR') ; return
+    resperr(res , 'INVALID-SIGNATURE') ; return // SERVER-ERROR') ; return
   }
   let uuid = create_a_uuid()
   await db[ 'txorders' ].create ( { 
