@@ -366,6 +366,7 @@ router.delete ( '/:tablename/:softorhard/:idtype/:id', auth , async (req,res)=>{
 				break
 				case 'hard' : await db[tablename].destroy ({ where : { ...jfilter } } ) ; message= messages?.MSG_DELETED
 				break
+				default : resperr ( res, messages?.MSG_ARGINVALID ) ; return
 			}						
 		} 
 		break

@@ -40,35 +40,33 @@ router.post ( '/withdraw', auth , async (req,res)=> {
   else { resperr( res, messages.MSG_ARGMISSING ); return }
   if ( MAP_TYPECF[ from?.typecf ] && MAP_TYPECF[ to?.typecf ] ) {}
   else { resperr( res, messages.MSG_ARGMISSING ); return }
+  /************** VALIDATE */
   switch ( from?.typecf ){
-    case 'c' :
-    case 'C' : 
+    case 'c' :    case 'C' : 
       if ( validate_crypto_withdraw_order ( { orderpart : from } ) ) {} 
       else { resperr ( res, messages.MSG_ARGINVALID ); return }
     break
-    case 'f' :
-    case 'F' : 
+    case 'f' :    case 'F' : 
       if ( validate_fiat_withdraw_order ( { orderpart : from } ) ) {}
       else { resperr ( res, messages.MSG_ARGINVALID ); return }
     break
   }
   switch ( to?.typecf ){
-    case 'c' :
-    case 'C' : 
+    case 'c' :    case 'C' : 
       if ( validate_crypto_withdraw_order ( { orderpart : to } ) ) {}
       else { resperr ( res, messages.MSG_ARGINVALID ); return }
     break
-    case 'f' :
-    case 'F' : 
+    case 'f' :    case 'F' : 
       if ( validate_fiat_withdraw_order ( { orderpart : to } ) ) {}
       else { resperr ( res, messages.MSG_ARGINVALID ); return }
     break
-  }  
-  try {	let strdecrypted = AES.decrypt ( quotesignature , ENCKEY_QUOTESIG ).toString ( cryptojs.enc.Utf8 )
+  }
+  /************** VALIDATE SIGNATURE */
+/*  try {	let strdecrypted = AES.decrypt ( quotesignature , ENCKEY_QUOTESIG ).toString ( cryptojs.enc.Utf8 )
 		let jdecrypted = PARSER (strdecrypted ) ; LOGGER( { jdecrypted } )
   } catch(err){
     resperr(res , 'INVALID-SIGNATURE') ; return // SERVER-ERROR') ; return
-  }
+  } */
   let uuid = create_a_uuid()
   await db[ 'txorders' ].create ( { 
     useruuid ,
@@ -160,6 +158,7 @@ router.post ( '/deposit' , auth , async (req,res)=>{
       uuid , 
       expiry ,
       status : MAP_ORDER_STATUS [ 'WAITING' ] , // 0
+      statusstr : 'WAITING'
     })
     break
     default : 

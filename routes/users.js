@@ -672,8 +672,35 @@ router.get("/id/duplicatecheck/:id", (req, res) => {
     else res.status(200).send(id);
   });
 });
-
-router.post("/email/verifycode/:emailaddress/:code", (req, res) => {
+router.get ( '/emailverifycode/:emailaddress' , async ( req,res) => { 
+  let { emailaddress }  =req.params
+  if ( validateemail ( emailaddress ) ) {}
+  else { resperr ( res, messages?.MSG_ARGINVALID , null, { reason : 'INVALID-EMAIL-ADDRESS-FORMAT' }) ; return }
+  let code = getrandomint  ( 100000,999999 ) //generaterandomnumber
+  let expiry = get_verify_expiry( { typeemailphone : 'email' } )
+  await send_email_verify_code ( { email : emailaddress , code , expiry } )
+  await updateorcreaterow ( 'verifycode' , { receiver : emailaddress , typeemailphone : 'email'} , { code , expiry } )
+  respok ( res, null , null , { code : obfuscate_str( '' + code ) } )
+  return
+} )
+router.post ( '/emailverifycode/:emailaddress' , async ( req,res) => {
+  let { emailaddress, }  =req.params
+  let { code } = req?.body
+  if ( code ){}
+  else { resperr ( res, messages?.MSG_ARGMISSING , null , { reason : 'code IS MISSING' }) ; return }
+  if ( validateemail ( emailaddress ) ) {}
+  else { resperr ( res, messages?.MSG_ARGINVALID , null, { reason : 'INVALID-EMAIL-ADDRESS-FORMAT' }) ; return }
+  let resp = await db[ 'verifycode' ].findOne ( { raw: true , 
+    where : { receiver : emailaddress , code }   })
+  if ( resp ){}
+  else { resperr ( res, messages?.MSG_VERIFYFAIL ) ;return }
+  let timenow = moment().unix()
+  if ( timenow <= +resp?.expiry ){}
+  else { resperr ( res, messages?.MSG_EXPIRED ); return }
+  respok ( res, 'VERIFIED' )
+  return
+})
+/**   router.post("/email/verifycode/:emailaddress/:code", (req, res) => {
   const { emailaddress, code } = req.params;
   findone("emailverifycode", { emailaddress: emailaddress }).then((resp) => {
     if (resp) {
@@ -689,7 +716,6 @@ router.post("/email/verifycode/:emailaddress/:code", (req, res) => {
     respok(res);
   });
 });
-
 router.get("/email/verifycode/:emailaddress", (req, res) => {
   const { emailaddress } = req.params;
   if (validateemail(emailaddress)) {
@@ -706,7 +732,7 @@ router.get("/email/verifycode/:emailaddress", (req, res) => {
       return;
     }
   });
-});
+}); */
 router.post("/login", async (req, res) => { 
 //  const { useri name, pw } = req.body;
   let { phonenumber,		phonecountrycode2letter , phonenationalnumber ,pw, code } = req.body;
